@@ -1,9 +1,10 @@
 
-import { Headphones, Calendar, Users, ArrowRight } from 'lucide-react';
+import { Headphones, Calendar, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
+import React from 'react'; // Add React import
 
 interface DetailedBlogPostProps {
   title: string;
@@ -124,7 +125,7 @@ const DetailedBlogPost = ({
   };
   
   return (
-    <article className="max-w-4xl mx-auto">
+    <div className="max-w-4xl mx-auto"> {/* Changed from article to div to fix JSX issue */}
       {/* Reading progress bar */}
       <div className="fixed top-0 left-0 w-full h-1 bg-gray-200 z-50">
         <div 
@@ -205,7 +206,7 @@ const DetailedBlogPost = ({
                 </div>
               </div>
               <span className="text-sm text-muted-foreground">
-                {Math.floor(progress / 100 * parseInt(readTime.split(" ")[0])):00} / {readTime.split(" ")[0]}:00
+                {`${Math.floor(progress / 100 * parseInt(readTime.split(" ")[0]))}:00`} / {`${readTime.split(" ")[0]}:00`}
               </span>
             </div>
           </div>
@@ -214,7 +215,7 @@ const DetailedBlogPost = ({
       
       <div className="rounded-2xl overflow-hidden mb-10 image-shine">
         <img 
-          src={`https://source.unsplash.com/${image}`}
+          src={image.startsWith('http') ? image : `https://source.unsplash.com/${image}`}
           alt={title}
           className="w-full h-auto object-cover"
         />
@@ -350,7 +351,7 @@ const DetailedBlogPost = ({
           </div>
         </div>
       )}
-    </article>
+    </div>
   );
 };
 

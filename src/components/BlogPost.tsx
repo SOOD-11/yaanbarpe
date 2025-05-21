@@ -53,7 +53,7 @@ const BlogPost = ({
     >
       <div className={cn("relative overflow-hidden", featured ? "h-full min-h-[300px]" : "h-60")}>
         <img 
-          src={`https://source.unsplash.com/${image}`} 
+          src={image.startsWith('http') ? image : `https://source.unsplash.com/${image}`} 
           alt={title} 
           className={cn(
             "w-full h-full object-cover transition-transform duration-700", 
