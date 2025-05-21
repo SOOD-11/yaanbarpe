@@ -2,7 +2,7 @@
 import { ArrowRight, Headphones, Calendar, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 interface BlogPostProps {
@@ -30,14 +30,42 @@ const BlogPost = ({
 }: BlogPostProps) => {
   const [isHovered, setIsHovered] = useState(false);
   const [hasInteracted, setHasInteracted] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [earnedPoints, setEarnedPoints] = useState(0);
 
   // Animation effect when interaction happens
   const handleInteraction = () => {
     if (!hasInteracted) {
       setHasInteracted(true);
       setTimeout(() => setHasInteracted(false), 1000);
+      
+      // Award points for interaction
+      const points = featured ? 5 : 3;
+      addPoints(points, `Interacted with ${title}`);
     }
   };
+  
+  // Add points animation
+  const addPoints = (amount: number, message: string) => {
+    setEarnedPoints(prev => prev + amount);
+    
+    // Show points notification
+    const notification = document.createElement('div');
+    notification.className = 'fixed top-20 right-8 bg-tulu-gold text-white px-3 py-1 rounded-full animate-bounce z-50 flex items-center gap-2';
+    notification.innerHTML = `<span>+${amount}</span><span>${message}</span>`;
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+      document.body.removeChild(notification);
+    }, 2000);
+  };
+  
+  // Handle image loading
+  const handleImageLoad = () => {
+    setImageLoaded(true);
+  };
+  
+  const imageUrl = image.startsWith('http') ? image : `https://images.unsplash.com/${image}`;
 
   return (
     <div
@@ -52,17 +80,33 @@ const BlogPost = ({
       onClick={handleInteraction}
     >
       <div className={cn("relative overflow-hidden", featured ? "h-full min-h-[300px]" : "h-60")}>
+        {/* Loading placeholder */}
+        {!imageLoaded && (
+          <div className="absolute inset-0 bg-gray-200 animate-pulse flex items-center justify-center">
+            <span className="text-gray-400">Loading image...</span>
+          </div>
+        )}
+        
         <img 
-          src={image.startsWith('http') ? image : `https://source.unsplash.com/${image}`} 
+          src={imageUrl} 
           alt={title} 
           className={cn(
             "w-full h-full object-cover transition-transform duration-700", 
-            isHovered ? "scale-110" : "scale-100"
+            isHovered ? "scale-110" : "scale-100",
+            imageLoaded ? "opacity-100" : "opacity-0"
           )}
+          onLoad={handleImageLoad}
         />
         <div className="absolute top-4 left-4">
           <span className="bg-tulu-gold text-white text-xs font-medium px-3 py-1 rounded-full">
             {category}
+          </span>
+        </div>
+        
+        {/* Points indicator for gamification */}
+        <div className="absolute top-4 right-4">
+          <span className="bg-tulu-blue text-white text-xs px-3 py-1 rounded-full">
+            +{featured ? 5 : 3} points
           </span>
         </div>
         
@@ -108,6 +152,7 @@ const BlogPost = ({
               isHovered ? "bg-tulu-blue text-white border-tulu-blue" : "text-tulu-blue border-tulu-blue hover:bg-tulu-blue hover:text-white"
             )}
             asChild
+            onClick={() => addPoints(featured ? 10 : 5, `Reading ${title}`)}
           >
             <Link to="/blog/yakshagana">
               Read More
@@ -127,6 +172,10 @@ const BlogPost = ({
                 isHovered ? "animate-bounce" : "animate-pulse"
               )}
               title="Listen to audio version"
+              onClick={(e) => {
+                e.stopPropagation();
+                addPoints(2, "Started audio preview");
+              }}
             >
               <Headphones className="w-5 h-5" />
             </Button>

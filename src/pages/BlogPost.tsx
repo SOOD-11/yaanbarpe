@@ -2,8 +2,31 @@
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import DetailedBlogPost from '@/components/DetailedBlogPost';
+import { useEffect } from 'react';
 
 const BlogPostPage = () => {
+  // Initialize scroll reveal animation
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+    
+    document.querySelectorAll('.scroll-reveal').forEach((el) => {
+      observer.observe(el);
+    });
+    
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
   const blogContent = (
     <>
       <p>
@@ -18,16 +41,16 @@ const BlogPostPage = () => {
         Unlike many classical art forms that were confined to royal courts, Yakshagana evolved as a people's art form, performed in village squares, temple courtyards, and paddy fields after harvest. This accessible nature allowed it to absorb influences from diverse communities across the region, making it a true reflection of Tulu Nadu's composite cultural identity.
       </p>
       
-      <div className="my-8 grid grid-cols-2 gap-4">
+      <div className="my-8 grid grid-cols-1 md:grid-cols-2 gap-4">
         <img 
-          src="https://source.unsplash.com/photo-1581092795360-fd1ca04f0952" 
+          src="https://images.unsplash.com/photo-1581092795360-fd1ca04f0952" 
           alt="Yakshagana performer in costume" 
-          className="rounded-lg"
+          className="rounded-lg w-full h-64 object-cover"
         />
         <img 
-          src="https://source.unsplash.com/photo-1469041797191-50ace28483c3" 
+          src="https://images.unsplash.com/photo-1469041797191-50ace28483c3" 
           alt="Traditional performance" 
-          className="rounded-lg"
+          className="rounded-lg w-full h-64 object-cover"
         />
       </div>
       
@@ -120,7 +143,7 @@ const BlogPostPage = () => {
         <DetailedBlogPost 
           title="The Intricate Artistry of Yakshagana: A 700-Year Legacy"
           content={blogContent}
-          image="https://source.unsplash.com/photo-1581092795360-fd1ca04f0952"
+          image="photo-1581092795360-fd1ca04f0952"
           date="May 18, 2025"
           readTime="12 min read"
           author="Deepak Shetty"

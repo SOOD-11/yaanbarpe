@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
-import React from 'react'; // Add React import
+import React from 'react';
 
 interface DetailedBlogPostProps {
   title: string;
@@ -38,13 +38,15 @@ const DetailedBlogPost = ({
   const [isSaved, setIsSaved] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [readingPoints, setReadingPoints] = useState(0);
+  const [gamificationLevel, setGamificationLevel] = useState(1);
+  const [showConfetti, setShowConfetti] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState(false);
   
   // Handle audio toggle
   const toggleAudio = () => {
     setIsAudioPlaying(!isAudioPlaying);
     
     if (!isAudioPlaying) {
-      // Add points for listening
       addReadingPoints(5, "Started listening");
     }
   };
@@ -93,6 +95,37 @@ const DetailedBlogPost = ({
     return () => window.removeEventListener('scroll', handleScroll);
   }, [readingPoints]);
   
+  // Update gamification level based on points
+  useEffect(() => {
+    const newLevel = Math.floor(readingPoints / 10) + 1;
+    if (newLevel > gamificationLevel) {
+      setGamificationLevel(newLevel);
+      createConfetti();
+      setShowConfetti(true);
+      setTimeout(() => setShowConfetti(false), 3000);
+    }
+  }, [readingPoints, gamificationLevel]);
+  
+  // Create confetti effect
+  const createConfetti = () => {
+    const colors = ['#E5B31B', '#105082', '#982220', '#1D7850'];
+    const confettiCount = 100;
+    
+    for (let i = 0; i < confettiCount; i++) {
+      const confetti = document.createElement('div');
+      confetti.className = 'confetti';
+      confetti.style.left = `${Math.random() * 100}%`;
+      confetti.style.setProperty('--color', colors[Math.floor(Math.random() * colors.length)]);
+      confetti.style.animationDuration = `${Math.random() * 3 + 2}s`;
+      confetti.style.animationDelay = `${Math.random() * 0.5}s`;
+      document.body.appendChild(confetti);
+      
+      setTimeout(() => {
+        document.body.removeChild(confetti);
+      }, 5000);
+    }
+  };
+  
   const toggleReaction = () => {
     if (hasReaction) {
       setReactionCount(prev => prev - 1);
@@ -124,8 +157,15 @@ const DetailedBlogPost = ({
     }, 3000);
   };
   
+  // Handle image loading
+  const handleImageLoad = () => {
+    setImageLoaded(true);
+  };
+  
+  const imageUrl = image.startsWith('http') ? image : `https://images.unsplash.com/${image}`;
+  
   return (
-    <div className="max-w-4xl mx-auto"> {/* Changed from article to div to fix JSX issue */}
+    <div className="max-w-4xl mx-auto">
       {/* Reading progress bar */}
       <div className="fixed top-0 left-0 w-full h-1 bg-gray-200 z-50">
         <div 
@@ -134,10 +174,13 @@ const DetailedBlogPost = ({
         />
       </div>
       
-      {/* Points display */}
-      <div className="fixed top-4 right-4 bg-tulu-blue text-white px-3 py-1 rounded-full z-50 flex items-center gap-2">
+      {/* Points and level display */}
+      <div className="fixed top-4 right-4 bg-tulu-blue text-white px-4 py-2 rounded-full z-50 flex items-center gap-2 shadow-lg">
         <span className="text-tulu-gold font-bold">{readingPoints}</span>
-        <span>Reading Points</span>
+        <span>Points</span>
+        <span className="bg-tulu-gold text-white w-6 h-6 rounded-full flex items-center justify-center ml-2">
+          {gamificationLevel}
+        </span>
       </div>
       
       <div className="mb-8">
@@ -213,11 +256,21 @@ const DetailedBlogPost = ({
         )}
       </div>
       
-      <div className="rounded-2xl overflow-hidden mb-10 image-shine">
+      {/* Main image with loading state */}
+      <div className="rounded-2xl overflow-hidden mb-10 image-shine relative">
+        {!imageLoaded && (
+          <div className="absolute inset-0 bg-gray-200 animate-pulse flex items-center justify-center">
+            <span className="text-gray-400">Loading image...</span>
+          </div>
+        )}
         <img 
-          src={image.startsWith('http') ? image : `https://source.unsplash.com/${image}`}
+          src={imageUrl}
           alt={title}
-          className="w-full h-auto object-cover"
+          className={cn(
+            "w-full h-auto object-cover transition-opacity duration-500",
+            imageLoaded ? "opacity-100" : "opacity-0"
+          )}
+          onLoad={handleImageLoad}
         />
       </div>
       
@@ -316,13 +369,14 @@ const DetailedBlogPost = ({
               image: "photo-1466442929976-97f336a657be"
             }
           ].map((article, i) => (
-            <div key={i} className="border rounded-lg overflow-hidden hover:shadow-md transition-all group">
-              <div className="h-40 overflow-hidden">
+            <div key={i} className="border rounded-lg overflow-hidden hover:shadow-md transition-all group cursor-pointer">
+              <div className="h-40 overflow-hidden relative">
                 <img 
-                  src={`https://source.unsplash.com/${article.image}`}
+                  src={`https://images.unsplash.com/${article.image}`}
                   alt={article.title} 
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </div>
               <div className="p-4">
                 <span className="text-sm text-muted-foreground">{article.date}</span>
@@ -348,6 +402,17 @@ const DetailedBlogPost = ({
           <div>
             <h4 className="font-bold">Achievement Unlocked!</h4>
             <p>Cultural Explorer: Read a full article</p>
+          </div>
+        </div>
+      )}
+      
+      {/* Level up animation */}
+      {showConfetti && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
+          <div className="bg-black/70 text-white px-8 py-6 rounded-xl backdrop-blur-sm animate-scale-in text-center">
+            <div className="text-5xl mb-2">🎉</div>
+            <h2 className="text-3xl font-bold text-tulu-gold mb-1">Level Up!</h2>
+            <p className="text-xl">You're now level {gamificationLevel}</p>
           </div>
         </div>
       )}
