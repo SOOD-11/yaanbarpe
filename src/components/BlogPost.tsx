@@ -29,19 +29,31 @@ const BlogPost = ({
   audioAvailable = false
 }: BlogPostProps) => {
   const [isHovered, setIsHovered] = useState(false);
+  const [hasInteracted, setHasInteracted] = useState(false);
+
+  // Animation effect when interaction happens
+  const handleInteraction = () => {
+    if (!hasInteracted) {
+      setHasInteracted(true);
+      setTimeout(() => setHasInteracted(false), 1000);
+    }
+  };
 
   return (
     <div
       className={cn(
-        "scroll-reveal bg-white rounded-xl overflow-hidden shadow-lg transition-all hover-scale border border-border/30",
-        featured ? "grid md:grid-cols-2 gap-0" : "flex flex-col"
+        "scroll-reveal bg-white rounded-xl overflow-hidden shadow-lg transition-all duration-500 border border-border/30",
+        featured ? "grid md:grid-cols-2 gap-0" : "flex flex-col",
+        isHovered ? "transform -translate-y-2" : "",
+        hasInteracted ? "animate-pulse" : ""
       )}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      onClick={handleInteraction}
     >
       <div className={cn("relative overflow-hidden", featured ? "h-full min-h-[300px]" : "h-60")}>
         <img 
-          src={image} 
+          src={`https://source.unsplash.com/${image}`} 
           alt={title} 
           className={cn(
             "w-full h-full object-cover transition-transform duration-700", 
@@ -55,7 +67,10 @@ const BlogPost = ({
         </div>
         
         {/* Image overlay gradient */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+        <div className={cn(
+          "absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent transition-opacity duration-300",
+          isHovered ? "opacity-100" : "opacity-0"
+        )} />
       </div>
       
       <div className="p-6 flex flex-col justify-between flex-grow">
@@ -75,8 +90,9 @@ const BlogPost = ({
           </div>
           
           <h3 className={cn(
-            "font-display font-bold mb-3 text-tulu-blue transition-colors",
-            featured ? "text-2xl md:text-3xl" : "text-xl"
+            "font-display font-bold mb-3 transition-colors",
+            featured ? "text-2xl md:text-3xl" : "text-xl",
+            isHovered ? "text-tulu-red" : "text-tulu-blue"
           )}>
             {title}
           </h3>
@@ -87,12 +103,18 @@ const BlogPost = ({
         <div className="flex justify-between items-center">
           <Button 
             variant="outline" 
-            className="text-tulu-blue border-tulu-blue hover:bg-tulu-blue hover:text-white group"
+            className={cn(
+              "transition-all duration-300 group",
+              isHovered ? "bg-tulu-blue text-white border-tulu-blue" : "text-tulu-blue border-tulu-blue hover:bg-tulu-blue hover:text-white"
+            )}
             asChild
           >
             <Link to="/blog/yakshagana">
               Read More
-              <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              <ArrowRight className={cn(
+                "ml-2 w-4 h-4 transition-transform", 
+                isHovered ? "translate-x-1" : ""
+              )} />
             </Link>
           </Button>
           
@@ -100,7 +122,10 @@ const BlogPost = ({
             <Button 
               variant="ghost" 
               size="icon"
-              className="text-tulu-gold hover:text-tulu-gold/80 hover:bg-tulu-gold/10 animate-pulse"
+              className={cn(
+                "text-tulu-gold hover:text-tulu-gold/80 hover:bg-tulu-gold/10",
+                isHovered ? "animate-bounce" : "animate-pulse"
+              )}
               title="Listen to audio version"
             >
               <Headphones className="w-5 h-5" />

@@ -2,17 +2,20 @@
 import { useEffect, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { ArrowDown } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 const Hero = () => {
   const [scrollY, setScrollY] = useState(0);
   const [currentImage, setCurrentImage] = useState(0);
+  const [showInteraction, setShowInteraction] = useState(false);
   const heroRef = useRef<HTMLDivElement>(null);
+  const [interactionPoints, setInteractionPoints] = useState(0);
   
   const backgroundImages = [
-    "https://source.unsplash.com/photo-1472396961693-142e6e269027",
-    "https://source.unsplash.com/photo-1517022812141-23620dba5c23",
-    "https://source.unsplash.com/photo-1581092795360-fd1ca04f0952",
-    "https://source.unsplash.com/photo-1618160702438-9b02ab6515c9"
+    "photo-1472396961693-142e6e269027",
+    "photo-1517022812141-23620dba5c23",
+    "photo-1581092795360-fd1ca04f0952",
+    "photo-1618160702438-9b02ab6515c9"
   ];
   
   useEffect(() => {
@@ -20,7 +23,15 @@ const Hero = () => {
       setCurrentImage((prev) => (prev + 1) % backgroundImages.length);
     }, 5000);
     
-    return () => clearInterval(imageInterval);
+    // Show interaction hint after 3 seconds
+    const interactionTimeout = setTimeout(() => {
+      setShowInteraction(true);
+    }, 3000);
+    
+    return () => {
+      clearInterval(imageInterval);
+      clearTimeout(interactionTimeout);
+    };
   }, []);
   
   const handleScroll = () => {
@@ -41,7 +52,26 @@ const Hero = () => {
     const exploreSection = document.getElementById('explore');
     if (exploreSection) {
       exploreSection.scrollIntoView({ behavior: 'smooth' });
+      incrementPoints(5);
     }
+  };
+  
+  const incrementPoints = (amount: number) => {
+    setInteractionPoints(prev => prev + amount);
+    
+    // Show animation
+    const pointsIndicator = document.createElement('div');
+    pointsIndicator.className = 'fixed top-20 right-8 bg-tulu-gold text-white px-3 py-1 rounded-full animate-bounce z-50';
+    pointsIndicator.textContent = `+${amount} points`;
+    document.body.appendChild(pointsIndicator);
+    
+    setTimeout(() => {
+      document.body.removeChild(pointsIndicator);
+    }, 2000);
+  };
+  
+  const handleCultureClick = () => {
+    incrementPoints(2);
   };
   
   return (
@@ -49,13 +79,19 @@ const Hero = () => {
       ref={heroRef}
       className="relative h-screen w-full overflow-hidden parallax-container"
     >
+      {/* Points counter */}
+      <div className="absolute top-4 right-4 bg-tulu-blue/80 backdrop-blur-sm text-white px-4 py-2 rounded-full z-10 flex items-center gap-2">
+        <span className="text-tulu-gold font-bold">{interactionPoints}</span>
+        <span>Experience Points</span>
+      </div>
+      
       {/* Background images with fade transition */}
       {backgroundImages.map((image, index) => (
         <div 
           key={index}
           className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-1000"
           style={{
-            backgroundImage: `url('${image}')`,
+            backgroundImage: `url('https://source.unsplash.com/${image}')`,
             transform: `translateY(${scrollY * 0.4}px)`,
             backgroundPosition: 'center center',
             filter: 'brightness(0.7)',
@@ -83,6 +119,7 @@ const Hero = () => {
           <Button 
             className="bg-tulu-blue hover:bg-tulu-red transition-colors text-white border-white border px-6 py-6 text-lg group"
             size="lg"
+            onClick={() => incrementPoints(10)}
           >
             Explore Our Experiences
             <ArrowDown className="ml-2 opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -91,6 +128,7 @@ const Hero = () => {
             className="bg-transparent hover:bg-white/10 text-white border-white border px-6 py-6 text-lg" 
             variant="outline"
             size="lg"
+            onClick={() => incrementPoints(5)}
           >
             Learn About Tulu Nadu
           </Button>
@@ -98,18 +136,31 @@ const Hero = () => {
         
         {/* Interactive elements */}
         <div className="absolute bottom-20 w-full max-w-4xl mx-auto grid grid-cols-3 gap-4 px-4">
-          <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20 hover:bg-white/20 transition-all cursor-pointer">
-            <h3 className="text-xl font-medium">Yakshagana</h3>
-            <p className="text-sm text-white/70">Traditional dance-drama</p>
-          </div>
-          <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20 hover:bg-white/20 transition-all cursor-pointer">
-            <h3 className="text-xl font-medium">Bhuta Kola</h3>
-            <p className="text-sm text-white/70">Sacred spirit worship</p>
-          </div>
-          <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20 hover:bg-white/20 transition-all cursor-pointer">
-            <h3 className="text-xl font-medium">Kambala</h3>
-            <p className="text-sm text-white/70">Buffalo race tradition</p>
-          </div>
+          {[
+            { title: "Yakshagana", desc: "Traditional dance-drama", points: 3 },
+            { title: "Bhuta Kola", desc: "Sacred spirit worship", points: 4 },
+            { title: "Kambala", desc: "Buffalo race tradition", points: 2 }
+          ].map((item, idx) => (
+            <div 
+              key={idx}
+              className={cn(
+                "bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20 transition-all cursor-pointer",
+                showInteraction && "animate-pulse"
+              )}
+              onClick={() => {
+                handleCultureClick();
+                incrementPoints(item.points);
+              }}
+            >
+              <div className="flex justify-between items-start">
+                <div>
+                  <h3 className="text-xl font-medium">{item.title}</h3>
+                  <p className="text-sm text-white/70">{item.desc}</p>
+                </div>
+                <span className="bg-tulu-gold/80 text-white text-xs px-2 py-1 rounded-full">+{item.points}</span>
+              </div>
+            </div>
+          ))}
         </div>
         
         {/* Scroll indicator */}

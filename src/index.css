@@ -87,6 +87,23 @@
   .text-pretty {
     text-wrap: pretty;
   }
+  
+  /* 3D Card Transform Utilities */
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+  
+  .transform-style-preserve-3d {
+    transform-style: preserve-3d;
+  }
+  
+  .backface-hidden {
+    backface-visibility: hidden;
+  }
+  
+  .rotate-y-180 {
+    transform: rotateY(180deg);
+  }
 }
 
 /* Custom styles for YaanBarpe */
@@ -298,4 +315,56 @@
 /* Text stroke effect for hero text */
 .text-stroke {
   -webkit-text-stroke: 1px rgba(255,255,255,0.3);
+}
+
+/* Achievement badges */
+.achievement-badge {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(45deg, #105082, #982220);
+  color: white;
+  font-weight: bold;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  transition: all 0.3s ease;
+}
+
+.achievement-badge:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+}
+
+.achievement-badge::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border: 2px solid transparent;
+  border-radius: 50%;
+  background: linear-gradient(45deg, #E5B31B, #1D7850) border-box;
+  -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: destination-out;
+  mask-composite: exclude;
+}
+
+/* Confetti animation */
+@keyframes confetti-fall {
+  0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+}
+
+.confetti {
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: var(--color);
+  animation: confetti-fall 5s linear forwards;
+  z-index: 9999;
 }
