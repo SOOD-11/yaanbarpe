@@ -5,7 +5,8 @@ import Footer from '@/components/Footer';
 import BlogPost from '@/components/BlogPost';
 import RecentPosts from '@/components/RecentPosts';
 import { Button } from '@/components/ui/button';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Search } from 'lucide-react';
+import { Input } from '@/components/ui/input';
 
 const Blog = () => {
   useEffect(() => {
@@ -33,8 +34,8 @@ const Blog = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <Navigation />
-      <div className="bg-gradient-to-b from-tulu-sand/20 to-background">
-        <div className="container mx-auto py-16 px-4 md:px-6 lg:px-8">
+      <div className="bg-gradient-to-b from-tulu-sand/20 to-background pt-32">
+        <div className="container mx-auto py-8 px-4 md:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-12 scroll-reveal">
             <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-tulu-blue">
               Discover Tulu Nadu's <span className="text-tulu-red">Living Heritage</span>
@@ -42,6 +43,34 @@ const Blog = () => {
             <p className="text-muted-foreground text-lg">
               Explore our collection of stories, insights, and experiences that showcase the rich cultural tapestry of Tulu Nadu
             </p>
+            
+            <div className="mt-8 max-w-xl mx-auto">
+              <div className="relative">
+                <Input 
+                  placeholder="Search our stories..." 
+                  className="pl-10 py-6 rounded-full border-tulu-blue/30 focus:border-tulu-blue"
+                />
+                <Search className="absolute left-3 top-3 text-muted-foreground" size={18} />
+              </div>
+            </div>
+            
+            <div className="mt-8 flex flex-wrap justify-center gap-4">
+              <Button variant="outline" className="rounded-full border-tulu-blue/30 hover:bg-tulu-blue hover:text-white">
+                Cultural Heritage
+              </Button>
+              <Button variant="outline" className="rounded-full border-tulu-blue/30 hover:bg-tulu-blue hover:text-white">
+                Food & Cuisine
+              </Button>
+              <Button variant="outline" className="rounded-full border-tulu-blue/30 hover:bg-tulu-blue hover:text-white">
+                Festivals
+              </Button>
+              <Button variant="outline" className="rounded-full border-tulu-blue/30 hover:bg-tulu-blue hover:text-white">
+                Art Forms
+              </Button>
+              <Button variant="outline" className="rounded-full border-tulu-blue/30 hover:bg-tulu-blue hover:text-white">
+                History
+              </Button>
+            </div>
           </div>
 
           <BlogPost 
@@ -56,7 +85,7 @@ const Blog = () => {
             audioAvailable={true}
           />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-16">
             <BlogPost 
               title="Sacred Rituals of Bhuta Kola: Connecting with Guardian Spirits"
               excerpt="Experience the mystical ancient ritual of Bhuta Kola, where elaborate ceremonies invoke guardian spirits through sacred performances that have sustained coastal Karnataka's spiritual ecosystem."
@@ -76,6 +105,17 @@ const Blog = () => {
               readTime="10 min read"
               author="Akshay Kamath"
               category="Food & Culture"
+              audioAvailable={false}
+            />
+            
+            <BlogPost 
+              title="The Ancient Tiger Dance of Mangaluru"
+              excerpt="Discover the vibrant Pili Vesha (Tiger Dance) tradition that brings color and energy to Mangaluru's Dasara celebrations, with performers adorned in striking tiger body paint and costumes."
+              image="https://source.unsplash.com/photo-1469041797191-50ace28483c3"
+              date="May 5, 2025"
+              readTime="7 min read"
+              author="Pramod Shetty"
+              category="Folk Traditions"
               audioAvailable={false}
             />
           </div>

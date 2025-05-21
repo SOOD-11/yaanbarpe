@@ -5,7 +5,23 @@ import { ArrowDown } from 'lucide-react';
 
 const Hero = () => {
   const [scrollY, setScrollY] = useState(0);
+  const [currentImage, setCurrentImage] = useState(0);
   const heroRef = useRef<HTMLDivElement>(null);
+  
+  const backgroundImages = [
+    "https://source.unsplash.com/photo-1472396961693-142e6e269027",
+    "https://source.unsplash.com/photo-1517022812141-23620dba5c23",
+    "https://source.unsplash.com/photo-1581092795360-fd1ca04f0952",
+    "https://source.unsplash.com/photo-1618160702438-9b02ab6515c9"
+  ];
+  
+  useEffect(() => {
+    const imageInterval = setInterval(() => {
+      setCurrentImage((prev) => (prev + 1) % backgroundImages.length);
+    }, 5000);
+    
+    return () => clearInterval(imageInterval);
+  }, []);
   
   const handleScroll = () => {
     if (heroRef.current) {
@@ -33,16 +49,20 @@ const Hero = () => {
       ref={heroRef}
       className="relative h-screen w-full overflow-hidden parallax-container"
     >
-      {/* Background image with parallax effect */}
-      <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{
-          backgroundImage: "url('https://source.unsplash.com/photo-1472396961693-142e6e269027')",
-          transform: `translateY(${scrollY * 0.4}px)`,
-          backgroundPosition: 'center center',
-          filter: 'brightness(0.7)'
-        }}
-      />
+      {/* Background images with fade transition */}
+      {backgroundImages.map((image, index) => (
+        <div 
+          key={index}
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-1000"
+          style={{
+            backgroundImage: `url('${image}')`,
+            transform: `translateY(${scrollY * 0.4}px)`,
+            backgroundPosition: 'center center',
+            filter: 'brightness(0.7)',
+            opacity: currentImage === index ? 1 : 0,
+          }}
+        />
+      ))}
       
       {/* Overlay gradient */}
       <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-black/40" />
@@ -61,10 +81,11 @@ const Hero = () => {
         
         <div className="flex flex-col md:flex-row gap-4 animate-fade-in-up animate-delay-300">
           <Button 
-            className="bg-tulu-blue hover:bg-tulu-red transition-colors text-white border-white border px-6 py-6 text-lg"
+            className="bg-tulu-blue hover:bg-tulu-red transition-colors text-white border-white border px-6 py-6 text-lg group"
             size="lg"
           >
             Explore Our Experiences
+            <ArrowDown className="ml-2 opacity-0 group-hover:opacity-100 transition-opacity" />
           </Button>
           <Button 
             className="bg-transparent hover:bg-white/10 text-white border-white border px-6 py-6 text-lg" 
@@ -73,6 +94,22 @@ const Hero = () => {
           >
             Learn About Tulu Nadu
           </Button>
+        </div>
+        
+        {/* Interactive elements */}
+        <div className="absolute bottom-20 w-full max-w-4xl mx-auto grid grid-cols-3 gap-4 px-4">
+          <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20 hover:bg-white/20 transition-all cursor-pointer">
+            <h3 className="text-xl font-medium">Yakshagana</h3>
+            <p className="text-sm text-white/70">Traditional dance-drama</p>
+          </div>
+          <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20 hover:bg-white/20 transition-all cursor-pointer">
+            <h3 className="text-xl font-medium">Bhuta Kola</h3>
+            <p className="text-sm text-white/70">Sacred spirit worship</p>
+          </div>
+          <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20 hover:bg-white/20 transition-all cursor-pointer">
+            <h3 className="text-xl font-medium">Kambala</h3>
+            <p className="text-sm text-white/70">Buffalo race tradition</p>
+          </div>
         </div>
         
         {/* Scroll indicator */}
