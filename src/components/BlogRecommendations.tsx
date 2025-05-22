@@ -16,11 +16,12 @@ interface BlogPost {
   difficulty: 'Beginner' | 'Intermediate' | 'Advanced';
 }
 
+// Updated with reliable images
 const recommendedPosts: BlogPost[] = [
   {
     id: 1,
     title: "Traditional Fishing Methods in Coastal Tulu Nadu",
-    image: "/blog-images/tulu-fishing.jpg",
+    image: "https://images.pexels.com/photos/2223082/pexels-photo-2223082.jpeg?auto=compress&cs=tinysrgb&w=800",
     category: "Livelihood",
     date: "May 15, 2025",
     readTime: "8 min read",
@@ -30,7 +31,7 @@ const recommendedPosts: BlogPost[] = [
   {
     id: 2,
     title: "The Ritual of Bhuta Kola: Connecting with Guardian Spirits",
-    image: "/blog-images/bhuta-kola.jpg",
+    image: "https://images.pexels.com/photos/3651597/pexels-photo-3651597.jpeg?auto=compress&cs=tinysrgb&w=800",
     category: "Spiritual Traditions",
     date: "May 12, 2025",
     readTime: "11 min read",
@@ -40,7 +41,7 @@ const recommendedPosts: BlogPost[] = [
   {
     id: 3,
     title: "Tulu Folk Tales: Stories That Shaped Cultural Identity",
-    image: "/blog-images/tulu-folktales.jpg",
+    image: "https://images.pexels.com/photos/3760778/pexels-photo-3760778.jpeg?auto=compress&cs=tinysrgb&w=800",
     category: "Culture",
     date: "May 8, 2025",
     readTime: "7 min read",
@@ -50,7 +51,7 @@ const recommendedPosts: BlogPost[] = [
   {
     id: 4,
     title: "The Ancient Irrigation Systems of Tulu Nadu",
-    image: "/blog-images/tulu-irrigation.jpg",
+    image: "https://images.pexels.com/photos/2258536/pexels-photo-2258536.jpeg?auto=compress&cs=tinysrgb&w=800",
     category: "Agriculture",
     date: "May 3, 2025",
     readTime: "9 min read",
@@ -83,15 +84,16 @@ const BlogRecommendations = () => {
     }
   }, [selectedCategories]);
   
+  // Simplified category toggling
   const handleCategoryToggle = (category: string) => {
     setSelectedCategories(prev => {
       if (prev.includes(category)) {
         return prev.filter(c => c !== category);
       } else {
-        // Add points for using filters
+        // Add points for using filters - simplified
         if (prev.length === 0) {
           // First filter used
-          addPoints(2, "Used filters");
+          addPoints(2, "Using filters to find content");
         }
         return [...prev, category];
       }
@@ -106,6 +108,7 @@ const BlogRecommendations = () => {
     setImagesLoaded(prev => ({ ...prev, [id]: true }));
   };
   
+  // Simplified points system
   const addPoints = (amount: number, message: string) => {
     // Update global points in localStorage
     const currentPoints = Number(localStorage.getItem('tuluPoints') || '0');
@@ -140,23 +143,25 @@ const BlogRecommendations = () => {
               Recommended for <span className="text-tulu-red">You</span>
             </h2>
             <p className="text-muted-foreground">
-              Articles curated based on your reading preferences and level
+              Articles curated based on your reading preferences
             </p>
           </div>
           
+          {/* Simplified level indicator */}
           <div className="mt-4 md:mt-0 flex items-center gap-2">
             <span className="text-sm text-muted-foreground">Your Level:</span>
             <div className="flex items-center gap-1">
               {Array.from({ length: 5 }).map((_, i) => (
                 <div 
                   key={i} 
-                  className={`w-2 h-6 rounded-sm ${i < userLevel ? 'bg-tulu-blue' : 'bg-gray-200'}`}
+                  className={`w-2 h-6 rounded-sm ${i < userLevel ? 'bg-tulu-teal' : 'bg-gray-200'}`}
                 />
               ))}
             </div>
           </div>
         </div>
         
+        {/* Simplified category filters */}
         <div className="mb-6 flex flex-wrap gap-2">
           <span className="text-sm font-medium pt-1">Filter by:</span>
           {categories.map(category => (
@@ -167,8 +172,8 @@ const BlogRecommendations = () => {
               className={cn(
                 "rounded-full",
                 selectedCategories.includes(category) 
-                  ? "bg-tulu-blue text-white" 
-                  : "bg-transparent text-tulu-blue"
+                  ? "bg-tulu-teal text-white" 
+                  : "bg-transparent text-tulu-teal"
               )}
               onClick={() => handleCategoryToggle(category)}
             >
@@ -204,9 +209,9 @@ const BlogRecommendations = () => {
                   )}
                   onLoad={() => handleImageLoad(post.id)}
                   onError={(e) => {
-                    // Fallback image if the custom one fails to load
+                    // Reliable fallback image
                     const target = e.target as HTMLImageElement;
-                    target.src = `https://images.unsplash.com/photo-1472396961693-142e6e269027?w=800&q=80`;
+                    target.src = "https://images.pexels.com/photos/3944154/pexels-photo-3944154.jpeg?auto=compress&cs=tinysrgb&w=800";
                     handleImageLoad(post.id);
                   }}
                 />
@@ -214,7 +219,7 @@ const BlogRecommendations = () => {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                 
                 <div className="absolute top-4 left-4">
-                  <span className="bg-tulu-blue/90 text-white text-xs font-medium px-3 py-1 rounded-full backdrop-blur-sm">
+                  <span className="bg-tulu-teal/90 text-white text-xs font-medium px-3 py-1 rounded-full backdrop-blur-sm">
                     {post.category}
                   </span>
                 </div>
@@ -226,7 +231,7 @@ const BlogRecommendations = () => {
                 </div>
                 
                 <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <span className="bg-tulu-gold/90 text-white text-xs font-medium px-3 py-1 rounded-full backdrop-blur-sm">
+                  <span className="bg-tulu-red/90 text-white text-xs font-medium px-3 py-1 rounded-full backdrop-blur-sm">
                     +{post.pointValue} pts
                   </span>
                 </div>
@@ -235,26 +240,26 @@ const BlogRecommendations = () => {
               <div className="p-4">
                 <div className="flex justify-between items-center">
                   <span className="text-xs text-muted-foreground">{post.date}</span>
-                  <span className="text-xs bg-tulu-sand/50 px-2 py-1 rounded-full">
+                  <span className="text-xs bg-tulu-beige/50 px-2 py-1 rounded-full">
                     {post.readTime}
                   </span>
                 </div>
                 
                 <h3 className={cn(
                   "font-medium text-lg mt-2 line-clamp-2 transition-colors duration-300 min-h-[3.5rem]",
-                  hoveredPost === post.id ? "text-tulu-red" : "text-tulu-blue"
+                  hoveredPost === post.id ? "text-tulu-red" : "text-tulu-teal"
                 )}>
                   {post.title}
                 </h3>
                 
                 <div className={cn(
-                  "h-0.5 bg-tulu-gold mt-3 transition-all duration-300",
+                  "h-0.5 bg-tulu-red mt-3 transition-all duration-300",
                   hoveredPost === post.id ? "w-1/3" : "w-0"
                 )} />
                 
                 <Button 
                   variant="ghost" 
-                  className="text-tulu-blue p-0 h-auto mt-3 flex items-center group"
+                  className="text-tulu-teal p-0 h-auto mt-3 flex items-center group"
                 >
                   Read Article
                   <ArrowRight className="ml-1 w-4 h-4 group-hover:translate-x-1 transition-transform" />

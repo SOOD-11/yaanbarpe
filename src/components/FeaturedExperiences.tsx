@@ -4,13 +4,14 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { toast } from '@/hooks/use-toast';
 
 const experiences = [
   {
     id: 1,
     title: 'Yakshagana Experience',
     description: 'Immerse yourself in the colorful world of Yakshagana, a traditional theatre form that combines dance, music, dialogue, costume, and stage techniques.',
-    image: 'photo-1581092795360-fd1ca04f0952',
+    image: 'https://images.pexels.com/photos/2417726/pexels-photo-2417726.jpeg?auto=compress&cs=tinysrgb&w=800',
     price: '₹2,500',
     duration: '4 hours',
     tags: ['Cultural', 'Performance', 'Interactive'],
@@ -20,7 +21,7 @@ const experiences = [
     id: 2,
     title: 'Sri Krishna Temple Tour',
     description: 'Visit the famous Sri Krishna Matha temple in Udupi and learn about its rich history, architecture, and spiritual significance from expert guides.',
-    image: 'photo-1466442929976-97f336a657be',
+    image: 'https://images.pexels.com/photos/2161467/pexels-photo-2161467.jpeg?auto=compress&cs=tinysrgb&w=800',
     price: '₹1,800',
     duration: '3 hours',
     tags: ['Spiritual', 'Historical', 'Architecture'],
@@ -30,7 +31,7 @@ const experiences = [
     id: 3,
     title: "St. Mary's Islands Adventure",
     description: "Explore the geological wonder of St. Mary's Islands with its unique hexagonal basalt rock formations and pristine beaches.",
-    image: 'photo-1500673922987-e212871fec22',
+    image: 'https://images.pexels.com/photos/1450353/pexels-photo-1450353.jpeg?auto=compress&cs=tinysrgb&w=800',
     price: '₹3,200',
     duration: 'Full day',
     tags: ['Nature', 'Adventure', 'Photography'],
@@ -40,7 +41,7 @@ const experiences = [
     id: 4,
     title: 'Tulu Cuisine Workshop',
     description: 'Learn the art of authentic Tulu cuisine through hands-on cooking classes with local experts using traditional techniques and ingredients.',
-    image: 'photo-1466721591366-2d5fba72006d',
+    image: 'https://images.pexels.com/photos/958545/pexels-photo-958545.jpeg?auto=compress&cs=tinysrgb&w=800',
     price: '₹2,200',
     duration: '5 hours',
     tags: ['Food', 'Cooking', 'Cultural'],
@@ -55,19 +56,27 @@ const FeaturedExperiences = () => {
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
   const [points, setPoints] = useState(0);
   const [unlocked, setUnlocked] = useState<number[]>([]);
+  const [imagesLoaded, setImagesLoaded] = useState<Record<number, boolean>>({});
   
-  // Simulation of unlocking experiences (in real app, this would be tied to user progress)
+  // Simplified unlocking - always make first 2 experiences available
   useEffect(() => {
-    // Start with just the first experience unlocked
-    setUnlocked([1]);
+    // Start with the first two experiences unlocked
+    setUnlocked([1, 2]);
     
-    // Unlock more experiences as user scrolls and interacts
-    const unlockTimer = setTimeout(() => {
-      setUnlocked([1, 2]);
-      setTimeout(() => setUnlocked([1, 2, 3, 4]), 10000);
-    }, 5000);
-    
-    return () => clearTimeout(unlockTimer);
+    // Load points from localStorage
+    const storedPoints = localStorage.getItem('tuluPoints');
+    if (storedPoints) {
+      const userPoints = parseInt(storedPoints);
+      setPoints(userPoints);
+      
+      // Unlock more based on points (simple progression)
+      if (userPoints >= 10) {
+        setUnlocked([1, 2, 3]);
+      }
+      if (userPoints >= 20) {
+        setUnlocked([1, 2, 3, 4]);
+      }
+    }
   }, []);
   
   useEffect(() => {
@@ -95,33 +104,39 @@ const FeaturedExperiences = () => {
     };
   }, []);
   
+  const handleImageLoad = (id: number) => {
+    setImagesLoaded(prev => ({ ...prev, [id]: true }));
+  };
+  
+  // Simplified point system
   const handleExperienceClick = (experiencePoints: number) => {
-    // Add points animation
+    // Add points to local state
     setPoints(prev => prev + experiencePoints);
     
-    // Create points indicator
-    const pointsIndicator = document.createElement('div');
-    pointsIndicator.className = 'fixed top-20 right-8 bg-tulu-gold text-white px-3 py-1 rounded-full animate-bounce z-50';
-    pointsIndicator.textContent = `+${experiencePoints} points`;
-    document.body.appendChild(pointsIndicator);
+    // Update global points in localStorage
+    const currentPoints = Number(localStorage.getItem('tuluPoints') || '0');
+    localStorage.setItem('tuluPoints', (currentPoints + experiencePoints).toString());
     
-    setTimeout(() => {
-      document.body.removeChild(pointsIndicator);
-    }, 2000);
+    // Show toast notification
+    toast({
+      title: `+${experiencePoints} points earned!`,
+      description: "Keep exploring to unlock more experiences!",
+      duration: 2000,
+    });
   };
   
   return (
     <div 
       id="explore"
       ref={sectionRef} 
-      className="py-24 px-4 md:px-8 bg-gradient-to-b from-background to-tulu-sand/30"
+      className="py-24 px-4 md:px-8 bg-gradient-to-b from-background to-tulu-beige/30"
     >
       <div className="max-w-7xl mx-auto scroll-reveal">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12">
           <div>
             <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold mb-4 relative">
               <span className="text-tulu-red">Featured</span> Experiences
-              <div className="absolute -bottom-3 left-0 w-20 h-1 bg-tulu-gold"></div>
+              <div className="absolute -bottom-3 left-0 w-20 h-1 bg-tulu-red"></div>
             </h2>
             <p className="text-muted-foreground max-w-2xl mt-6">
               Immerse yourself in the authentic cultural experiences carefully curated to showcase the true essence and heritage of Tulu Nadu.
@@ -129,13 +144,13 @@ const FeaturedExperiences = () => {
           </div>
           
           {/* Experience Points Counter */}
-          <div className="mt-6 md:mt-0 flex items-center gap-2 bg-tulu-blue/10 px-4 py-2 rounded-lg border border-tulu-blue/20">
-            <span className="text-tulu-blue font-medium">Experience Points:</span>
-            <span className="text-tulu-gold font-bold text-xl">{points}</span>
+          <div className="mt-6 md:mt-0 flex items-center gap-2 bg-tulu-teal/10 px-4 py-2 rounded-lg border border-tulu-teal/20">
+            <span className="text-tulu-teal font-medium">Experience Points:</span>
+            <span className="text-tulu-red font-bold text-xl">{points}</span>
           </div>
           
           <Button 
-            className="mt-6 md:mt-0 bg-tulu-blue hover:bg-tulu-red text-white group hidden md:flex"
+            className="mt-6 md:mt-0 bg-tulu-teal hover:bg-tulu-red text-white group hidden md:flex"
             onClick={() => handleExperienceClick(10)}
           >
             View All Experiences
@@ -162,10 +177,26 @@ const FeaturedExperiences = () => {
                   }`}
                 >
                   <div className="relative h-64">
+                    {/* Loading placeholder */}
+                    {!imagesLoaded[experience.id] && (
+                      <div className="absolute inset-0 bg-gray-200 animate-pulse flex items-center justify-center">
+                        <span className="text-gray-400">Loading image...</span>
+                      </div>
+                    )}
+                    
                     <img 
-                      src={`https://source.unsplash.com/${experience.image}`}
+                      src={experience.image}
                       alt={experience.title} 
-                      className={`w-full h-full object-cover transition-transform duration-700 ${hoveredCard === index && isUnlocked ? 'scale-110' : 'scale-100'}`}
+                      className={`w-full h-full object-cover transition-transform duration-700 ${
+                        hoveredCard === index && isUnlocked ? 'scale-110' : 'scale-100'
+                      } ${imagesLoaded[experience.id] ? 'opacity-100' : 'opacity-0'}`}
+                      onLoad={() => handleImageLoad(experience.id)}
+                      onError={(e) => {
+                        // Reliable fallback image
+                        const target = e.target as HTMLImageElement;
+                        target.src = "https://images.pexels.com/photos/3944154/pexels-photo-3944154.jpeg?auto=compress&cs=tinysrgb&w=800";
+                        handleImageLoad(experience.id);
+                      }}
                     />
                     <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
                       <div className="flex justify-between items-center">
@@ -175,24 +206,40 @@ const FeaturedExperiences = () => {
                     </div>
                     
                     {/* Points indicator */}
-                    <div className="absolute top-4 right-4 bg-tulu-gold text-white text-xs px-3 py-1 rounded-full">
+                    <div className="absolute top-4 right-4 bg-tulu-red text-white text-xs px-3 py-1 rounded-full">
                       +{experience.points} points
                     </div>
                     
-                    {/* Lock overlay for locked experiences */}
+                    {/* Simplified lock overlay with clear unlock instructions */}
                     {!isUnlocked && (
                       <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-                        <div className="text-center text-white">
+                        <div className="text-center text-white p-4">
                           <div className="text-5xl mb-2">🔒</div>
-                          <p className="font-medium">Unlock this experience</p>
-                          <p className="text-sm mt-1">Keep exploring to unlock</p>
+                          <p className="font-medium">Locked Experience</p>
+                          <p className="text-sm mt-1">
+                            {experience.id === 3 ? "Earn 10+ points to unlock" : "Earn 20+ points to unlock"}
+                          </p>
+                          <Button 
+                            variant="outline"
+                            size="sm"
+                            className="mt-3 text-white border-white hover:bg-white/20"
+                            onClick={() => {
+                              toast({
+                                title: "How to unlock",
+                                description: "Read articles and interact with the blog to earn points!",
+                                duration: 3000,
+                              });
+                            }}
+                          >
+                            How to unlock?
+                          </Button>
                         </div>
                       </div>
                     )}
                     
                     {/* Hovering overlay with tags */}
                     {isUnlocked && (
-                      <div className={`absolute inset-0 bg-gradient-to-b from-tulu-blue/70 to-tulu-blue/90 flex items-center justify-center p-4 transition-opacity duration-300 ${hoveredCard === index ? 'opacity-100' : 'opacity-0'}`}>
+                      <div className={`absolute inset-0 bg-gradient-to-b from-tulu-teal/70 to-tulu-teal/90 flex items-center justify-center p-4 transition-opacity duration-300 ${hoveredCard === index ? 'opacity-100' : 'opacity-0'}`}>
                         <div className="text-center">
                           <h4 className="text-white font-display text-xl mb-4">Experience Features</h4>
                           <div className="flex flex-wrap justify-center gap-2">
@@ -213,7 +260,7 @@ const FeaturedExperiences = () => {
                       variant="outline" 
                       className={`w-full ${
                         isUnlocked 
-                          ? "border-tulu-blue text-tulu-blue hover:text-white hover:bg-tulu-blue" 
+                          ? "border-tulu-teal text-tulu-teal hover:text-white hover:bg-tulu-teal" 
                           : "border-gray-400 text-gray-400 cursor-not-allowed"
                       }`}
                       onClick={() => isUnlocked && handleExperienceClick(experience.points)}
@@ -230,7 +277,7 @@ const FeaturedExperiences = () => {
                     </div>
                   )}
                   {index === 2 && (
-                    <div className="absolute top-4 left-4 bg-tulu-gold text-white text-xs font-bold px-3 py-1 rounded-full rotate-12 shadow-lg">
+                    <div className="absolute top-4 left-4 bg-tulu-red text-white text-xs font-bold px-3 py-1 rounded-full rotate-12 shadow-lg">
                       NEW
                     </div>
                   )}
@@ -242,7 +289,7 @@ const FeaturedExperiences = () => {
         
         <div className="mt-10 flex justify-center md:hidden">
           <Button 
-            className="bg-tulu-blue hover:bg-tulu-red text-white group"
+            className="bg-tulu-teal hover:bg-tulu-red text-white group"
             onClick={() => handleExperienceClick(10)}
           >
             View All Experiences

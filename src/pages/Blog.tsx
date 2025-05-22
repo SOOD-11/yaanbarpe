@@ -49,6 +49,7 @@ const Blog = () => {
     };
   }, []);
   
+  // Simplified point system
   const addPoints = (amount: number, message: string) => {
     // Update user points
     setUserPoints(prev => prev + amount);
@@ -65,35 +66,42 @@ const Blog = () => {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchValue.trim()) {
-      addPoints(3, "Searched for content");
+      addPoints(3, "Searching for content");
+      
+      // Show a helpful message about search
+      toast({
+        title: "Search in progress",
+        description: "Finding the best content for you!",
+        duration: 2000,
+      });
     }
   };
   
   const handleCategoryClick = (category: string) => {
     setActiveCategory(prev => prev === category ? null : category);
     if (activeCategory !== category) {
-      addPoints(2, `Browsing ${category} category`);
+      addPoints(2, `Browsing ${category}`);
     }
   };
 
   return (
     <div className="min-h-screen flex flex-col">
       <Navigation />
-      <div className="bg-gradient-to-b from-tulu-sand/20 to-background pt-32">
+      <div className="bg-gradient-to-b from-tulu-beige/20 to-background pt-32">
         <div className="container mx-auto py-8 px-4 md:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-12 scroll-reveal">
-            <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-tulu-blue">
+            <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-tulu-teal">
               Discover Tulu Nadu's <span className="text-tulu-red">Living Heritage</span>
             </h1>
             <p className="text-muted-foreground text-lg">
               Explore our collection of stories, insights, and experiences that showcase the rich cultural tapestry of Tulu Nadu
             </p>
             
-            {/* User stats display */}
-            <div className="flex justify-center gap-4 mt-4">
-              <div className="bg-tulu-blue/10 rounded-full px-4 py-2 flex items-center gap-2">
-                <span className="text-tulu-gold font-bold">{userPoints}</span>
-                <span className="text-tulu-blue">Total Points</span>
+            {/* Simplified user stats display */}
+            <div className="flex justify-center gap-4 mt-6">
+              <div className="bg-tulu-teal/10 rounded-full px-4 py-2 flex items-center gap-2">
+                <span className="text-tulu-red font-bold">{userPoints}</span>
+                <span className="text-tulu-teal">Total Points</span>
               </div>
               
               <div className="bg-tulu-red/10 rounded-full px-4 py-2 flex items-center gap-2">
@@ -105,14 +113,14 @@ const Blog = () => {
               <div className="relative">
                 <Input 
                   placeholder="Search our stories..." 
-                  className="pl-10 py-6 rounded-full border-tulu-blue/30 focus:border-tulu-blue"
+                  className="pl-10 py-6 rounded-full border-tulu-teal/30 focus:border-tulu-teal"
                   value={searchValue}
                   onChange={(e) => setSearchValue(e.target.value)}
                 />
                 <Search className="absolute left-3 top-3 text-muted-foreground" size={18} />
                 <Button 
                   type="submit"
-                  className="absolute right-1 top-1 bg-tulu-blue hover:bg-tulu-red rounded-full h-10"
+                  className="absolute right-1 top-1 bg-tulu-teal hover:bg-tulu-red rounded-full h-10"
                 >
                   Search
                 </Button>
@@ -124,8 +132,8 @@ const Blog = () => {
                 <Button 
                   key={category}
                   variant="outline" 
-                  className={`rounded-full border-tulu-blue/30 hover:bg-tulu-blue hover:text-white ${
-                    activeCategory === category ? "bg-tulu-blue text-white" : ""
+                  className={`rounded-full border-tulu-teal/30 hover:bg-tulu-teal hover:text-white ${
+                    activeCategory === category ? "bg-tulu-teal text-white" : ""
                   }`}
                   onClick={() => handleCategoryClick(category)}
                 >
@@ -139,7 +147,7 @@ const Blog = () => {
             featured={true}
             title="The Intricate Artistry of Yakshagana: A 700-Year Legacy"
             excerpt="Delve into the vibrant world of Yakshagana, the traditional theatre form that has shaped Tulu Nadu's cultural identity for centuries, featuring elaborate costumes, mesmerizing dance movements, and compelling storytelling techniques."
-            image="/blog-images/yakshagana.jpg"
+            image="https://images.pexels.com/photos/2773927/pexels-photo-2773927.jpeg?auto=compress&cs=tinysrgb&w=800"
             date="May 18, 2025"
             readTime="12 min read"
             author="Deepak Shetty"
@@ -151,7 +159,7 @@ const Blog = () => {
             <BlogPost 
               title="Sacred Rituals of Bhuta Kola: Connecting with Guardian Spirits"
               excerpt="Experience the mystical ancient ritual of Bhuta Kola, where elaborate ceremonies invoke guardian spirits through sacred performances that have sustained coastal Karnataka's spiritual ecosystem."
-              image="/blog-images/bhuta-kola.jpg"
+              image="https://images.pexels.com/photos/2675268/pexels-photo-2675268.jpeg?auto=compress&cs=tinysrgb&w=800"
               date="May 12, 2025"
               readTime="8 min read"
               author="Radha Hegde"
@@ -162,7 +170,7 @@ const Blog = () => {
             <BlogPost 
               title="Tulu Nadu's Culinary Secrets: Beyond the Coast"
               excerpt="Journey through the distinctive flavors of Tulu cuisine, from the fermented toddy-based Moode to the delicate Patrode, exploring ingredients, techniques, and cultural significance."
-              image="/blog-images/tulu-food.jpg"
+              image="https://images.pexels.com/photos/958545/pexels-photo-958545.jpeg?auto=compress&cs=tinysrgb&w=800"
               date="May 8, 2025"
               readTime="10 min read"
               author="Akshay Kamath"
@@ -173,7 +181,7 @@ const Blog = () => {
             <BlogPost 
               title="The Ancient Tiger Dance of Mangaluru"
               excerpt="Discover the vibrant Pili Vesha (Tiger Dance) tradition that brings color and energy to Mangaluru's Dasara celebrations, with performers adorned in striking tiger body paint and costumes."
-              image="/blog-images/tiger-dance.jpg"
+              image="https://images.pexels.com/photos/1190298/pexels-photo-1190298.jpeg?auto=compress&cs=tinysrgb&w=800"
               date="May 5, 2025"
               readTime="7 min read"
               author="Pramod Shetty"
@@ -184,7 +192,7 @@ const Blog = () => {
 
           <div className="mt-12 text-center">
             <Button 
-              className="bg-tulu-blue hover:bg-tulu-red transition-colors group"
+              className="bg-tulu-teal hover:bg-tulu-red transition-colors group"
               onClick={() => addPoints(5, "Exploring more articles")}
             >
               View All Articles

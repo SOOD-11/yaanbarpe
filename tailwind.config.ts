@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -63,13 +62,16 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				},
-				// YaanBarpe custom colors 
+				// YaanBarpe custom colors - updated with new palette
 				tulu: {
+					'teal': '#00555A',
+					'red': '#CC4E5C',
+					'beige': '#EDE8D0',
+					// Keeping these legacy colors for backward compatibility
 					'blue': '#105082',
-					'red': '#982220',
 					'gold': '#E5B31B',
 					'green': '#1D7850',
-					'sand': '#F2E3C9',
+					'sand': '#EDE8D0',
 					'earth': '#8C5130',
 				}
 			},
