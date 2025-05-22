@@ -5,6 +5,7 @@ import { Separator } from '@/components/ui/separator';
 import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import React from 'react';
+import { toast } from '@/hooks/use-toast';
 
 interface DetailedBlogPostProps {
   title: string;
@@ -41,6 +42,9 @@ const DetailedBlogPost = ({
   const [gamificationLevel, setGamificationLevel] = useState(1);
   const [showConfetti, setShowConfetti] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [knowledgeScore, setKnowledgeScore] = useState(0);
+  const [quizCompleted, setQuizCompleted] = useState(false);
+  const [streakDays, setStreakDays] = useState(1);
   
   // Handle audio toggle
   const toggleAudio = () => {
@@ -106,6 +110,45 @@ const DetailedBlogPost = ({
     }
   }, [readingPoints, gamificationLevel]);
   
+  // Load streak data
+  useEffect(() => {
+    const lastVisit = localStorage.getItem('lastVisit');
+    const today = new Date().toDateString();
+    
+    if (lastVisit) {
+      const lastDate = new Date(lastVisit);
+      const currentDate = new Date();
+      const diffTime = Math.abs(currentDate.getTime() - lastDate.getTime());
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      
+      if (diffDays === 1) {
+        // Consecutive day
+        const currentStreak = Number(localStorage.getItem('streakDays') || '1');
+        setStreakDays(currentStreak + 1);
+        localStorage.setItem('streakDays', (currentStreak + 1).toString());
+        
+        if ((currentStreak + 1) % 5 === 0) {
+          // Milestone streak
+          addReadingPoints(currentStreak + 1, `${currentStreak + 1} day streak bonus!`);
+          toast({
+            title: "Streak Milestone!",
+            description: `You've maintained a ${currentStreak + 1} day reading streak!`,
+            duration: 5000,
+          });
+        }
+      } else if (diffDays > 1) {
+        // Streak broken
+        setStreakDays(1);
+        localStorage.setItem('streakDays', '1');
+      } else {
+        // Same day, maintain streak
+        setStreakDays(Number(localStorage.getItem('streakDays') || '1'));
+      }
+    }
+    
+    localStorage.setItem('lastVisit', today);
+  }, []);
+  
   // Create confetti effect
   const createConfetti = () => {
     const colors = ['#E5B31B', '#105082', '#982220', '#1D7850'];
@@ -140,11 +183,21 @@ const DetailedBlogPost = ({
     setIsSaved(!isSaved);
     if (!isSaved) {
       addReadingPoints(3, "Saved article");
+      
+      toast({
+        title: "Article Saved!",
+        description: "You can access this article in your reading list",
+        duration: 3000,
+      });
     }
   };
   
   const addReadingPoints = (points: number, message: string) => {
     setReadingPoints(prev => prev + points);
+    
+    // Update global points in localStorage
+    const currentGlobalPoints = Number(localStorage.getItem('tuluPoints') || '0');
+    localStorage.setItem('tuluPoints', (currentGlobalPoints + points).toString());
     
     // Show points notification
     const notification = document.createElement('div');
@@ -162,7 +215,33 @@ const DetailedBlogPost = ({
     setImageLoaded(true);
   };
   
-  const imageUrl = image.startsWith('http') ? image : `https://images.unsplash.com/${image}`;
+  const takeKnowledgeQuiz = () => {
+    setQuizCompleted(true);
+    const quizScore = Math.floor(Math.random() * 3) + 3; // Random score between 3-5
+    setKnowledgeScore(quizScore);
+    addReadingPoints(quizScore * 2, `Quiz completed! +${quizScore * 2} points`);
+    
+    toast({
+      title: "Knowledge Check Complete!",
+      description: `You scored ${quizScore}/5 in the quiz`,
+      duration: 5000,
+    });
+  };
+  
+  // Prepare image URL
+  let imageUrl = "";
+  
+  if (image.startsWith('http')) {
+    imageUrl = image;
+  } else if (image.startsWith('/')) {
+    imageUrl = image;
+  } else if (image.startsWith('photo-')) {
+    // Convert Unsplash photo ID to proper URL
+    imageUrl = `https://images.unsplash.com/${image}?w=1200&q=80`;
+  } else {
+    // Fallback
+    imageUrl = "https://images.unsplash.com/photo-1472396961693-142e6e269027?w=1200&q=80";
+  }
   
   return (
     <div className="max-w-4xl mx-auto">
@@ -181,6 +260,12 @@ const DetailedBlogPost = ({
         <span className="bg-tulu-gold text-white w-6 h-6 rounded-full flex items-center justify-center ml-2">
           {gamificationLevel}
         </span>
+      </div>
+      
+      {/* Reading streak */}
+      <div className="fixed top-4 left-4 bg-tulu-gold text-white px-4 py-2 rounded-full z-50 flex items-center gap-2 shadow-lg">
+        <span className="text-white font-bold">{streakDays}</span>
+        <span>Day Streak 🔥</span>
       </div>
       
       <div className="mb-8">
@@ -271,12 +356,50 @@ const DetailedBlogPost = ({
             imageLoaded ? "opacity-100" : "opacity-0"
           )}
           onLoad={handleImageLoad}
+          onError={(e) => {
+            // Fallback image if the main one fails
+            const target = e.target as HTMLImageElement;
+            target.src = "https://images.unsplash.com/photo-1472396961693-142e6e269027?w=1200&q=80";
+            handleImageLoad();
+          }}
         />
       </div>
       
       <div className="prose prose-lg max-w-none">
         {content}
       </div>
+      
+      {/* Knowledge Quiz Section */}
+      {!quizCompleted ? (
+        <div className="my-10 p-6 bg-tulu-blue/10 rounded-xl border border-tulu-blue/20">
+          <h3 className="text-xl font-bold text-tulu-blue mb-3">Test Your Knowledge</h3>
+          <p className="mb-4">Complete a short quiz to reinforce what you learned and earn extra points!</p>
+          <Button 
+            className="bg-tulu-blue hover:bg-tulu-red transition-colors"
+            onClick={takeKnowledgeQuiz}
+          >
+            Take Quiz
+          </Button>
+        </div>
+      ) : (
+        <div className="my-10 p-6 bg-tulu-green/10 rounded-xl border border-tulu-green/20">
+          <div className="flex items-center justify-between">
+            <div>
+              <h3 className="text-xl font-bold text-tulu-green mb-1">Quiz Completed!</h3>
+              <p className="mb-2">You scored {knowledgeScore}/5 on the knowledge check</p>
+              <div className="flex">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <div 
+                    key={i} 
+                    className={`w-5 h-5 rounded-full mr-1 ${i < knowledgeScore ? 'bg-tulu-green' : 'bg-gray-300'}`}
+                  />
+                ))}
+              </div>
+            </div>
+            <div className="text-4xl">🧠</div>
+          </div>
+        </div>
+      )}
       
       {/* Interactive engagement section */}
       <div className="mt-8 p-4 bg-tulu-sand/20 rounded-lg border border-tulu-sand flex items-center justify-between">
@@ -361,25 +484,42 @@ const DetailedBlogPost = ({
             {
               title: "The Annual Tiger Dance Festival of Mangaluru",
               date: "April 22, 2025",
-              image: "photo-1517022812141-23620dba5c23"
+              image: "/blog-images/tiger-dance.jpg",
+              readTime: "8 min read",
+              points: 7
             },
             {
               title: "Exploring the Temple Architecture of Udupi",
               date: "May 1, 2025",
-              image: "photo-1466442929976-97f336a657be"
+              image: "/blog-images/udupi-temple.jpg",
+              readTime: "10 min read",
+              points: 8
             }
           ].map((article, i) => (
             <div key={i} className="border rounded-lg overflow-hidden hover:shadow-md transition-all group cursor-pointer">
               <div className="h-40 overflow-hidden relative">
                 <img 
-                  src={`https://images.unsplash.com/${article.image}`}
+                  src={article.image}
                   alt={article.title} 
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  onError={(e) => {
+                    // Fallback image if the custom one fails to load
+                    const target = e.target as HTMLImageElement;
+                    target.src = `https://images.unsplash.com/photo-${i === 0 ? '1517022812141-23620dba5c23' : '1466442929976-97f336a657be'}?w=800&q=80`;
+                  }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="absolute bottom-2 right-2 bg-tulu-blue/80 text-white text-xs px-2 py-1 rounded-full backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity">
+                  +{article.points} pts
+                </div>
               </div>
               <div className="p-4">
-                <span className="text-sm text-muted-foreground">{article.date}</span>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-muted-foreground">{article.date}</span>
+                  <span className="text-xs bg-tulu-sand/50 px-2 py-1 rounded-full">
+                    {article.readTime}
+                  </span>
+                </div>
                 <h4 className="font-medium mt-1 mb-3">{article.title}</h4>
                 <Button 
                   variant="link" 

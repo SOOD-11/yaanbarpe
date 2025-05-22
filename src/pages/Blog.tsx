@@ -1,14 +1,21 @@
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import BlogPost from '@/components/BlogPost';
 import RecentPosts from '@/components/RecentPosts';
+import BlogRecommendations from '@/components/BlogRecommendations';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Search } from 'lucide-react';
 import { Input } from '@/components/ui/input';
+import { toast } from '@/hooks/use-toast';
 
 const Blog = () => {
+  const [userPoints, setUserPoints] = useState(0);
+  const [userLevel, setUserLevel] = useState(1);
+  const [searchValue, setSearchValue] = useState('');
+  const [activeCategory, setActiveCategory] = useState<string | null>(null);
+  
   useEffect(() => {
     // Initialize scroll reveal animation
     const observer = new IntersectionObserver(
@@ -26,10 +33,48 @@ const Blog = () => {
       observer.observe(el);
     });
     
+    // Load user points and level
+    const storedPoints = localStorage.getItem('tuluPoints');
+    if (storedPoints) {
+      setUserPoints(parseInt(storedPoints));
+    }
+    
+    const storedLevel = localStorage.getItem('tuluLevel');
+    if (storedLevel) {
+      setUserLevel(parseInt(storedLevel));
+    }
+    
     return () => {
       observer.disconnect();
     };
   }, []);
+  
+  const addPoints = (amount: number, message: string) => {
+    // Update user points
+    setUserPoints(prev => prev + amount);
+    localStorage.setItem('tuluPoints', (userPoints + amount).toString());
+    
+    // Show toast notification
+    toast({
+      title: `+${amount} points`,
+      description: message,
+      duration: 2000,
+    });
+  };
+  
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchValue.trim()) {
+      addPoints(3, "Searched for content");
+    }
+  };
+  
+  const handleCategoryClick = (category: string) => {
+    setActiveCategory(prev => prev === category ? null : category);
+    if (activeCategory !== category) {
+      addPoints(2, `Browsing ${category} category`);
+    }
+  };
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -44,32 +89,49 @@ const Blog = () => {
               Explore our collection of stories, insights, and experiences that showcase the rich cultural tapestry of Tulu Nadu
             </p>
             
-            <div className="mt-8 max-w-xl mx-auto">
+            {/* User stats display */}
+            <div className="flex justify-center gap-4 mt-4">
+              <div className="bg-tulu-blue/10 rounded-full px-4 py-2 flex items-center gap-2">
+                <span className="text-tulu-gold font-bold">{userPoints}</span>
+                <span className="text-tulu-blue">Total Points</span>
+              </div>
+              
+              <div className="bg-tulu-red/10 rounded-full px-4 py-2 flex items-center gap-2">
+                <span className="text-tulu-red font-bold">Level {userLevel}</span>
+              </div>
+            </div>
+            
+            <form className="mt-8 max-w-xl mx-auto" onSubmit={handleSearch}>
               <div className="relative">
                 <Input 
                   placeholder="Search our stories..." 
                   className="pl-10 py-6 rounded-full border-tulu-blue/30 focus:border-tulu-blue"
+                  value={searchValue}
+                  onChange={(e) => setSearchValue(e.target.value)}
                 />
                 <Search className="absolute left-3 top-3 text-muted-foreground" size={18} />
+                <Button 
+                  type="submit"
+                  className="absolute right-1 top-1 bg-tulu-blue hover:bg-tulu-red rounded-full h-10"
+                >
+                  Search
+                </Button>
               </div>
-            </div>
+            </form>
             
             <div className="mt-8 flex flex-wrap justify-center gap-4">
-              <Button variant="outline" className="rounded-full border-tulu-blue/30 hover:bg-tulu-blue hover:text-white">
-                Cultural Heritage
-              </Button>
-              <Button variant="outline" className="rounded-full border-tulu-blue/30 hover:bg-tulu-blue hover:text-white">
-                Food & Cuisine
-              </Button>
-              <Button variant="outline" className="rounded-full border-tulu-blue/30 hover:bg-tulu-blue hover:text-white">
-                Festivals
-              </Button>
-              <Button variant="outline" className="rounded-full border-tulu-blue/30 hover:bg-tulu-blue hover:text-white">
-                Art Forms
-              </Button>
-              <Button variant="outline" className="rounded-full border-tulu-blue/30 hover:bg-tulu-blue hover:text-white">
-                History
-              </Button>
+              {["Cultural Heritage", "Food & Cuisine", "Festivals", "Art Forms", "History"].map((category) => (
+                <Button 
+                  key={category}
+                  variant="outline" 
+                  className={`rounded-full border-tulu-blue/30 hover:bg-tulu-blue hover:text-white ${
+                    activeCategory === category ? "bg-tulu-blue text-white" : ""
+                  }`}
+                  onClick={() => handleCategoryClick(category)}
+                >
+                  {category}
+                </Button>
+              ))}
             </div>
           </div>
 
@@ -77,7 +139,7 @@ const Blog = () => {
             featured={true}
             title="The Intricate Artistry of Yakshagana: A 700-Year Legacy"
             excerpt="Delve into the vibrant world of Yakshagana, the traditional theatre form that has shaped Tulu Nadu's cultural identity for centuries, featuring elaborate costumes, mesmerizing dance movements, and compelling storytelling techniques."
-            image="https://source.unsplash.com/photo-1581092795360-fd1ca04f0952"
+            image="/blog-images/yakshagana.jpg"
             date="May 18, 2025"
             readTime="12 min read"
             author="Deepak Shetty"
@@ -89,7 +151,7 @@ const Blog = () => {
             <BlogPost 
               title="Sacred Rituals of Bhuta Kola: Connecting with Guardian Spirits"
               excerpt="Experience the mystical ancient ritual of Bhuta Kola, where elaborate ceremonies invoke guardian spirits through sacred performances that have sustained coastal Karnataka's spiritual ecosystem."
-              image="https://source.unsplash.com/photo-1517022812141-23620dba5c23"
+              image="/blog-images/bhuta-kola.jpg"
               date="May 12, 2025"
               readTime="8 min read"
               author="Radha Hegde"
@@ -100,7 +162,7 @@ const Blog = () => {
             <BlogPost 
               title="Tulu Nadu's Culinary Secrets: Beyond the Coast"
               excerpt="Journey through the distinctive flavors of Tulu cuisine, from the fermented toddy-based Moode to the delicate Patrode, exploring ingredients, techniques, and cultural significance."
-              image="https://source.unsplash.com/photo-1618160702438-9b02ab6515c9"
+              image="/blog-images/tulu-food.jpg"
               date="May 8, 2025"
               readTime="10 min read"
               author="Akshay Kamath"
@@ -111,7 +173,7 @@ const Blog = () => {
             <BlogPost 
               title="The Ancient Tiger Dance of Mangaluru"
               excerpt="Discover the vibrant Pili Vesha (Tiger Dance) tradition that brings color and energy to Mangaluru's Dasara celebrations, with performers adorned in striking tiger body paint and costumes."
-              image="https://source.unsplash.com/photo-1469041797191-50ace28483c3"
+              image="/blog-images/tiger-dance.jpg"
               date="May 5, 2025"
               readTime="7 min read"
               author="Pramod Shetty"
@@ -121,7 +183,10 @@ const Blog = () => {
           </div>
 
           <div className="mt-12 text-center">
-            <Button className="bg-tulu-blue hover:bg-tulu-red transition-colors group">
+            <Button 
+              className="bg-tulu-blue hover:bg-tulu-red transition-colors group"
+              onClick={() => addPoints(5, "Exploring more articles")}
+            >
               View All Articles
               <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={18} />
             </Button>
@@ -129,6 +194,7 @@ const Blog = () => {
         </div>
       </div>
 
+      <BlogRecommendations />
       <RecentPosts />
       <Footer />
     </div>
