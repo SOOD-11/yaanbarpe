@@ -30,71 +30,62 @@ const BlogPost = ({
   audioAvailable = false
 }: BlogPostProps) => {
   const [isHovered, setIsHovered] = useState(false);
-  const [hasInteracted, setHasInteracted] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
-  const [earnedPoints, setEarnedPoints] = useState(0);
-
-  // Simplified point system - more user-friendly
+  
+  // Simple points system - no need for complex state
   const handleInteraction = () => {
-    if (!hasInteracted) {
-      setHasInteracted(true);
-      setTimeout(() => setHasInteracted(false), 1000);
-      
-      // Award points for interaction - simplified
-      const points = featured ? 5 : 3;
-      addPoints(points);
-      
-      // Show simple toast for better user experience
-      toast({
-        title: `+${points} points earned!`,
-        description: "Keep exploring to earn more points and level up!",
-        duration: 3000,
-      });
-    }
-  };
-  
-  // Simplified points notification
-  const addPoints = (amount: number) => {
-    setEarnedPoints(prev => prev + amount);
-    
-    // Update global points in localStorage for persistence
+    // Get current points from localStorage
     const currentPoints = Number(localStorage.getItem('tuluPoints') || '0');
-    localStorage.setItem('tuluPoints', (currentPoints + amount).toString());
+    const pointsToAdd = featured ? 5 : 3;
+    
+    // Update points in localStorage
+    localStorage.setItem('tuluPoints', (currentPoints + pointsToAdd).toString());
+    
+    // Show simple toast
+    toast({
+      title: `+${pointsToAdd} points!`,
+      description: "Keep exploring to discover more!",
+      duration: 2000,
+    });
   };
   
-  // Handle image loading with better fallbacks
+  // Handle image loading
   const handleImageLoad = () => {
     setImageLoaded(true);
   };
   
-  // Properly handle image URLs with fallbacks
+  // Get reliable image URL
   const getImageUrl = () => {
-    // Check if it's a blog-images path
-    if (image.startsWith('/blog-images/')) {
-      return image;
-    }
-    
-    // If it's an unsplash ID
-    if (image.startsWith('photo-')) {
-      return `https://images.unsplash.com/${image}?w=800&q=80`;
-    }
+    // Using Pexels images which are free and reliable
+    const pexelsImages = [
+      'https://images.pexels.com/photos/2832038/pexels-photo-2832038.jpeg',
+      'https://images.pexels.com/photos/698907/pexels-photo-698907.jpeg',
+      'https://images.pexels.com/photos/1098460/pexels-photo-1098460.jpeg',
+      'https://images.pexels.com/photos/1005417/pexels-photo-1005417.jpeg',
+      'https://images.pexels.com/photos/2649164/pexels-photo-2649164.jpeg',
+      'https://images.pexels.com/photos/2406371/pexels-photo-2406371.jpeg',
+    ];
     
     // If it's already a full URL
     if (image.startsWith('http')) {
       return image;
     }
     
-    // Fallback to a reliable free image
-    return 'https://images.pexels.com/photos/15286/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=800';
+    // For blog images in /blog-images
+    if (image.startsWith('/blog-images/')) {
+      return image;
+    }
+    
+    // Use a random Pexels image as fallback
+    return pexelsImages[Math.floor(Math.random() * pexelsImages.length)];
   };
 
   return (
     <div
       className={cn(
-        "scroll-reveal bg-white rounded-xl overflow-hidden shadow-lg transition-all duration-500 border border-border/30",
+        "scroll-reveal bg-white rounded-xl overflow-hidden shadow-lg transition-all duration-500 border border-[#00555A]/30",
         featured ? "grid md:grid-cols-2 gap-0" : "flex flex-col",
-        isHovered ? "transform -translate-y-2" : "",
-        hasInteracted ? "animate-pulse" : ""
+        isHovered ? "transform -translate-y-2" : ""
       )}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -120,19 +111,19 @@ const BlogPost = ({
           onError={(e) => {
             // If image fails, set a reliable fallback
             const target = e.target as HTMLImageElement;
-            target.src = "https://images.pexels.com/photos/3944154/pexels-photo-3944154.jpeg?auto=compress&cs=tinysrgb&w=800";
+            target.src = "https://images.pexels.com/photos/2647393/pexels-photo-2647393.jpeg";
             handleImageLoad();
           }}
         />
         <div className="absolute top-4 left-4">
-          <span className="bg-tulu-teal text-white text-xs font-medium px-3 py-1 rounded-full">
+          <span className="bg-[#00555A] text-white text-xs font-medium px-3 py-1 rounded-full">
             {category}
           </span>
         </div>
         
-        {/* Simplified points indicator */}
+        {/* Simple points indicator */}
         <div className="absolute top-4 right-4">
-          <span className="bg-tulu-red/90 text-white text-xs px-3 py-1 rounded-full">
+          <span className="bg-[#CC4E5C]/90 text-white text-xs px-3 py-1 rounded-full">
             +{featured ? 5 : 3} points
           </span>
         </div>
@@ -163,7 +154,7 @@ const BlogPost = ({
           <h3 className={cn(
             "font-display font-bold mb-3 transition-colors",
             featured ? "text-2xl md:text-3xl" : "text-xl",
-            isHovered ? "text-tulu-red" : "text-tulu-teal"
+            isHovered ? "text-[#CC4E5C]" : "text-[#00555A]"
           )}>
             {title}
           </h3>
@@ -176,10 +167,9 @@ const BlogPost = ({
             variant="outline" 
             className={cn(
               "transition-all duration-300 group",
-              isHovered ? "bg-tulu-teal text-white border-tulu-teal" : "text-tulu-teal border-tulu-teal hover:bg-tulu-teal hover:text-white"
+              isHovered ? "bg-[#00555A] text-white border-[#00555A]" : "text-[#00555A] border-[#00555A] hover:bg-[#00555A] hover:text-white"
             )}
             asChild
-            onClick={() => addPoints(featured ? 10 : 5)}
           >
             <Link to="/blog/yakshagana">
               Read More
@@ -195,13 +185,12 @@ const BlogPost = ({
               variant="ghost" 
               size="icon"
               className={cn(
-                "text-tulu-red hover:text-tulu-red/80 hover:bg-tulu-red/10",
-                isHovered ? "animate-bounce" : "animate-pulse"
+                "text-[#CC4E5C] hover:text-[#CC4E5C]/80 hover:bg-[#CC4E5C]/10",
+                isHovered ? "animate-pulse" : ""
               )}
               title="Listen to audio version"
               onClick={(e) => {
                 e.stopPropagation();
-                addPoints(2);
                 toast({
                   title: "Audio preview",
                   description: "Audio feature will be available soon!",

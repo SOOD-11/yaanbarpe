@@ -6,7 +6,7 @@ import BlogPost from '@/components/BlogPost';
 import RecentPosts from '@/components/RecentPosts';
 import BlogRecommendations from '@/components/BlogRecommendations';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Search } from 'lucide-react';
+import { ArrowRight, Search, Trophy, Star } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { toast } from '@/hooks/use-toast';
 
@@ -15,6 +15,7 @@ const Blog = () => {
   const [userLevel, setUserLevel] = useState(1);
   const [searchValue, setSearchValue] = useState('');
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
+  const [showLevelToast, setShowLevelToast] = useState(false);
   
   useEffect(() => {
     // Initialize scroll reveal animation
@@ -36,12 +37,21 @@ const Blog = () => {
     // Load user points and level
     const storedPoints = localStorage.getItem('tuluPoints');
     if (storedPoints) {
-      setUserPoints(parseInt(storedPoints));
-    }
-    
-    const storedLevel = localStorage.getItem('tuluLevel');
-    if (storedLevel) {
-      setUserLevel(parseInt(storedLevel));
+      const points = parseInt(storedPoints);
+      setUserPoints(points);
+      
+      // Calculate level (1 level per 20 points)
+      const newLevel = Math.max(1, Math.floor(points / 20) + 1);
+      setUserLevel(newLevel);
+      
+      // Store level
+      const storedLevel = localStorage.getItem('tuluLevel');
+      if (!storedLevel || parseInt(storedLevel) !== newLevel) {
+        localStorage.setItem('tuluLevel', newLevel.toString());
+        if (parseInt(storedLevel || '0') < newLevel) {
+          setShowLevelToast(true);
+        }
+      }
     }
     
     return () => {
@@ -49,18 +59,43 @@ const Blog = () => {
     };
   }, []);
   
-  // Simplified point system
+  // Show level up toast if needed
+  useEffect(() => {
+    if (showLevelToast) {
+      toast({
+        title: "🎉 Level Up!",
+        description: `Congratulations! You're now Level ${userLevel}!`,
+        duration: 5000,
+      });
+      setShowLevelToast(false);
+    }
+  }, [showLevelToast, userLevel]);
+  
+  // Simple point addition function
   const addPoints = (amount: number, message: string) => {
     // Update user points
-    setUserPoints(prev => prev + amount);
-    localStorage.setItem('tuluPoints', (userPoints + amount).toString());
+    const newPoints = userPoints + amount;
+    setUserPoints(newPoints);
+    localStorage.setItem('tuluPoints', newPoints.toString());
     
-    // Show toast notification
-    toast({
-      title: `+${amount} points`,
-      description: message,
-      duration: 2000,
-    });
+    // Check for level up
+    const newLevel = Math.max(1, Math.floor(newPoints / 20) + 1);
+    if (newLevel > userLevel) {
+      setUserLevel(newLevel);
+      localStorage.setItem('tuluLevel', newLevel.toString());
+      toast({
+        title: "🎉 Level Up!",
+        description: `Congratulations! You're now Level ${newLevel}!`,
+        duration: 5000,
+      });
+    } else {
+      // Show toast notification
+      toast({
+        title: `+${amount} points`,
+        description: message,
+        duration: 2000,
+      });
+    }
   };
   
   const handleSearch = (e: React.FormEvent) => {
@@ -84,28 +119,53 @@ const Blog = () => {
     }
   };
 
+  // Function to get badge count based on points
+  const getBadgeCount = () => {
+    return Math.floor(userPoints / 30);
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
       <Navigation />
-      <div className="bg-gradient-to-b from-tulu-beige/20 to-background pt-32">
+      <div className="bg-gradient-to-b from-[#EDE8D0]/20 to-background pt-32">
         <div className="container mx-auto py-8 px-4 md:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-12 scroll-reveal">
-            <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-tulu-teal">
-              Discover Tulu Nadu's <span className="text-tulu-red">Living Heritage</span>
+            <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-[#00555A]">
+              Discover Tulu Nadu's <span className="text-[#CC4E5C]">Living Heritage</span>
             </h1>
             <p className="text-muted-foreground text-lg">
               Explore our collection of stories, insights, and experiences that showcase the rich cultural tapestry of Tulu Nadu
             </p>
             
-            {/* Simplified user stats display */}
+            {/* User-friendly gamification display */}
             <div className="flex justify-center gap-4 mt-6">
-              <div className="bg-tulu-teal/10 rounded-full px-4 py-2 flex items-center gap-2">
-                <span className="text-tulu-red font-bold">{userPoints}</span>
-                <span className="text-tulu-teal">Total Points</span>
-              </div>
-              
-              <div className="bg-tulu-red/10 rounded-full px-4 py-2 flex items-center gap-2">
-                <span className="text-tulu-red font-bold">Level {userLevel}</span>
+              <div className="bg-white rounded-lg p-4 shadow-md flex items-center gap-4">
+                <div className="flex flex-col items-center">
+                  <div className="flex items-center gap-2">
+                    <Star className="text-[#E5B31B] w-5 h-5 fill-[#E5B31B]" />
+                    <span className="font-bold text-xl">{userPoints}</span>
+                  </div>
+                  <span className="text-sm text-muted-foreground">Points</span>
+                </div>
+                
+                <div className="h-10 border-l border-gray-200 mx-2"></div>
+                
+                <div className="flex flex-col items-center">
+                  <div className="flex items-center gap-2">
+                    <Trophy className="text-[#00555A] w-5 h-5" />
+                    <span className="font-bold text-xl">Level {userLevel}</span>
+                  </div>
+                  <span className="text-sm text-muted-foreground">Explorer</span>
+                </div>
+                
+                <div className="h-10 border-l border-gray-200 mx-2"></div>
+                
+                <div className="flex flex-col items-center">
+                  <div className="flex items-center gap-2">
+                    <span className="font-bold text-xl">🏆 {getBadgeCount()}</span>
+                  </div>
+                  <span className="text-sm text-muted-foreground">Badges</span>
+                </div>
               </div>
             </div>
             
@@ -113,14 +173,14 @@ const Blog = () => {
               <div className="relative">
                 <Input 
                   placeholder="Search our stories..." 
-                  className="pl-10 py-6 rounded-full border-tulu-teal/30 focus:border-tulu-teal"
+                  className="pl-10 py-6 rounded-full border-[#00555A]/30 focus:border-[#00555A]"
                   value={searchValue}
                   onChange={(e) => setSearchValue(e.target.value)}
                 />
                 <Search className="absolute left-3 top-3 text-muted-foreground" size={18} />
                 <Button 
                   type="submit"
-                  className="absolute right-1 top-1 bg-tulu-teal hover:bg-tulu-red rounded-full h-10"
+                  className="absolute right-1 top-1 bg-[#00555A] hover:bg-[#CC4E5C] rounded-full h-10"
                 >
                   Search
                 </Button>
@@ -132,8 +192,8 @@ const Blog = () => {
                 <Button 
                   key={category}
                   variant="outline" 
-                  className={`rounded-full border-tulu-teal/30 hover:bg-tulu-teal hover:text-white ${
-                    activeCategory === category ? "bg-tulu-teal text-white" : ""
+                  className={`rounded-full border-[#00555A]/30 hover:bg-[#00555A] hover:text-white ${
+                    activeCategory === category ? "bg-[#00555A] text-white" : ""
                   }`}
                   onClick={() => handleCategoryClick(category)}
                 >
@@ -147,7 +207,7 @@ const Blog = () => {
             featured={true}
             title="The Intricate Artistry of Yakshagana: A 700-Year Legacy"
             excerpt="Delve into the vibrant world of Yakshagana, the traditional theatre form that has shaped Tulu Nadu's cultural identity for centuries, featuring elaborate costumes, mesmerizing dance movements, and compelling storytelling techniques."
-            image="https://images.pexels.com/photos/2773927/pexels-photo-2773927.jpeg?auto=compress&cs=tinysrgb&w=800"
+            image="https://images.pexels.com/photos/2773927/pexels-photo-2773927.jpeg"
             date="May 18, 2025"
             readTime="12 min read"
             author="Deepak Shetty"
@@ -159,7 +219,7 @@ const Blog = () => {
             <BlogPost 
               title="Sacred Rituals of Bhuta Kola: Connecting with Guardian Spirits"
               excerpt="Experience the mystical ancient ritual of Bhuta Kola, where elaborate ceremonies invoke guardian spirits through sacred performances that have sustained coastal Karnataka's spiritual ecosystem."
-              image="https://images.pexels.com/photos/2675268/pexels-photo-2675268.jpeg?auto=compress&cs=tinysrgb&w=800"
+              image="https://images.pexels.com/photos/5859323/pexels-photo-5859323.jpeg"
               date="May 12, 2025"
               readTime="8 min read"
               author="Radha Hegde"
@@ -170,7 +230,7 @@ const Blog = () => {
             <BlogPost 
               title="Tulu Nadu's Culinary Secrets: Beyond the Coast"
               excerpt="Journey through the distinctive flavors of Tulu cuisine, from the fermented toddy-based Moode to the delicate Patrode, exploring ingredients, techniques, and cultural significance."
-              image="https://images.pexels.com/photos/958545/pexels-photo-958545.jpeg?auto=compress&cs=tinysrgb&w=800"
+              image="https://images.pexels.com/photos/958545/pexels-photo-958545.jpeg"
               date="May 8, 2025"
               readTime="10 min read"
               author="Akshay Kamath"
@@ -181,7 +241,7 @@ const Blog = () => {
             <BlogPost 
               title="The Ancient Tiger Dance of Mangaluru"
               excerpt="Discover the vibrant Pili Vesha (Tiger Dance) tradition that brings color and energy to Mangaluru's Dasara celebrations, with performers adorned in striking tiger body paint and costumes."
-              image="https://images.pexels.com/photos/1190298/pexels-photo-1190298.jpeg?auto=compress&cs=tinysrgb&w=800"
+              image="https://images.pexels.com/photos/1190298/pexels-photo-1190298.jpeg"
               date="May 5, 2025"
               readTime="7 min read"
               author="Pramod Shetty"
@@ -192,7 +252,7 @@ const Blog = () => {
 
           <div className="mt-12 text-center">
             <Button 
-              className="bg-tulu-teal hover:bg-tulu-red transition-colors group"
+              className="bg-[#00555A] hover:bg-[#CC4E5C] transition-colors group"
               onClick={() => addPoints(5, "Exploring more articles")}
             >
               View All Articles
