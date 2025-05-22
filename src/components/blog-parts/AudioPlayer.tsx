@@ -23,20 +23,20 @@ const AudioPlayer = ({
     
     if (isPlaying) {
       timer = setInterval(() => {
-        setProgress(prev => {
-          const newProgress = prev + 1;
-          if (newProgress >= 100) {
-            onToggleAudio();
-            clearInterval(timer);
-            return 100;
-          }
-          return newProgress;
-        });
+        // Calculate the new progress directly instead of using a function
+        const newProgress = progress + 1;
+        if (newProgress >= 100) {
+          onToggleAudio();
+          clearInterval(timer);
+          setProgress(100);
+        } else {
+          setProgress(newProgress);
+        }
       }, 300);
     }
     
     return () => clearInterval(timer);
-  }, [isPlaying, setProgress, onToggleAudio]);
+  }, [isPlaying, setProgress, onToggleAudio, progress]);
 
   return (
     <div className="mb-8 p-4 bg-[#00555A]/5 rounded-lg border border-[#00555A]/20 animate-fade-in">
