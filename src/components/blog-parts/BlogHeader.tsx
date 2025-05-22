@@ -1,0 +1,79 @@
+
+import { Calendar, Headphones } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
+import React from 'react';
+
+interface BlogHeaderProps {
+  category: string;
+  title: string;
+  date: string;
+  readTime: string;
+  author: string;
+  authorImage: string;
+  audioAvailable: boolean;
+  isAudioPlaying: boolean;
+  onToggleAudio: () => void;
+}
+
+const BlogHeader = ({
+  category,
+  title,
+  date,
+  readTime,
+  author,
+  authorImage,
+  audioAvailable,
+  isAudioPlaying,
+  onToggleAudio
+}: BlogHeaderProps) => {
+  return (
+    <div className="mb-8">
+      <span className="bg-[#00555A] text-white text-sm font-medium px-3 py-1 rounded-full">
+        {category}
+      </span>
+      
+      <h1 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold my-6 text-[#00555A]">
+        {title}
+      </h1>
+      
+      <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground mb-8">
+        <div className="flex items-center">
+          <Calendar className="w-4 h-4 mr-2" />
+          <span>{date}</span>
+        </div>
+        <span>•</span>
+        <span>{readTime}</span>
+        <span>•</span>
+        <div className="flex items-center">
+          <div className="w-6 h-6 rounded-full overflow-hidden mr-2">
+            <img src={authorImage} alt={author} className="w-full h-full object-cover" />
+          </div>
+          <span>{author}</span>
+        </div>
+        
+        {audioAvailable && (
+          <>
+            <span>•</span>
+            <Button 
+              variant="ghost" 
+              size="sm"
+              className={cn(
+                "flex items-center gap-1 h-8 px-3",
+                isAudioPlaying 
+                  ? "bg-[#00555A] text-white" 
+                  : "text-[#00555A] hover:text-[#00555A]/80 hover:bg-[#00555A]/10"
+              )}
+              onClick={onToggleAudio}
+            >
+              <Headphones className="w-4 h-4" />
+              <span>{isAudioPlaying ? "Pause" : "Listen"}</span>
+            </Button>
+          </>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default BlogHeader;

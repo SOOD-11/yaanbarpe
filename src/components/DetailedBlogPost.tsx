@@ -1,11 +1,25 @@
 
-import { Headphones, Calendar, ArrowRight } from 'lucide-react';
+import { Headphones, Calendar } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import React from 'react';
 import { toast } from '@/hooks/use-toast';
+import { addPoints, updateStreak } from '@/lib/gamification';
+import { FactCard } from '@/components/ui/fact-card';
+import { CommentSection } from '@/components/comments/CommentSection';
+
+// Import smaller components
+import BlogHeader from './blog-parts/BlogHeader';
+import BlogImage from './blog-parts/BlogImage';
+import AudioPlayer from './blog-parts/AudioPlayer';
+import ReadingProgress from './blog-parts/ReadingProgress';
+import BlogStats from './blog-parts/BlogStats';
+import KnowledgeQuiz from './blog-parts/KnowledgeQuiz';
+import RelatedArticles from './blog-parts/RelatedArticles';
+import AuthorInfo from './blog-parts/AuthorInfo';
+import ReactionBar from './blog-parts/ReactionBar';
 
 interface DetailedBlogPostProps {
   title: string;
@@ -34,50 +48,11 @@ const DetailedBlogPost = ({
 }: DetailedBlogPostProps) => {
   const [isAudioPlaying, setIsAudioPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
-  const [hasReaction, setHasReaction] = useState(false);
-  const [reactionCount, setReactionCount] = useState(42);
-  const [isSaved, setIsSaved] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [readingPoints, setReadingPoints] = useState(0);
-  const [gamificationLevel, setGamificationLevel] = useState(1);
-  const [showConfetti, setShowConfetti] = useState(false);
-  const [imageLoaded, setImageLoaded] = useState(false);
-  const [knowledgeScore, setKnowledgeScore] = useState(0);
-  const [quizCompleted, setQuizCompleted] = useState(false);
   const [streakDays, setStreakDays] = useState(1);
   
-  // Handle audio toggle
-  const toggleAudio = () => {
-    setIsAudioPlaying(!isAudioPlaying);
-    
-    if (!isAudioPlaying) {
-      addReadingPoints(5, "Started listening");
-    }
-  };
-  
-  // Simulate audio progress
-  useEffect(() => {
-    let timer: NodeJS.Timeout;
-    
-    if (isAudioPlaying) {
-      timer = setInterval(() => {
-        setProgress(prev => {
-          const newProgress = prev + 1;
-          if (newProgress >= 100) {
-            setIsAudioPlaying(false);
-            clearInterval(timer);
-            addReadingPoints(15, "Completed listening");
-            return 100;
-          }
-          return newProgress;
-        });
-      }, 300);
-    }
-    
-    return () => clearInterval(timer);
-  }, [isAudioPlaying]);
-  
-  // Track reading progress
+  // Track reading progress 
   useEffect(() => {
     const handleScroll = () => {
       const windowHeight = window.innerHeight;
@@ -99,132 +74,34 @@ const DetailedBlogPost = ({
     return () => window.removeEventListener('scroll', handleScroll);
   }, [readingPoints]);
   
-  // Update gamification level based on points
+  // Update streak
   useEffect(() => {
-    const newLevel = Math.floor(readingPoints / 10) + 1;
-    if (newLevel > gamificationLevel) {
-      setGamificationLevel(newLevel);
-      createConfetti();
-      setShowConfetti(true);
-      setTimeout(() => setShowConfetti(false), 3000);
-    }
-  }, [readingPoints, gamificationLevel]);
-  
-  // Load streak data
-  useEffect(() => {
-    const lastVisit = localStorage.getItem('lastVisit');
-    const today = new Date().toDateString();
-    
-    if (lastVisit) {
-      const lastDate = new Date(lastVisit);
-      const currentDate = new Date();
-      const diffTime = Math.abs(currentDate.getTime() - lastDate.getTime());
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-      
-      if (diffDays === 1) {
-        // Consecutive day
-        const currentStreak = Number(localStorage.getItem('streakDays') || '1');
-        setStreakDays(currentStreak + 1);
-        localStorage.setItem('streakDays', (currentStreak + 1).toString());
-        
-        if ((currentStreak + 1) % 5 === 0) {
-          // Milestone streak
-          addReadingPoints(currentStreak + 1, `${currentStreak + 1} day streak bonus!`);
-          toast({
-            title: "Streak Milestone!",
-            description: `You've maintained a ${currentStreak + 1} day reading streak!`,
-            duration: 5000,
-          });
-        }
-      } else if (diffDays > 1) {
-        // Streak broken
-        setStreakDays(1);
-        localStorage.setItem('streakDays', '1');
-      } else {
-        // Same day, maintain streak
-        setStreakDays(Number(localStorage.getItem('streakDays') || '1'));
-      }
-    }
-    
-    localStorage.setItem('lastVisit', today);
+    const currentStreak = updateStreak();
+    setStreakDays(currentStreak);
   }, []);
   
-  // Create confetti effect
-  const createConfetti = () => {
-    const colors = ['#E5B31B', '#105082', '#982220', '#1D7850'];
-    const confettiCount = 100;
+  // Handle audio toggle
+  const toggleAudio = () => {
+    setIsAudioPlaying(!isAudioPlaying);
     
-    for (let i = 0; i < confettiCount; i++) {
-      const confetti = document.createElement('div');
-      confetti.className = 'confetti';
-      confetti.style.left = `${Math.random() * 100}%`;
-      confetti.style.setProperty('--color', colors[Math.floor(Math.random() * colors.length)]);
-      confetti.style.animationDuration = `${Math.random() * 3 + 2}s`;
-      confetti.style.animationDelay = `${Math.random() * 0.5}s`;
-      document.body.appendChild(confetti);
-      
-      setTimeout(() => {
-        document.body.removeChild(confetti);
-      }, 5000);
+    if (!isAudioPlaying) {
+      addReadingPoints(5, "Started listening");
     }
   };
   
-  const toggleReaction = () => {
-    if (hasReaction) {
-      setReactionCount(prev => prev - 1);
-    } else {
-      setReactionCount(prev => prev + 1);
-      addReadingPoints(2, "Liked article");
-    }
-    setHasReaction(!hasReaction);
-  };
-  
-  const toggleSave = () => {
-    setIsSaved(!isSaved);
-    if (!isSaved) {
-      addReadingPoints(3, "Saved article");
-      
-      toast({
-        title: "Article Saved!",
-        description: "You can access this article in your reading list",
-        duration: 3000,
-      });
-    }
-  };
-  
+  // Add points helper
   const addReadingPoints = (points: number, message: string) => {
     setReadingPoints(prev => prev + points);
+    const levelUp = addPoints(points, message);
     
-    // Update global points in localStorage
-    const currentGlobalPoints = Number(localStorage.getItem('tuluPoints') || '0');
-    localStorage.setItem('tuluPoints', (currentGlobalPoints + points).toString());
+    // Dispatch event for points display components
+    window.dispatchEvent(new Event('pointsUpdated'));
     
     // Show points notification
-    const notification = document.createElement('div');
-    notification.className = 'fixed top-20 right-8 bg-tulu-gold text-white px-3 py-1 rounded-full animate-bounce z-50 flex items-center gap-2';
-    notification.innerHTML = `<span>+${points}</span><span>${message}</span>`;
-    document.body.appendChild(notification);
-    
-    setTimeout(() => {
-      document.body.removeChild(notification);
-    }, 3000);
-  };
-  
-  // Handle image loading
-  const handleImageLoad = () => {
-    setImageLoaded(true);
-  };
-  
-  const takeKnowledgeQuiz = () => {
-    setQuizCompleted(true);
-    const quizScore = Math.floor(Math.random() * 3) + 3; // Random score between 3-5
-    setKnowledgeScore(quizScore);
-    addReadingPoints(quizScore * 2, `Quiz completed! +${quizScore * 2} points`);
-    
     toast({
-      title: "Knowledge Check Complete!",
-      description: `You scored ${quizScore}/5 in the quiz`,
-      duration: 5000,
+      title: `+${points} points`,
+      description: message,
+      duration: 2000,
     });
   };
   
@@ -242,202 +119,53 @@ const DetailedBlogPost = ({
     // Fallback
     imageUrl = "https://images.unsplash.com/photo-1472396961693-142e6e269027?w=1200&q=80";
   }
-  
+
   return (
     <div className="max-w-4xl mx-auto">
       {/* Reading progress bar */}
-      <div className="fixed top-0 left-0 w-full h-1 bg-gray-200 z-50">
-        <div 
-          className="h-full bg-tulu-gold transition-all duration-300"
-          style={{ width: `${scrollProgress}%` }}
+      <ReadingProgress progress={scrollProgress} />
+      
+      {/* Points display (moved to BlogStats component) */}
+      <BlogStats readingPoints={readingPoints} streakDays={streakDays} />
+      
+      <BlogHeader 
+        category={category}
+        title={title}
+        date={date}
+        readTime={readTime}
+        author={author}
+        authorImage={authorImage}
+        audioAvailable={audioAvailable}
+        isAudioPlaying={isAudioPlaying}
+        onToggleAudio={toggleAudio}
+      />
+      
+      {/* Audio player */}
+      {audioAvailable && isAudioPlaying && (
+        <AudioPlayer 
+          progress={progress}
+          setProgress={setProgress}
+          readTime={readTime}
+          onToggleAudio={toggleAudio}
+          isPlaying={isAudioPlaying}
         />
-      </div>
+      )}
       
-      {/* Points and level display */}
-      <div className="fixed top-4 right-4 bg-tulu-blue text-white px-4 py-2 rounded-full z-50 flex items-center gap-2 shadow-lg">
-        <span className="text-tulu-gold font-bold">{readingPoints}</span>
-        <span>Points</span>
-        <span className="bg-tulu-gold text-white w-6 h-6 rounded-full flex items-center justify-center ml-2">
-          {gamificationLevel}
-        </span>
-      </div>
+      {/* Did You Know fact card */}
+      <FactCard />
       
-      {/* Reading streak */}
-      <div className="fixed top-4 left-4 bg-tulu-gold text-white px-4 py-2 rounded-full z-50 flex items-center gap-2 shadow-lg">
-        <span className="text-white font-bold">{streakDays}</span>
-        <span>Day Streak 🔥</span>
-      </div>
-      
-      <div className="mb-8">
-        <span className="bg-tulu-gold text-white text-sm font-medium px-3 py-1 rounded-full">
-          {category}
-        </span>
-        
-        <h1 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold my-6 text-tulu-blue">
-          {title}
-        </h1>
-        
-        <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground mb-8">
-          <div className="flex items-center">
-            <Calendar className="w-4 h-4 mr-2" />
-            <span>{date}</span>
-          </div>
-          <span>•</span>
-          <span>{readTime}</span>
-          <span>•</span>
-          <div className="flex items-center">
-            <div className="w-6 h-6 rounded-full overflow-hidden mr-2">
-              <img src={authorImage} alt={author} className="w-full h-full object-cover" />
-            </div>
-            <span>{author}</span>
-          </div>
-          
-          {audioAvailable && (
-            <>
-              <span>•</span>
-              <Button 
-                variant="ghost" 
-                size="sm"
-                className={cn(
-                  "flex items-center gap-1 h-8 px-3",
-                  isAudioPlaying 
-                    ? "bg-tulu-gold text-white" 
-                    : "text-tulu-gold hover:text-tulu-gold/80 hover:bg-tulu-gold/10"
-                )}
-                onClick={toggleAudio}
-              >
-                <Headphones className="w-4 h-4" />
-                <span>{isAudioPlaying ? "Pause" : "Listen"}</span>
-              </Button>
-            </>
-          )}
-        </div>
-        
-        {/* Audio player */}
-        {audioAvailable && isAudioPlaying && (
-          <div className="mb-8 p-4 bg-tulu-blue/5 rounded-lg border border-tulu-blue/20 animate-fade-in">
-            <div className="flex items-center gap-3">
-              <Button 
-                variant="ghost" 
-                size="icon" 
-                className="text-tulu-blue hover:text-tulu-red"
-                onClick={toggleAudio}
-              >
-                {isAudioPlaying ? "⏸️" : "▶️"}
-              </Button>
-              <div className="flex-1">
-                <div className="h-2 bg-gray-200 rounded-full">
-                  <div 
-                    className="h-full bg-tulu-gold rounded-full transition-all"
-                    style={{ width: `${progress}%` }}
-                  ></div>
-                </div>
-              </div>
-              <span className="text-sm text-muted-foreground">
-                {`${Math.floor(progress / 100 * parseInt(readTime.split(" ")[0]))}:00`} / {`${readTime.split(" ")[0]}:00`}
-              </span>
-            </div>
-          </div>
-        )}
-      </div>
-      
-      {/* Main image with loading state */}
-      <div className="rounded-2xl overflow-hidden mb-10 image-shine relative">
-        {!imageLoaded && (
-          <div className="absolute inset-0 bg-gray-200 animate-pulse flex items-center justify-center">
-            <span className="text-gray-400">Loading image...</span>
-          </div>
-        )}
-        <img 
-          src={imageUrl}
-          alt={title}
-          className={cn(
-            "w-full h-auto object-cover transition-opacity duration-500",
-            imageLoaded ? "opacity-100" : "opacity-0"
-          )}
-          onLoad={handleImageLoad}
-          onError={(e) => {
-            // Fallback image if the main one fails
-            const target = e.target as HTMLImageElement;
-            target.src = "https://images.unsplash.com/photo-1472396961693-142e6e269027?w=1200&q=80";
-            handleImageLoad();
-          }}
-        />
-      </div>
+      {/* Main image */}
+      <BlogImage imageUrl={imageUrl} title={title} />
       
       <div className="prose prose-lg max-w-none">
         {content}
       </div>
       
-      {/* Knowledge Quiz Section */}
-      {!quizCompleted ? (
-        <div className="my-10 p-6 bg-tulu-blue/10 rounded-xl border border-tulu-blue/20">
-          <h3 className="text-xl font-bold text-tulu-blue mb-3">Test Your Knowledge</h3>
-          <p className="mb-4">Complete a short quiz to reinforce what you learned and earn extra points!</p>
-          <Button 
-            className="bg-tulu-blue hover:bg-tulu-red transition-colors"
-            onClick={takeKnowledgeQuiz}
-          >
-            Take Quiz
-          </Button>
-        </div>
-      ) : (
-        <div className="my-10 p-6 bg-tulu-green/10 rounded-xl border border-tulu-green/20">
-          <div className="flex items-center justify-between">
-            <div>
-              <h3 className="text-xl font-bold text-tulu-green mb-1">Quiz Completed!</h3>
-              <p className="mb-2">You scored {knowledgeScore}/5 on the knowledge check</p>
-              <div className="flex">
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <div 
-                    key={i} 
-                    className={`w-5 h-5 rounded-full mr-1 ${i < knowledgeScore ? 'bg-tulu-green' : 'bg-gray-300'}`}
-                  />
-                ))}
-              </div>
-            </div>
-            <div className="text-4xl">🧠</div>
-          </div>
-        </div>
-      )}
+      {/* Knowledge Quiz */}
+      <KnowledgeQuiz onQuizComplete={(score) => addReadingPoints(score * 2, `Quiz completed! +${score * 2} points`)} />
       
       {/* Interactive engagement section */}
-      <div className="mt-8 p-4 bg-tulu-sand/20 rounded-lg border border-tulu-sand flex items-center justify-between">
-        <div className="flex gap-4">
-          <Button
-            variant="ghost"
-            size="sm"
-            className={cn(
-              "flex gap-2 items-center transition-all",
-              hasReaction ? "text-tulu-red bg-tulu-red/10" : ""
-            )}
-            onClick={toggleReaction}
-          >
-            {hasReaction ? "❤️" : "🤍"} {reactionCount}
-          </Button>
-          
-          <Button
-            variant="ghost"
-            size="sm"
-            className="flex gap-2 items-center"
-            onClick={() => addReadingPoints(1, "Shared article")}
-          >
-            📤 Share
-          </Button>
-        </div>
-        
-        <Button
-          variant="ghost"
-          size="sm"
-          className={cn(
-            "flex gap-2 items-center transition-all",
-            isSaved ? "text-tulu-blue bg-tulu-blue/10" : ""
-          )}
-          onClick={toggleSave}
-        >
-          {isSaved ? "📑" : "🔖"} {isSaved ? "Saved" : "Save"}
-        </Button>
-      </div>
+      <ReactionBar onInteraction={(points, message) => addReadingPoints(points, message)} />
       
       <div className="mt-8">
         <h5 className="text-sm font-medium mb-3">Related Topics:</h5>
@@ -445,7 +173,7 @@ const DetailedBlogPost = ({
           {tags.map((tag, index) => (
             <span 
               key={index} 
-              className="bg-tulu-sand px-3 py-1 rounded-full text-sm hover:bg-tulu-sand/80 cursor-pointer transition-colors"
+              className="bg-[#EDE8D0] px-3 py-1 rounded-full text-sm hover:bg-[#EDE8D0]/80 cursor-pointer transition-colors"
               onClick={() => addReadingPoints(1, `Clicked ${tag} tag`)}
             >
               {tag}
@@ -454,108 +182,20 @@ const DetailedBlogPost = ({
         </div>
       </div>
       
+      {/* Comments Section */}
+      <CommentSection postTitle={title} />
+      
       <Separator className="my-10" />
       
-      <div className="rounded-xl border p-6 flex flex-col sm:flex-row gap-6 items-center hover:border-tulu-blue transition-colors">
-        <div className="w-20 h-20 rounded-full overflow-hidden shrink-0">
-          <img src={authorImage} alt={author} className="w-full h-full object-cover" />
-        </div>
-        
-        <div>
-          <h3 className="text-xl font-semibold mb-2">About {author}</h3>
-          <p className="text-muted-foreground mb-4">
-            Cultural researcher and writer specializing in the traditions and heritage of Tulu Nadu. With over a decade of experience documenting the region's unique practices.
-          </p>
-          <Button 
-            variant="outline" 
-            size="sm" 
-            className="text-tulu-blue"
-            onClick={() => addReadingPoints(2, "Viewed author profile")}
-          >
-            View More Articles
-          </Button>
-        </div>
-      </div>
+      {/* Author info */}
+      <AuthorInfo 
+        author={author}
+        authorImage={authorImage}
+        onViewProfile={() => addReadingPoints(2, "Viewed author profile")}
+      />
       
-      <div className="mt-16">
-        <h3 className="font-display text-2xl font-bold mb-6">Related Articles</h3>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          {[
-            {
-              title: "The Annual Tiger Dance Festival of Mangaluru",
-              date: "April 22, 2025",
-              image: "/blog-images/tiger-dance.jpg",
-              readTime: "8 min read",
-              points: 7
-            },
-            {
-              title: "Exploring the Temple Architecture of Udupi",
-              date: "May 1, 2025",
-              image: "/blog-images/udupi-temple.jpg",
-              readTime: "10 min read",
-              points: 8
-            }
-          ].map((article, i) => (
-            <div key={i} className="border rounded-lg overflow-hidden hover:shadow-md transition-all group cursor-pointer">
-              <div className="h-40 overflow-hidden relative">
-                <img 
-                  src={article.image}
-                  alt={article.title} 
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  onError={(e) => {
-                    // Fallback image if the custom one fails to load
-                    const target = e.target as HTMLImageElement;
-                    target.src = `https://images.unsplash.com/photo-${i === 0 ? '1517022812141-23620dba5c23' : '1466442929976-97f336a657be'}?w=800&q=80`;
-                  }}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <div className="absolute bottom-2 right-2 bg-tulu-blue/80 text-white text-xs px-2 py-1 rounded-full backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity">
-                  +{article.points} pts
-                </div>
-              </div>
-              <div className="p-4">
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-muted-foreground">{article.date}</span>
-                  <span className="text-xs bg-tulu-sand/50 px-2 py-1 rounded-full">
-                    {article.readTime}
-                  </span>
-                </div>
-                <h4 className="font-medium mt-1 mb-3">{article.title}</h4>
-                <Button 
-                  variant="link" 
-                  className="text-tulu-blue p-0 h-auto flex items-center group"
-                  onClick={() => addReadingPoints(3, "Clicked related article")}
-                >
-                  Read Article
-                  <ArrowRight className="ml-1 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </Button>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-      
-      {/* Achievement popup */}
-      {readingPoints >= 20 && (
-        <div className="fixed bottom-4 right-4 bg-tulu-gold text-white p-4 rounded-lg shadow-lg z-50 animate-fade-in flex items-center gap-3">
-          <div className="text-3xl">🏆</div>
-          <div>
-            <h4 className="font-bold">Achievement Unlocked!</h4>
-            <p>Cultural Explorer: Read a full article</p>
-          </div>
-        </div>
-      )}
-      
-      {/* Level up animation */}
-      {showConfetti && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
-          <div className="bg-black/70 text-white px-8 py-6 rounded-xl backdrop-blur-sm animate-scale-in text-center">
-            <div className="text-5xl mb-2">🎉</div>
-            <h2 className="text-3xl font-bold text-tulu-gold mb-1">Level Up!</h2>
-            <p className="text-xl">You're now level {gamificationLevel}</p>
-          </div>
-        </div>
-      )}
+      {/* Related articles */}
+      <RelatedArticles onArticleClick={() => addReadingPoints(3, "Clicked related article")} />
     </div>
   );
 };

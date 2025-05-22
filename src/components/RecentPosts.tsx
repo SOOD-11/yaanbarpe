@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import { toast } from '@/hooks/use-toast';
+import { addPoints, getUserPoints, getUserLevel } from '@/lib/gamification';
 
 // Updated posts with reliable images
 const recentPosts = [
@@ -46,15 +47,22 @@ const RecentPosts = () => {
   
   useEffect(() => {
     // Check for stored points and level
-    const storedPoints = localStorage.getItem('tuluPoints');
-    if (storedPoints) {
-      setUserPoints(parseInt(storedPoints));
-    }
+    setUserPoints(getUserPoints());
+    setUserLevel(getUserLevel());
     
-    const storedLevel = localStorage.getItem('tuluLevel');
-    if (storedLevel) {
-      setUserLevel(parseInt(storedLevel));
-    }
+    // Listen for points updates
+    const handlePointsUpdate = () => {
+      setUserPoints(getUserPoints());
+      setUserLevel(getUserLevel());
+    };
+    
+    window.addEventListener('pointsUpdated', handlePointsUpdate);
+    window.addEventListener('storage', handlePointsUpdate);
+    
+    return () => {
+      window.removeEventListener('pointsUpdated', handlePointsUpdate);
+      window.removeEventListener('storage', handlePointsUpdate);
+    };
   }, []);
   
   const handlePostHover = (id: number | null) => {
@@ -65,31 +73,24 @@ const RecentPosts = () => {
     setImagesLoaded(prev => ({ ...prev, [id]: true }));
   };
   
-  // Simplified point system
-  const addPoints = (amount: number, message: string) => {
-    // Update points
-    const newPoints = userPoints + amount;
-    setUserPoints(newPoints);
-    localStorage.setItem('tuluPoints', newPoints.toString());
+  const handlePostClick = (post: typeof recentPosts[0]) => {
+    const levelUp = addPoints(post.pointValue, `Selected ${post.title}`);
     
-    // Check for level up
-    const newLevel = Math.max(1, Math.floor(newPoints / 20) + 1);
-    if (newLevel > userLevel) {
-      setUserLevel(newLevel);
-      localStorage.setItem('tuluLevel', newLevel.toString());
+    if (levelUp > 0) {
+      setUserLevel(levelUp);
       setShowLevelUp(true);
-      
       setTimeout(() => {
         setShowLevelUp(false);
       }, 3000);
     }
     
-    // Show toast notification
-    toast({
-      title: `+${amount} points`,
-      description: message,
-      duration: 2000,
-    });
+    handleShowBadge(post.id);
+    
+    // Update points display
+    setUserPoints(getUserPoints());
+    
+    // Dispatch event for other components
+    window.dispatchEvent(new Event('pointsUpdated'));
   };
 
   const handleShowBadge = (id: number) => {
@@ -122,17 +123,14 @@ const RecentPosts = () => {
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {recentPosts.map((post, index) => (
+          {recentPosts.map((post) => (
             <div 
               key={post.id} 
               className="bg-white overflow-hidden rounded-lg shadow-md hover:shadow-lg transition-all cursor-pointer scroll-reveal group"
-              style={{ animationDelay: `${index * 100}ms` }}
+              style={{ animationDelay: `${(post.id - 1) * 100}ms` }}
               onMouseEnter={() => handlePostHover(post.id)}
               onMouseLeave={() => handlePostHover(null)}
-              onClick={() => {
-                addPoints(post.pointValue, `Selected ${post.title}`);
-                handleShowBadge(post.id);
-              }}
+              onClick={() => handlePostClick(post)}
             >
               <div className="relative h-48 overflow-hidden">
                 {/* Loading placeholder */}

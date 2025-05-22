@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from '@/hooks/use-toast';
+import { addPoints } from '@/lib/gamification';
 
 interface BlogPostProps {
   featured?: boolean;
@@ -32,29 +33,32 @@ const BlogPost = ({
   const [isHovered, setIsHovered] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
   
-  // Simple points system - no need for complex state
   const handleInteraction = () => {
-    // Get current points from localStorage
-    const currentPoints = Number(localStorage.getItem('tuluPoints') || '0');
     const pointsToAdd = featured ? 5 : 3;
+    const levelUp = addPoints(pointsToAdd, "Keep exploring to discover more!");
     
-    // Update points in localStorage
-    localStorage.setItem('tuluPoints', (currentPoints + pointsToAdd).toString());
+    if (levelUp > 0) {
+      toast({
+        title: "Level Up!",
+        description: `You've reached level ${levelUp}!`,
+        duration: 3000,
+      });
+    } else {
+      toast({
+        title: `+${pointsToAdd} points!`,
+        description: "Keep exploring to discover more!",
+        duration: 2000,
+      });
+    }
     
-    // Show simple toast
-    toast({
-      title: `+${pointsToAdd} points!`,
-      description: "Keep exploring to discover more!",
-      duration: 2000,
-    });
+    // Dispatch custom event to update points display
+    window.dispatchEvent(new Event('pointsUpdated'));
   };
   
-  // Handle image loading
   const handleImageLoad = () => {
     setImageLoaded(true);
   };
   
-  // Get reliable image URL
   const getImageUrl = () => {
     // Using Pexels images which are free and reliable
     const pexelsImages = [
