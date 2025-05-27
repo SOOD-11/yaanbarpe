@@ -1,29 +1,27 @@
 
-import { Headphones, Calendar } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
-import { useState, useEffect } from 'react';
-import { cn } from '@/lib/utils';
 import React from 'react';
+import { useState, useEffect } from 'react';
 import { toast } from '@/hooks/use-toast';
 import { addPoints, updateStreak } from '@/lib/gamification';
 import { FactCard } from '@/components/ui/fact-card';
 import { CommentSection } from '@/components/comments/CommentSection';
+import { Separator } from '@/components/ui/separator';
 
 // Import smaller components
 import BlogHeader from './blog-parts/BlogHeader';
 import BlogImage from './blog-parts/BlogImage';
-import AudioPlayer from './blog-parts/AudioPlayer';
 import ReadingProgress from './blog-parts/ReadingProgress';
 import BlogStats from './blog-parts/BlogStats';
 import KnowledgeQuiz from './blog-parts/KnowledgeQuiz';
 import RelatedArticles from './blog-parts/RelatedArticles';
 import AuthorInfo from './blog-parts/AuthorInfo';
 import ReactionBar from './blog-parts/ReactionBar';
+import TextToSpeech from './blog-parts/TextToSpeech';
+import AdSpace from './blog-parts/AdSpace';
 
 interface DetailedBlogPostProps {
   title: string;
-  content: React.ReactNode;
+  content: string;
   image: string;
   date: string;
   readTime: string;
@@ -46,8 +44,6 @@ const DetailedBlogPost = ({
   tags,
   audioAvailable = false
 }: DetailedBlogPostProps) => {
-  const [isAudioPlaying, setIsAudioPlaying] = useState(false);
-  const [progress, setProgress] = useState(0);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [readingPoints, setReadingPoints] = useState(0);
   const [streakDays, setStreakDays] = useState(1);
@@ -79,15 +75,6 @@ const DetailedBlogPost = ({
     const currentStreak = updateStreak();
     setStreakDays(currentStreak);
   }, []);
-  
-  // Handle audio toggle
-  const toggleAudio = () => {
-    setIsAudioPlaying(!isAudioPlaying);
-    
-    if (!isAudioPlaying) {
-      addReadingPoints(5, "Started listening");
-    }
-  };
   
   // Add points helper
   const addReadingPoints = (points: number, message: string) => {
@@ -121,12 +108,15 @@ const DetailedBlogPost = ({
   }
 
   return (
-    <div className="max-w-4xl mx-auto">
+    <div className="max-w-4xl mx-auto space-y-8">
       {/* Reading progress bar */}
       <ReadingProgress progress={scrollProgress} />
       
-      {/* Points display (moved to BlogStats component) */}
+      {/* Points display */}
       <BlogStats readingPoints={readingPoints} streakDays={streakDays} />
+      
+      {/* Top Ad Space */}
+      <AdSpace position="top" size="large" />
       
       <BlogHeader 
         category={category}
@@ -136,19 +126,13 @@ const DetailedBlogPost = ({
         author={author}
         authorImage={authorImage}
         audioAvailable={audioAvailable}
-        isAudioPlaying={isAudioPlaying}
-        onToggleAudio={toggleAudio}
+        isAudioPlaying={false}
+        onToggleAudio={() => {}}
       />
       
-      {/* Audio player */}
-      {audioAvailable && isAudioPlaying && (
-        <AudioPlayer 
-          progress={progress}
-          setProgress={setProgress}
-          readTime={readTime}
-          onToggleAudio={toggleAudio}
-          isPlaying={isAudioPlaying}
-        />
+      {/* Text to Speech Component */}
+      {audioAvailable && (
+        <TextToSpeech text={content} title={title} />
       )}
       
       {/* Did You Know fact card */}
@@ -157,8 +141,17 @@ const DetailedBlogPost = ({
       {/* Main image */}
       <BlogImage imageUrl={imageUrl} title={title} />
       
-      <div className="prose prose-lg max-w-none">
-        {content}
+      {/* Article content with proper spacing */}
+      <div className="prose prose-lg max-w-none space-y-6">
+        <div 
+          dangerouslySetInnerHTML={{ __html: content }}
+          className="leading-relaxed text-gray-700"
+        />
+      </div>
+      
+      {/* Middle Ad Space */}
+      <div className="my-12">
+        <AdSpace position="middle" size="medium" />
       </div>
       
       {/* Knowledge Quiz */}
@@ -167,13 +160,14 @@ const DetailedBlogPost = ({
       {/* Interactive engagement section */}
       <ReactionBar onInteraction={(points, message) => addReadingPoints(points, message)} />
       
-      <div className="mt-8">
-        <h5 className="text-sm font-medium mb-3">Related Topics:</h5>
-        <div className="flex flex-wrap gap-2">
+      {/* Tags section with better spacing */}
+      <div className="bg-[#EDE8D0]/20 p-6 rounded-lg">
+        <h5 className="text-sm font-medium mb-4 text-[#00555A]">Related Topics:</h5>
+        <div className="flex flex-wrap gap-3">
           {tags.map((tag, index) => (
             <span 
               key={index} 
-              className="bg-[#EDE8D0] px-3 py-1 rounded-full text-sm hover:bg-[#EDE8D0]/80 cursor-pointer transition-colors"
+              className="bg-[#EDE8D0] hover:bg-[#00555A] hover:text-white px-4 py-2 rounded-full text-sm cursor-pointer transition-all duration-300 hover:scale-105"
               onClick={() => addReadingPoints(1, `Clicked ${tag} tag`)}
             >
               {tag}
@@ -182,20 +176,29 @@ const DetailedBlogPost = ({
         </div>
       </div>
       
-      {/* Comments Section */}
-      <CommentSection postTitle={title} />
+      {/* Bottom Ad Space */}
+      <AdSpace position="bottom" size="medium" />
       
-      <Separator className="my-10" />
+      {/* Comments Section with enhanced spacing */}
+      <div className="py-8">
+        <CommentSection postTitle={title} />
+      </div>
+      
+      <Separator className="my-12" />
       
       {/* Author info */}
-      <AuthorInfo 
-        author={author}
-        authorImage={authorImage}
-        onViewProfile={() => addReadingPoints(2, "Viewed author profile")}
-      />
+      <div className="bg-white p-8 rounded-xl shadow-sm border">
+        <AuthorInfo 
+          author={author}
+          authorImage={authorImage}
+          onViewProfile={() => addReadingPoints(2, "Viewed author profile")}
+        />
+      </div>
       
       {/* Related articles */}
-      <RelatedArticles onArticleClick={() => addReadingPoints(3, "Clicked related article")} />
+      <div className="py-8">
+        <RelatedArticles onArticleClick={() => addReadingPoints(3, "Clicked related article")} />
+      </div>
     </div>
   );
 };

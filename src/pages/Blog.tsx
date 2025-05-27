@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
@@ -12,6 +11,8 @@ import { toast } from '@/hooks/use-toast';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getUserPoints, getUserLevel, addPoints } from '@/lib/gamification';
+import { blogPosts } from '@/lib/blogData';
+import AdSpace from '@/components/blog-parts/AdSpace';
 
 const Blog = () => {
   const [userPoints, setUserPoints] = useState(0);
@@ -107,14 +108,18 @@ const Blog = () => {
   // Available categories
   const categories = [
     "Cultural Heritage",
-    "Food & Cuisine",
+    "Food & Cuisine", 
     "Festivals",
-    "Art Forms", 
+    "Art Forms",
     "History",
     "Traditions",
     "Nature",
     "Travel"
   ];
+
+  // Get blog posts from our data
+  const featuredPosts = blogPosts.filter(post => post.featured);
+  const allPosts = blogPosts;
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -125,12 +130,17 @@ const Blog = () => {
             <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-[#00555A]">
               Discover Tulu Nadu's <span className="text-[#CC4E5C]">Living Heritage</span>
             </h1>
-            <p className="text-muted-foreground text-lg">
+            <p className="text-muted-foreground text-lg mb-8">
               Explore our collection of stories, insights, and experiences that showcase the rich cultural tapestry of Tulu Nadu
             </p>
             
+            {/* Sidebar Ad */}
+            <div className="hidden lg:block fixed right-4 top-1/2 transform -translate-y-1/2 w-64 z-40">
+              <AdSpace position="sidebar" size="small" />
+            </div>
+            
             {/* User-friendly gamification display */}
-            <div className="flex justify-center gap-4 mt-6">
+            <div className="flex justify-center gap-4 mb-8">
               <div className="bg-white rounded-lg p-4 shadow-md flex items-center gap-4 hover:shadow-lg transition-shadow">
                 <div className="flex flex-col items-center">
                   <div className="flex items-center gap-2">
@@ -260,45 +270,51 @@ const Blog = () => {
             </TabsList>
 
             <TabsContent value="featured" className="animate-fade-in">
-              <BlogPost 
-                featured={true}
-                title="The Intricate Artistry of Yakshagana: A 700-Year Legacy"
-                excerpt="Delve into the vibrant world of Yakshagana, the traditional theatre form that has shaped Tulu Nadu's cultural identity for centuries, featuring elaborate costumes, mesmerizing dance movements, and compelling storytelling techniques."
-                image="https://images.pexels.com/photos/2773927/pexels-photo-2773927.jpeg"
-                date="May 18, 2025"
-                readTime="12 min read"
-                author="Deepak Shetty"
-                category="Cultural Heritage"
-                audioAvailable={true}
-              />
+              {featuredPosts.length > 0 && (
+                <BlogPost 
+                  featured={true}
+                  title={featuredPosts[0].title}
+                  excerpt={featuredPosts[0].excerpt}
+                  image={featuredPosts[0].image}
+                  date={featuredPosts[0].date}
+                  readTime={featuredPosts[0].readTime}
+                  author={featuredPosts[0].author}
+                  category={featuredPosts[0].category}
+                  audioAvailable={featuredPosts[0].audioAvailable}
+                />
+              )}
             </TabsContent>
 
             <TabsContent value="popular" className="animate-fade-in">
-              <BlogPost 
-                featured={true}
-                title="Sacred Rituals of Bhuta Kola: Connecting with Guardian Spirits"
-                excerpt="Experience the mystical ancient ritual of Bhuta Kola, where elaborate ceremonies invoke guardian spirits through sacred performances that have sustained coastal Karnataka's spiritual ecosystem for generations."
-                image="https://images.pexels.com/photos/5859323/pexels-photo-5859323.jpeg"
-                date="May 12, 2025"
-                readTime="8 min read"
-                author="Radha Hegde"
-                category="Spiritual Traditions"
-                audioAvailable={true}
-              />
+              {allPosts.length > 1 && (
+                <BlogPost 
+                  featured={true}
+                  title={allPosts[1].title}
+                  excerpt={allPosts[1].excerpt}
+                  image={allPosts[1].image}
+                  date={allPosts[1].date}
+                  readTime={allPosts[1].readTime}
+                  author={allPosts[1].author}
+                  category={allPosts[1].category}
+                  audioAvailable={allPosts[1].audioAvailable}
+                />
+              )}
             </TabsContent>
 
             <TabsContent value="recent" className="animate-fade-in">
-              <BlogPost 
-                featured={true}
-                title="Coastal Cuisine: The Flavors that Define Tulu Nadu"
-                excerpt="Explore the distinctive culinary traditions of coastal Karnataka, where coconut, fresh seafood, and unique spice blends come together to create a cuisine unlike any other in India."
-                image="https://images.pexels.com/photos/958545/pexels-photo-958545.jpeg"
-                date="May 21, 2025"
-                readTime="10 min read"
-                author="Akshay Kamath"
-                category="Food & Cuisine"
-                audioAvailable={false}
-              />
+              {allPosts.length > 2 && (
+                <BlogPost 
+                  featured={true}
+                  title={allPosts[2].title}
+                  excerpt={allPosts[2].excerpt}
+                  image={allPosts[2].image}
+                  date={allPosts[2].date}
+                  readTime={allPosts[2].readTime}
+                  author={allPosts[2].author}
+                  category={allPosts[2].category}
+                  audioAvailable={allPosts[2].audioAvailable}
+                />
+              )}
             </TabsContent>
 
             <TabsContent value="recommended" className="animate-fade-in">
@@ -310,87 +326,37 @@ const Blog = () => {
                 <p className="text-sm text-muted-foreground">These are personalized selections based on articles you've enjoyed previously.</p>
               </div>
 
-              <BlogPost 
-                featured={true}
-                title="The Ancient Tiger Dance of Mangaluru"
-                excerpt="Discover the vibrant Pili Vesha (Tiger Dance) tradition that brings color and energy to Mangaluru's Dasara celebrations, with performers adorned in striking tiger body paint and costumes."
-                image="https://images.pexels.com/photos/1190298/pexels-photo-1190298.jpeg"
-                date="May 5, 2025"
-                readTime="7 min read"
-                author="Pramod Shetty"
-                category="Folk Traditions"
-                audioAvailable={false}
-              />
+              {allPosts.length > 3 && (
+                <BlogPost 
+                  featured={true}
+                  title={allPosts[3].title}
+                  excerpt={allPosts[3].excerpt}
+                  image={allPosts[3].image}
+                  date={allPosts[3].date}
+                  readTime={allPosts[3].readTime}
+                  author={allPosts[3].author}
+                  category={allPosts[3].category}
+                  audioAvailable={allPosts[3].audioAvailable}
+                />
+              )}
             </TabsContent>
           </Tabs>
 
+          {/* All blog posts grid with better spacing */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-16">
-            <BlogPost 
-              title="Sacred Rituals of Bhuta Kola: Connecting with Guardian Spirits"
-              excerpt="Experience the mystical ancient ritual of Bhuta Kola, where elaborate ceremonies invoke guardian spirits through sacred performances that have sustained coastal Karnataka's spiritual ecosystem."
-              image="https://images.pexels.com/photos/5859323/pexels-photo-5859323.jpeg"
-              date="May 12, 2025"
-              readTime="8 min read"
-              author="Radha Hegde"
-              category="Spiritual Traditions"
-              audioAvailable={true}
-            />
-
-            <BlogPost 
-              title="Tulu Nadu's Culinary Secrets: Beyond the Coast"
-              excerpt="Journey through the distinctive flavors of Tulu cuisine, from the fermented toddy-based Moode to the delicate Patrode, exploring ingredients, techniques, and cultural significance."
-              image="https://images.pexels.com/photos/958545/pexels-photo-958545.jpeg"
-              date="May 8, 2025"
-              readTime="10 min read"
-              author="Akshay Kamath"
-              category="Food & Culture"
-              audioAvailable={false}
-            />
-            
-            <BlogPost 
-              title="The Ancient Tiger Dance of Mangaluru"
-              excerpt="Discover the vibrant Pili Vesha (Tiger Dance) tradition that brings color and energy to Mangaluru's Dasara celebrations, with performers adorned in striking tiger body paint and costumes."
-              image="https://images.pexels.com/photos/1190298/pexels-photo-1190298.jpeg"
-              date="May 5, 2025"
-              readTime="7 min read"
-              author="Pramod Shetty"
-              category="Folk Traditions"
-              audioAvailable={false}
-            />
-            
-            {/* Add more blog posts */}
-            <BlogPost 
-              title="The Temples of Udupi: A Spiritual Journey"
-              excerpt="Explore the architectural marvels and spiritual significance of Udupi's ancient temples, including the famous Krishna Temple that draws pilgrims from across the country."
-              image="https://images.pexels.com/photos/6444367/pexels-photo-6444367.jpeg"
-              date="May 3, 2025"
-              readTime="9 min read"
-              author="Veena Rao"
-              category="Spiritual Traditions"
-              audioAvailable={true}
-            />
-            
-            <BlogPost 
-              title="Kambala: The Buffalo Race Tradition"
-              excerpt="Dive into the controversial yet culturally significant buffalo race of Tulu Nadu, its history, modern adaptations, and the communities that keep this ancient tradition alive."
-              image="https://images.pexels.com/photos/2959610/pexels-photo-2959610.jpeg"
-              date="April 28, 2025"
-              readTime="11 min read"
-              author="Ganesh Shetty"
-              category="Folk Traditions"
-              audioAvailable={false}
-            />
-            
-            <BlogPost 
-              title="The Linguistic Treasures of Tulu"
-              excerpt="Learn about efforts to preserve the endangered Tulu language, its unique grammatical structures, rich oral traditions, and the cultural knowledge embedded within it."
-              image="https://images.pexels.com/photos/6457521/pexels-photo-6457521.jpeg"
-              date="April 22, 2025"
-              readTime="8 min read"
-              author="Dr. Sulochana Nayak"
-              category="Language & Heritage"
-              audioAvailable={true}
-            />
+            {allPosts.map((post, index) => (
+              <BlogPost 
+                key={post.id}
+                title={post.title}
+                excerpt={post.excerpt}
+                image={post.image}
+                date={post.date}
+                readTime={post.readTime}
+                author={post.author}
+                category={post.category}
+                audioAvailable={post.audioAvailable}
+              />
+            ))}
           </div>
 
           <div className="mt-12 text-center">
