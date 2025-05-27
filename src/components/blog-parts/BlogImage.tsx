@@ -43,19 +43,19 @@ const BlogImage = ({ imageUrl, title }: BlogImageProps) => {
       onMouseLeave={() => setIsHovering(false)}
     >
       {!imageLoaded && (
-        <div className="absolute inset-0 bg-gray-200 animate-pulse flex items-center justify-center">
+        <div className="w-full h-96 bg-gray-200 animate-pulse flex items-center justify-center">
           <span className="text-gray-400">Loading image...</span>
         </div>
       )}
       
-      {/* Main image */}
+      {/* Main image - FIXED: No disappearing, stable display */}
       <div className="overflow-hidden">
         <img 
           src={imageUrl}
           alt={title}
           className={cn(
-            "w-full h-auto object-cover transition-all duration-700",
-            isZoomed ? "scale-125" : isHovering ? "scale-110" : "scale-100",
+            "w-full h-auto object-cover transition-transform duration-300",
+            isZoomed ? "scale-105" : "scale-100",
             imageLoaded ? "opacity-100" : "opacity-0"
           )}
           onLoad={handleImageLoad}
@@ -68,26 +68,26 @@ const BlogImage = ({ imageUrl, title }: BlogImageProps) => {
         />
       </div>
       
-      {/* Image caption */}
-      <div className="bg-[#00555A]/80 text-white text-sm py-2 px-4 absolute bottom-0 left-0 right-0 transform transition-transform duration-300">
-        {title}
+      {/* Image caption - always visible */}
+      <div className="bg-[#00555A]/90 text-white text-sm py-3 px-4">
+        <p className="font-medium">{title}</p>
       </div>
       
-      {/* Hover controls */}
+      {/* Hover controls - fixed positioning */}
       {imageLoaded && (
         <div className={cn(
           "absolute top-4 right-4 flex gap-2 transition-opacity duration-300",
           isHovering ? "opacity-100" : "opacity-0"
         )}>
           <button 
-            className="bg-white/80 hover:bg-white p-2 rounded-full shadow-md transition-all hover:scale-110"
+            className="bg-white/90 hover:bg-white p-2 rounded-full shadow-md transition-all hover:scale-110"
             onClick={toggleZoom}
             title={isZoomed ? "Reset zoom" : "Zoom image"}
           >
             <ZoomIn className="h-5 w-5 text-[#00555A]" />
           </button>
           <button 
-            className="bg-white/80 hover:bg-white p-2 rounded-full shadow-md transition-all hover:scale-110"
+            className="bg-white/90 hover:bg-white p-2 rounded-full shadow-md transition-all hover:scale-110"
             onClick={handleDownload}
             title="Download image"
           >

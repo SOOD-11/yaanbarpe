@@ -81,7 +81,7 @@ const BlogPost = ({
   return (
     <div
       className={cn(
-        "scroll-reveal bg-white rounded-xl overflow-hidden shadow-lg transition-all duration-500 border border-[#00555A]/30 hover:shadow-xl",
+        "scroll-reveal bg-white rounded-xl overflow-hidden shadow-lg transition-all duration-300 border border-[#00555A]/30 hover:shadow-xl",
         featured ? "grid md:grid-cols-2 gap-0" : "flex flex-col",
         isHovered ? "transform -translate-y-1 shadow-2xl" : ""
       )}
@@ -96,13 +96,13 @@ const BlogPost = ({
           </div>
         )}
         
-        {/* Image that doesn't disappear on hover */}
+        {/* FIXED: Image that stays visible and doesn't disappear */}
         <img 
           src={getImageUrl()} 
           alt={title} 
           className={cn(
-            "w-full h-full object-cover transition-transform duration-500", 
-            isHovered ? "scale-105" : "scale-100",
+            "w-full h-full object-cover transition-transform duration-300", 
+            isHovered ? "scale-102" : "scale-100",
             imageLoaded ? "opacity-100" : "opacity-0"
           )}
           onLoad={handleImageLoad}
@@ -127,9 +127,9 @@ const BlogPost = ({
           </span>
         </div>
         
-        {/* Overlay on hover */}
+        {/* Subtle overlay on hover - doesn't hide image */}
         <div className={cn(
-          "absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent transition-opacity duration-300",
+          "absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent transition-opacity duration-300",
           isHovered ? "opacity-100" : "opacity-0"
         )}>
           <div className="absolute bottom-4 left-4 right-4">
