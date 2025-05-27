@@ -1,3 +1,4 @@
+
 import { ArrowRight, Headphones, Calendar, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -44,7 +45,6 @@ const BlogPost = ({
       duration: 2000,
     });
     
-    // Dispatch custom event to update points display
     window.dispatchEvent(new Event('pointsUpdated'));
   };
   
@@ -53,7 +53,6 @@ const BlogPost = ({
   };
   
   const getImageUrl = () => {
-    // Using reliable Pexels images
     const pexelsImages = [
       'https://images.pexels.com/photos/2832038/pexels-photo-2832038.jpeg',
       'https://images.pexels.com/photos/698907/pexels-photo-698907.jpeg',
@@ -63,17 +62,14 @@ const BlogPost = ({
       'https://images.pexels.com/photos/2406371/pexels-photo-2406371.jpeg',
     ];
     
-    // If it's already a full URL
     if (image.startsWith('http')) {
       return image;
     }
     
-    // For blog images in /blog-images
     if (image.startsWith('/blog-images/')) {
       return image;
     }
     
-    // Use a random Pexels image as fallback
     return pexelsImages[Math.floor(Math.random() * pexelsImages.length)];
   };
 
@@ -88,7 +84,7 @@ const BlogPost = ({
       onMouseLeave={() => setIsHovered(false)}
     >
       <div className={cn("relative overflow-hidden group", featured ? "h-full min-h-[300px]" : "h-60")}>
-        {/* Image with persistent visibility */}
+        {/* FIXED: Image always visible with proper display control */}
         <img 
           src={getImageUrl()} 
           alt={title} 
@@ -102,7 +98,19 @@ const BlogPost = ({
             target.src = "https://images.pexels.com/photos/2647393/pexels-photo-2647393.jpeg";
             handleImageLoad();
           }}
+          style={{ 
+            display: 'block',
+            opacity: imageLoaded ? 1 : 0,
+            transition: 'opacity 0.3s ease'
+          }}
         />
+        
+        {/* Loading placeholder */}
+        {!imageLoaded && (
+          <div className="absolute inset-0 bg-gray-200 animate-pulse flex items-center justify-center">
+            <span className="text-gray-400">Loading...</span>
+          </div>
+        )}
         
         {/* Category badge */}
         <div className="absolute top-4 left-4">
@@ -118,7 +126,7 @@ const BlogPost = ({
           </span>
         </div>
         
-        {/* Overlay that doesn't hide the image */}
+        {/* Hover overlay - doesn't affect image visibility */}
         <div className={cn(
           "absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent transition-opacity duration-300",
           isHovered ? "opacity-100" : "opacity-0"

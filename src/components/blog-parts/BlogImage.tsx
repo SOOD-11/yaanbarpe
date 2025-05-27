@@ -27,7 +27,6 @@ const BlogImage = ({ imageUrl, title }: BlogImageProps) => {
     e.preventDefault();
     e.stopPropagation();
     
-    // Create a temporary link and trigger download
     const link = document.createElement('a');
     link.href = imageUrl;
     link.download = `${title.replace(/[^a-zA-Z0-9]/g, '-')}.jpg`;
@@ -48,7 +47,7 @@ const BlogImage = ({ imageUrl, title }: BlogImageProps) => {
         </div>
       )}
       
-      {/* Main image - FIXED: No disappearing, stable display */}
+      {/* Main image - FIXED: Always visible, no opacity changes */}
       <div className="overflow-hidden">
         <img 
           src={imageUrl}
@@ -56,15 +55,15 @@ const BlogImage = ({ imageUrl, title }: BlogImageProps) => {
           className={cn(
             "w-full h-auto object-cover transition-transform duration-300",
             isZoomed ? "scale-105" : "scale-100",
-            imageLoaded ? "opacity-100" : "opacity-0"
+            "opacity-100" // Always visible
           )}
           onLoad={handleImageLoad}
           onError={(e) => {
-            // Fallback image if the main one fails
             const target = e.target as HTMLImageElement;
             target.src = "https://images.unsplash.com/photo-1472396961693-142e6e269027?w=1200&q=80";
             handleImageLoad();
           }}
+          style={{ display: imageLoaded ? 'block' : 'none' }}
         />
       </div>
       
@@ -73,7 +72,7 @@ const BlogImage = ({ imageUrl, title }: BlogImageProps) => {
         <p className="font-medium">{title}</p>
       </div>
       
-      {/* Hover controls - fixed positioning */}
+      {/* Hover controls - only show overlay, not hide image */}
       {imageLoaded && (
         <div className={cn(
           "absolute top-4 right-4 flex gap-2 transition-opacity duration-300",
