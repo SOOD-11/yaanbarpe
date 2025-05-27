@@ -1,4 +1,3 @@
-
 import { ArrowRight, Headphones, Calendar, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -89,21 +88,13 @@ const BlogPost = ({
       onMouseLeave={() => setIsHovered(false)}
     >
       <div className={cn("relative overflow-hidden group", featured ? "h-full min-h-[300px]" : "h-60")}>
-        {/* Loading placeholder */}
-        {!imageLoaded && (
-          <div className="absolute inset-0 bg-gray-200 animate-pulse flex items-center justify-center">
-            <span className="text-gray-400">Loading image...</span>
-          </div>
-        )}
-        
-        {/* FIXED: Image that stays visible and doesn't disappear */}
+        {/* Image with persistent visibility */}
         <img 
           src={getImageUrl()} 
           alt={title} 
           className={cn(
-            "w-full h-full object-cover transition-transform duration-300", 
-            isHovered ? "scale-102" : "scale-100",
-            imageLoaded ? "opacity-100" : "opacity-0"
+            "w-full h-full object-cover transition-transform duration-500",
+            isHovered ? "scale-105" : "scale-100"
           )}
           onLoad={handleImageLoad}
           onError={(e) => {
@@ -127,7 +118,7 @@ const BlogPost = ({
           </span>
         </div>
         
-        {/* Subtle overlay on hover - doesn't hide image */}
+        {/* Overlay that doesn't hide the image */}
         <div className={cn(
           "absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent transition-opacity duration-300",
           isHovered ? "opacity-100" : "opacity-0"

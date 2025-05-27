@@ -108,9 +108,9 @@ const Blog = () => {
     <div className="min-h-screen flex flex-col">
       <Navigation />
       
-      {/* Non-intrusive Newsletter Popup */}
+      {/* Newsletter popup with fixed positioning and higher z-index */}
       {showNewsletter && (
-        <div className="fixed bottom-4 right-4 z-50 max-w-sm">
+        <div className="fixed bottom-4 right-4 z-[100] max-w-sm">
           <div className="bg-white rounded-lg shadow-xl border border-[#00555A]/20 p-4 animate-slide-up">
             <div className="flex justify-between items-start mb-2">
               <h3 className="font-bold text-[#00555A] text-sm">Cultural Newsletter</h3>
