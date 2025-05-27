@@ -1,11 +1,11 @@
-
 import React from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { toast } from '@/hooks/use-toast';
 import { addPoints, updateStreak } from '@/lib/gamification';
 import { FactCard } from '@/components/ui/fact-card';
 import { CommentSection } from '@/components/comments/CommentSection';
 import { Separator } from '@/components/ui/separator';
+import { Button } from '@/components/ui/button';
 
 // Import smaller components
 import BlogHeader from './blog-parts/BlogHeader';
@@ -48,6 +48,8 @@ const DetailedBlogPost = ({
   const [readingPoints, setReadingPoints] = useState(0);
   const [streakDays, setStreakDays] = useState(1);
   const [hasReachedEnd, setHasReachedEnd] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const speechRef = useRef<SpeechSynthesisUtterance | null>(null);
   
   // Track reading progress 
   useEffect(() => {
@@ -78,6 +80,25 @@ const DetailedBlogPost = ({
     const currentStreak = updateStreak();
     setStreakDays(currentStreak);
   }, []);
+
+  // Add proper level-up timing
+  useEffect(() => {
+    const startTime = Date.now();
+    
+    return () => {
+      const timeSpent = (Date.now() - startTime) / 1000; // Convert to seconds
+      if (timeSpent >= 120) { // Only award points after 2 minutes
+        const points = Math.min(25, Math.floor(timeSpent / 60) * 5);
+        addPoints(points, `Completed reading article (${Math.floor(timeSpent)} seconds)`);
+        
+        toast({
+          title: `🎉 Article Completed! +${points} points!`,
+          description: "Thanks for taking the time to read thoroughly!",
+          duration: 4000
+        });
+      }
+    };
+  }, []);
   
   // Add points helper - FIXED: Control level up notifications
   const addReadingPoints = (points: number, message: string, showLevelUp: boolean = false) => {
@@ -100,6 +121,24 @@ const DetailedBlogPost = ({
         description: message,
         duration: 2000,
       });
+    }
+  };
+
+  const handleTextToSpeech = () => {
+    if (!isPlaying) {
+      const utterance = new SpeechSynthesisUtterance(content);
+      speechRef.current = utterance;
+      window.speechSynthesis.speak(utterance);
+      setIsPlaying(true);
+      
+      utterance.onend = () => {
+        setIsPlaying(false);
+        speechRef.current = null;
+      };
+    } else {
+      window.speechSynthesis.cancel();
+      setIsPlaying(false);
+      speechRef.current = null;
     }
   };
   
@@ -137,9 +176,26 @@ const DetailedBlogPost = ({
         author={author}
         authorImage={authorImage}
         audioAvailable={audioAvailable}
-        isAudioPlaying={false}
-        onToggleAudio={() => {}}
+        isAudioPlaying={isPlaying}
+        onToggleAudio={handleTextToSpeech}
       />
+      
+      {/* Audio controls */}
+      {audioAvailable && (
+        <div className="bg-white rounded-lg p-4 shadow-sm mb-8 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleTextToSpeech}
+              className={isPlaying ? "bg-[#00555A] text-white" : ""}
+            >
+              {isPlaying ? "Stop" : "Listen"} to Article
+            </Button>
+            {isPlaying && <span className="text-sm text-muted-foreground">Playing...</span>}
+          </div>
+        </div>
+      )}
       
       {/* Text to Speech Component */}
       {audioAvailable && (
