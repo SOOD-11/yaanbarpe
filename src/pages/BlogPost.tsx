@@ -4,13 +4,15 @@ import Footer from '@/components/Footer';
 import DetailedBlogPost from '@/components/DetailedBlogPost';
 import { useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Calendar } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { ArrowLeft } from 'lucide-react';
+import { Link, useParams } from 'react-router-dom';
 import { addPoints } from '@/lib/gamification';
 import { toast } from '@/hooks/use-toast';
-import { blogPosts } from '@/lib/blogData';
+import { getBlogPostById } from '@/lib/blogData';
 
 const BlogPostPage = () => {
+  const { postId } = useParams();
+  
   // Initialize scroll reveal animation
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -36,25 +38,37 @@ const BlogPostPage = () => {
       
       // Calculate reading time when leaving the page
       const timeSpent = Math.floor((new Date().getTime() - pageLoadTime.getTime()) / 1000);
-      if (timeSpent > 30) {
-        // Only award points if they spent at least 30 seconds
-        const pointsToAward = Math.min(15, Math.floor(timeSpent / 30));
-        addPoints(pointsToAward, `Read article for ${Math.floor(timeSpent / 60)} minutes`);
+      if (timeSpent > 120) { // Only award points if they spent at least 2 minutes
+        const pointsToAward = Math.min(25, Math.floor(timeSpent / 60) * 5);
+        addPoints(pointsToAward, `Completed reading article: ${timeSpent} seconds`);
         
         // Show toast if enough points earned
-        if (pointsToAward >= 5) {
+        if (pointsToAward >= 10) {
           toast({
-            title: `+${pointsToAward} reading points!`,
-            description: "Thanks for taking the time to read this article",
-            duration: 3000
+            title: `🎉 Article Completed! +${pointsToAward} points!`,
+            description: "You've finished reading this article. Great job!",
+            duration: 4000
           });
         }
       }
     };
   }, []);
 
-  // Get the first blog post (Yakshagana article) from our data
-  const currentPost = blogPosts[0];
+  // Get the blog post by ID or default to first post
+  const currentPost = getBlogPostById(postId || 'yakshagana-legacy') || {
+    id: 'default',
+    title: 'Welcome to Tulu Nadu Heritage',
+    content: '<p>Explore the rich cultural heritage of Tulu Nadu...</p>',
+    image: 'https://images.pexels.com/photos/2773927/pexels-photo-2773927.jpeg',
+    date: 'May 25, 2025',
+    readTime: '5 min read',
+    author: 'YaanBarpe Team',
+    authorImage: 'https://i.pravatar.cc/150?img=1',
+    category: 'Cultural Heritage',
+    tags: ['Culture', 'Heritage', 'Tulu Nadu'],
+    excerpt: 'Discover the vibrant culture of Tulu Nadu',
+    audioAvailable: true
+  };
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -90,7 +104,6 @@ const BlogPostPage = () => {
           <div className="mt-12 border-t border-gray-200 pt-8">
             <div className="flex flex-col md:flex-row justify-between items-center gap-6 bg-white p-6 rounded-lg shadow-sm">
               <div className="flex items-center gap-2">
-                <Calendar className="w-4 h-4 text-muted-foreground" />
                 <span className="text-sm text-muted-foreground">Last updated: {currentPost.date}</span>
               </div>
               <div className="flex items-center gap-4">

@@ -5,7 +5,7 @@ import BlogPost from '@/components/BlogPost';
 import RecentPosts from '@/components/RecentPosts';
 import BlogRecommendations from '@/components/BlogRecommendations';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Search, Trophy, Star, Filter, Calendar, BookOpen } from 'lucide-react';
+import { ArrowRight, Search, Trophy, Star, Filter, Calendar, BookOpen, X } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { toast } from '@/hooks/use-toast';
 import { Badge } from '@/components/ui/badge';
@@ -19,8 +19,8 @@ const Blog = () => {
   const [userLevel, setUserLevel] = useState(1);
   const [searchValue, setSearchValue] = useState('');
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
-  const [showLevelToast, setShowLevelToast] = useState(false);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [showNewsletter, setShowNewsletter] = useState(false);
   
   useEffect(() => {
     // Initialize scroll reveal animation
@@ -46,13 +46,6 @@ const Blog = () => {
     const level = getUserLevel();
     setUserLevel(level);
     
-    // Check for any existing level up notifications
-    const levelUpPending = localStorage.getItem('levelUpPending');
-    if (levelUpPending === 'true') {
-      setShowLevelToast(true);
-      localStorage.removeItem('levelUpPending');
-    }
-    
     // Listen for points updates
     const handlePointsUpdate = () => {
       setUserPoints(getUserPoints());
@@ -61,30 +54,23 @@ const Blog = () => {
     
     window.addEventListener('pointsUpdated', handlePointsUpdate);
     
+    // Show newsletter popup after 3 seconds, but make it non-intrusive
+    const timer = setTimeout(() => {
+      setShowNewsletter(true);
+    }, 3000);
+    
     return () => {
       observer.disconnect();
       window.removeEventListener('pointsUpdated', handlePointsUpdate);
+      clearTimeout(timer);
     };
   }, []);
-  
-  // Show level up toast if needed
-  useEffect(() => {
-    if (showLevelToast) {
-      toast({
-        title: "🎉 Level Up!",
-        description: `Congratulations! You're now Level ${userLevel}!`,
-        duration: 5000,
-      });
-      setShowLevelToast(false);
-    }
-  }, [showLevelToast, userLevel]);
   
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchValue.trim()) {
       addPoints(3, "Searching for content");
       
-      // Show a helpful message about search
       toast({
         title: "Search in progress",
         description: "Finding the best content for you!",
@@ -100,12 +86,10 @@ const Blog = () => {
     }
   };
 
-  // Function to get badge count based on points
   const getBadgeCount = () => {
     return Math.floor(userPoints / 30);
   };
   
-  // Available categories
   const categories = [
     "Cultural Heritage",
     "Food & Cuisine", 
@@ -117,13 +101,48 @@ const Blog = () => {
     "Travel"
   ];
 
-  // Get blog posts from our data
   const featuredPosts = blogPosts.filter(post => post.featured);
   const allPosts = blogPosts;
 
   return (
     <div className="min-h-screen flex flex-col">
       <Navigation />
+      
+      {/* Non-intrusive Newsletter Popup */}
+      {showNewsletter && (
+        <div className="fixed bottom-4 right-4 z-50 max-w-sm">
+          <div className="bg-white rounded-lg shadow-xl border border-[#00555A]/20 p-4 animate-slide-up">
+            <div className="flex justify-between items-start mb-2">
+              <h3 className="font-bold text-[#00555A] text-sm">Cultural Newsletter</h3>
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                className="h-6 w-6 p-0"
+                onClick={() => setShowNewsletter(false)}
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
+            <p className="text-xs text-muted-foreground mb-3">Weekly insights into Tulu Nadu's heritage</p>
+            <Button 
+              size="sm" 
+              className="bg-[#00555A] hover:bg-[#CC4E5C] text-white w-full"
+              onClick={() => {
+                addPoints(5, "Subscribed to newsletter");
+                setShowNewsletter(false);
+                toast({
+                  title: "Subscribed! +5 points",
+                  description: "Welcome to our cultural newsletter!",
+                  duration: 3000,
+                });
+              }}
+            >
+              Subscribe
+            </Button>
+          </div>
+        </div>
+      )}
+      
       <div className="bg-gradient-to-b from-[#EDE8D0]/20 to-background pt-32">
         <div className="container mx-auto py-8 px-4 md:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-12 scroll-reveal">
@@ -133,11 +152,6 @@ const Blog = () => {
             <p className="text-muted-foreground text-lg mb-8">
               Explore our collection of stories, insights, and experiences that showcase the rich cultural tapestry of Tulu Nadu
             </p>
-            
-            {/* Sidebar Ad */}
-            <div className="hidden lg:block fixed right-4 top-1/2 transform -translate-y-1/2 w-64 z-40">
-              <AdSpace position="sidebar" size="small" />
-            </div>
             
             {/* User-friendly gamification display */}
             <div className="flex justify-center gap-4 mb-8">
@@ -281,6 +295,7 @@ const Blog = () => {
                   author={featuredPosts[0].author}
                   category={featuredPosts[0].category}
                   audioAvailable={featuredPosts[0].audioAvailable}
+                  postId={featuredPosts[0].id}
                 />
               )}
             </TabsContent>
@@ -297,6 +312,7 @@ const Blog = () => {
                   author={allPosts[1].author}
                   category={allPosts[1].category}
                   audioAvailable={allPosts[1].audioAvailable}
+                  postId={allPosts[1].id}
                 />
               )}
             </TabsContent>
@@ -313,6 +329,7 @@ const Blog = () => {
                   author={allPosts[2].author}
                   category={allPosts[2].category}
                   audioAvailable={allPosts[2].audioAvailable}
+                  postId={allPosts[2].id}
                 />
               )}
             </TabsContent>
@@ -337,10 +354,16 @@ const Blog = () => {
                   author={allPosts[3].author}
                   category={allPosts[3].category}
                   audioAvailable={allPosts[3].audioAvailable}
+                  postId={allPosts[3].id}
                 />
               )}
             </TabsContent>
           </Tabs>
+
+          {/* Top Ad Space */}
+          <div className="mb-12">
+            <AdSpace position="top" size="large" />
+          </div>
 
           {/* All blog posts grid with better spacing */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-16">
@@ -355,10 +378,12 @@ const Blog = () => {
                 author={post.author}
                 category={post.category}
                 audioAvailable={post.audioAvailable}
+                postId={post.id}
               />
             ))}
           </div>
 
+          {/* All blog posts grid with better spacing */}
           <div className="mt-12 text-center">
             <Button 
               className="bg-[#00555A] hover:bg-[#CC4E5C] transition-colors group"

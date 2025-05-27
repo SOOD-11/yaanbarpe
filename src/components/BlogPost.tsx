@@ -2,7 +2,7 @@
 import { ArrowRight, Headphones, Calendar, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from '@/hooks/use-toast';
 import { addPoints } from '@/lib/gamification';
@@ -17,6 +17,7 @@ interface BlogPostProps {
   author: string;
   category: string;
   audioAvailable?: boolean;
+  postId?: string;
 }
 
 const BlogPost = ({
@@ -28,28 +29,21 @@ const BlogPost = ({
   readTime,
   author,
   category,
-  audioAvailable = false
+  audioAvailable = false,
+  postId = 'yakshagana-legacy'
 }: BlogPostProps) => {
   const [isHovered, setIsHovered] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
   
-  const handleInteraction = () => {
-    const pointsToAdd = featured ? 5 : 3;
-    const levelUp = addPoints(pointsToAdd, "Keep exploring to discover more!");
+  const handleReadMore = () => {
+    const pointsToAdd = featured ? 3 : 2;
+    addPoints(pointsToAdd, "Started reading article");
     
-    if (levelUp > 0) {
-      toast({
-        title: "Level Up!",
-        description: `You've reached level ${levelUp}!`,
-        duration: 3000,
-      });
-    } else {
-      toast({
-        title: `+${pointsToAdd} points!`,
-        description: "Keep exploring to discover more!",
-        duration: 2000,
-      });
-    }
+    toast({
+      title: `+${pointsToAdd} points!`,
+      description: "Article started. Complete it to earn more points!",
+      duration: 2000,
+    });
     
     // Dispatch custom event to update points display
     window.dispatchEvent(new Event('pointsUpdated'));
@@ -60,7 +54,7 @@ const BlogPost = ({
   };
   
   const getImageUrl = () => {
-    // Using Pexels images which are free and reliable
+    // Using reliable Pexels images
     const pexelsImages = [
       'https://images.pexels.com/photos/2832038/pexels-photo-2832038.jpeg',
       'https://images.pexels.com/photos/698907/pexels-photo-698907.jpeg',
@@ -87,15 +81,14 @@ const BlogPost = ({
   return (
     <div
       className={cn(
-        "scroll-reveal bg-white rounded-xl overflow-hidden shadow-lg transition-all duration-500 border border-[#00555A]/30",
+        "scroll-reveal bg-white rounded-xl overflow-hidden shadow-lg transition-all duration-500 border border-[#00555A]/30 hover:shadow-xl",
         featured ? "grid md:grid-cols-2 gap-0" : "flex flex-col",
-        isHovered ? "transform -translate-y-2" : ""
+        isHovered ? "transform -translate-y-1 shadow-2xl" : ""
       )}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      onClick={handleInteraction}
     >
-      <div className={cn("relative overflow-hidden", featured ? "h-full min-h-[300px]" : "h-60")}>
+      <div className={cn("relative overflow-hidden group", featured ? "h-full min-h-[300px]" : "h-60")}>
         {/* Loading placeholder */}
         {!imageLoaded && (
           <div className="absolute inset-0 bg-gray-200 animate-pulse flex items-center justify-center">
@@ -103,40 +96,46 @@ const BlogPost = ({
           </div>
         )}
         
+        {/* Image that doesn't disappear on hover */}
         <img 
           src={getImageUrl()} 
           alt={title} 
           className={cn(
-            "w-full h-full object-cover transition-transform duration-700", 
-            isHovered ? "scale-110" : "scale-100",
+            "w-full h-full object-cover transition-transform duration-500", 
+            isHovered ? "scale-105" : "scale-100",
             imageLoaded ? "opacity-100" : "opacity-0"
           )}
           onLoad={handleImageLoad}
           onError={(e) => {
-            // If image fails, set a reliable fallback
             const target = e.target as HTMLImageElement;
             target.src = "https://images.pexels.com/photos/2647393/pexels-photo-2647393.jpeg";
             handleImageLoad();
           }}
         />
+        
+        {/* Category badge */}
         <div className="absolute top-4 left-4">
           <span className="bg-[#00555A] text-white text-xs font-medium px-3 py-1 rounded-full">
             {category}
           </span>
         </div>
         
-        {/* Simple points indicator */}
+        {/* Points indicator */}
         <div className="absolute top-4 right-4">
           <span className="bg-[#CC4E5C]/90 text-white text-xs px-3 py-1 rounded-full">
-            +{featured ? 5 : 3} points
+            +{featured ? 3 : 2} points
           </span>
         </div>
         
-        {/* Image overlay gradient */}
+        {/* Overlay on hover */}
         <div className={cn(
-          "absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent transition-opacity duration-300",
+          "absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent transition-opacity duration-300",
           isHovered ? "opacity-100" : "opacity-0"
-        )} />
+        )}>
+          <div className="absolute bottom-4 left-4 right-4">
+            <p className="text-white text-sm font-medium">Click to read full article</p>
+          </div>
+        </div>
       </div>
       
       <div className="p-6 flex flex-col justify-between flex-grow">
@@ -163,7 +162,7 @@ const BlogPost = ({
             {title}
           </h3>
           
-          <p className="text-muted-foreground mb-6">{excerpt}</p>
+          <p className="text-muted-foreground mb-6 line-clamp-3">{excerpt}</p>
         </div>
         
         <div className="flex justify-between items-center">
@@ -173,9 +172,10 @@ const BlogPost = ({
               "transition-all duration-300 group",
               isHovered ? "bg-[#00555A] text-white border-[#00555A]" : "text-[#00555A] border-[#00555A] hover:bg-[#00555A] hover:text-white"
             )}
+            onClick={handleReadMore}
             asChild
           >
-            <Link to="/blog/yakshagana">
+            <Link to={`/blog/${postId}`}>
               Read More
               <ArrowRight className={cn(
                 "ml-2 w-4 h-4 transition-transform", 
@@ -192,13 +192,13 @@ const BlogPost = ({
                 "text-[#CC4E5C] hover:text-[#CC4E5C]/80 hover:bg-[#CC4E5C]/10",
                 isHovered ? "animate-pulse" : ""
               )}
-              title="Listen to audio version"
+              title="Audio version available"
               onClick={(e) => {
                 e.stopPropagation();
                 toast({
-                  title: "Audio preview",
-                  description: "Audio feature will be available soon!",
-                  duration: 2000,
+                  title: "🎧 Audio Available",
+                  description: "Click 'Read More' to access the audio player!",
+                  duration: 3000,
                 });
               }}
             >
