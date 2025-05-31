@@ -4,11 +4,12 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Calendar, Clock, MessageSquare, Share2 } from 'lucide-react';
+import { Calendar, Clock, MessageSquare, Share2, Headphones } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface BlogPostProps {
-  id: string;
+  id?: string;
+  postId?: string;
   title: string;
   excerpt: string;
   image: string;
@@ -19,10 +20,12 @@ interface BlogPostProps {
   commentCount?: number;
   featured?: boolean;
   className?: string;
+  audioAvailable?: boolean;
 }
 
 export const BlogPost = ({
   id,
+  postId,
   title,
   excerpt,
   image,
@@ -32,8 +35,11 @@ export const BlogPost = ({
   category,
   commentCount = 0,
   featured = false,
-  className
+  className,
+  audioAvailable = false
 }: BlogPostProps) => {
+  const linkId = postId || id;
+  
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -69,10 +75,16 @@ export const BlogPost = ({
             <Clock className="mr-1 h-4 w-4" />
             {readTime}
           </div>
+          {audioAvailable && (
+            <div className="flex items-center">
+              <Headphones className="mr-1 h-4 w-4" />
+              <span>Audio</span>
+            </div>
+          )}
         </div>
 
         <h3 className="text-2xl font-bold leading-tight mb-2 group-hover:text-primary transition-colors">
-          <Link to={`/blog/${id}`}>{title}</Link>
+          <Link to={`/blog/${linkId}`}>{title}</Link>
         </h3>
 
         <p className="text-muted-foreground mb-4 line-clamp-2">{excerpt}</p>
@@ -88,7 +100,7 @@ export const BlogPost = ({
             </Button>
           </div>
           <Button asChild>
-            <Link to={`/blog/${id}`}>Read More</Link>
+            <Link to={`/blog/${linkId}`}>Read More</Link>
           </Button>
         </div>
       </div>
