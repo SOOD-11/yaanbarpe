@@ -30,25 +30,13 @@ const Index = () => {
       });
     }, 1500);
 
-    // Initialize scroll reveal animation
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-          }
-        });
-      },
-      { threshold: 0.1, rootMargin: '50px' }
-    );
-    
     // Enhanced scroll tracking
     const handleScroll = () => {
       const scrollTop = window.pageYOffset;
       setShowScrollTop(scrollTop > 500);
       
-      // Parallax effect for hero
-      const hero = document.querySelector('.parallax-container') as HTMLElement;
+      // Safe parallax effect
+      const hero = document.querySelector('.parallax-container') as HTMLElement | null;
       if (hero) {
         const scrolled = window.pageYOffset;
         hero.style.transform = `translateY(${scrolled * 0.5}px)`;
@@ -56,22 +44,18 @@ const Index = () => {
     };
 
     window.addEventListener('scroll', handleScroll);
-    
-    document.querySelectorAll('.scroll-reveal').forEach((el) => {
-      observer.observe(el);
-    });
 
     // Load user points
     const storedPoints = localStorage.getItem('tuluPoints');
     if (storedPoints) {
-      setUserPoints(parseInt(storedPoints));
+      setUserPoints(parseInt(storedPoints) || 0);
     }
 
     // Listen for points updates
     const handlePointsUpdate = () => {
       const points = localStorage.getItem('tuluPoints');
       if (points) {
-        setUserPoints(parseInt(points));
+        setUserPoints(parseInt(points) || 0);
       }
     };
 
@@ -79,7 +63,6 @@ const Index = () => {
     
     return () => {
       clearTimeout(loadingTimeout);
-      observer.disconnect();
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('pointsUpdated', handlePointsUpdate);
     };
@@ -101,19 +84,21 @@ const Index = () => {
       description: "Thanks for staying engaged!",
       duration: 2000,
     });
+    
+    window.dispatchEvent(new Event('pointsUpdated'));
   };
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-tulu-sand/20 to-tulu-blue/10">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-yellow-50 to-blue-50">
         <div className="text-center space-y-6">
           <div className="relative">
-            <div className="w-20 h-20 border-4 border-tulu-blue/30 border-t-tulu-blue rounded-full animate-spin mx-auto"></div>
-            <Sparkles className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-tulu-gold animate-pulse" size={24} />
+            <div className="w-20 h-20 border-4 border-blue-300 border-t-blue-600 rounded-full animate-spin mx-auto"></div>
+            <Sparkles className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-yellow-500 animate-pulse" size={24} />
           </div>
           <div className="space-y-2">
-            <h2 className="font-display text-2xl font-bold text-tulu-blue">Welcome to YaanBarpe</h2>
-            <p className="text-muted-foreground">Loading cultural treasures...</p>
+            <h2 className="text-2xl font-bold text-blue-600">Welcome to YaanBarpe</h2>
+            <p className="text-gray-600">Loading cultural treasures...</p>
           </div>
         </div>
       </div>
@@ -122,12 +107,11 @@ const Index = () => {
 
   return (
     <div className="min-h-screen relative">
-      {/* Enhanced Navigation with points display */}
       <Navigation />
       
-      {/* Points display for logged-in experience */}
+      {/* Points display */}
       {userPoints > 0 && (
-        <div className="fixed top-20 right-4 z-40 bg-tulu-gold/90 backdrop-blur-sm text-white px-4 py-2 rounded-full shadow-lg animate-fade-in">
+        <div className="fixed top-20 right-4 z-40 bg-yellow-500/90 backdrop-blur-sm text-white px-4 py-2 rounded-full shadow-lg">
           <div className="flex items-center gap-2">
             <Sparkles size={16} />
             <span className="font-bold">{userPoints}</span>
@@ -136,42 +120,42 @@ const Index = () => {
         </div>
       )}
 
-      {/* Enhanced sections with better spacing and animations */}
-      <div id="hero" className="scroll-reveal">
+      {/* Main content sections */}
+      <div id="hero">
         <Hero />
       </div>
       
-      <div id="explore" className="scroll-reveal">
+      <div id="explore">
         <FeaturedExperiences />
       </div>
       
-      <div className="scroll-reveal">
+      <div>
         <CulturalShowcase />
       </div>
       
-      <div className="scroll-reveal">
+      <div>
         <Stats />
       </div>
       
-      <div className="scroll-reveal">
+      <div>
         <Testimonials />
       </div>
       
-      <div className="scroll-reveal">
+      <div>
         <RecentPosts />
       </div>
       
-      <div className="scroll-reveal">
+      <div>
         <CallToAction />
       </div>
       
       <Footer />
 
-      {/* Enhanced scroll to top button */}
+      {/* Scroll to top button */}
       <Button
         onClick={scrollToTop}
         className={cn(
-          "fixed bottom-8 right-8 z-50 w-12 h-12 rounded-full shadow-lg transition-all duration-300 bg-tulu-blue hover:bg-tulu-red hover:scale-110",
+          "fixed bottom-8 right-8 z-50 w-12 h-12 rounded-full shadow-lg transition-all duration-300 bg-blue-600 hover:bg-red-600 hover:scale-110",
           showScrollTop ? "opacity-100 translate-y-0" : "opacity-0 translate-y-16 pointer-events-none"
         )}
         size="icon"
@@ -181,8 +165,8 @@ const Index = () => {
 
       {/* Background decorative elements */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
-        <div className="absolute top-1/4 right-1/4 w-64 h-64 bg-tulu-gold/5 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-1/4 left-1/4 w-96 h-96 bg-tulu-blue/5 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute top-1/4 right-1/4 w-64 h-64 bg-yellow-500/5 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-1/4 left-1/4 w-96 h-96 bg-blue-600/5 rounded-full blur-3xl animate-pulse"></div>
       </div>
     </div>
   );
