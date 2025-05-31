@@ -48,7 +48,7 @@ const Index = () => {
       setShowScrollTop(scrollTop > 500);
       
       // Parallax effect for hero
-      const hero = document.querySelector('.parallax-container');
+      const hero = document.querySelector('.parallax-container') as HTMLElement;
       if (hero) {
         const scrolled = window.pageYOffset;
         hero.style.transform = `translateY(${scrolled * 0.5}px)`;
