@@ -1,7 +1,8 @@
 
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
-import { ZoomIn, Download } from 'lucide-react';
+import { ZoomIn, Download, Share2 } from 'lucide-react';
+import { toast } from '@/hooks/use-toast';
 
 interface BlogImageProps {
   imageUrl: string;
@@ -21,6 +22,12 @@ const BlogImage = ({ imageUrl, title }: BlogImageProps) => {
     e.preventDefault();
     e.stopPropagation();
     setIsZoomed(!isZoomed);
+    
+    toast({
+      title: isZoomed ? "Zoom reset" : "Image zoomed",
+      description: isZoomed ? "Back to normal view" : "Click again to reset",
+      duration: 1500,
+    });
   };
   
   const handleDownload = (e: React.MouseEvent) => {
@@ -33,29 +40,61 @@ const BlogImage = ({ imageUrl, title }: BlogImageProps) => {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+    
+    toast({
+      title: "Download started!",
+      description: "Image is being downloaded",
+      duration: 2000,
+    });
+  };
+
+  const handleShare = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    if (navigator.share) {
+      navigator.share({
+        title: title,
+        text: `Check out this image: ${title}`,
+        url: imageUrl
+      });
+    } else {
+      navigator.clipboard.writeText(imageUrl);
+      toast({
+        title: "Image URL copied!",
+        description: "Share this beautiful image with others",
+        duration: 2000,
+      });
+    }
   };
 
   return (
     <div 
-      className="rounded-2xl overflow-hidden mb-10 relative group"
+      className="rounded-2xl overflow-hidden mb-10 relative group shadow-lg"
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
     >
       {!imageLoaded && (
-        <div className="w-full h-96 bg-gray-200 animate-pulse flex items-center justify-center">
-          <span className="text-gray-400">Loading image...</span>
+        <div className="w-full h-96 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 animate-pulse flex items-center justify-center">
+          <div className="text-center">
+            <div className="w-12 h-12 border-4 border-tulu-blue/30 border-t-tulu-blue rounded-full animate-spin mx-auto mb-4"></div>
+            <span className="text-gray-500 font-medium">Loading beautiful image...</span>
+          </div>
         </div>
       )}
       
-      {/* Main image - FIXED: Always visible, no opacity changes */}
-      <div className="overflow-hidden">
+      {/* Main image container */}
+      <div className={cn(
+        "overflow-hidden transition-all duration-500",
+        imageLoaded ? "opacity-100" : "opacity-0"
+      )}>
         <img 
           src={imageUrl}
           alt={title}
           className={cn(
-            "w-full h-auto object-cover transition-transform duration-300",
-            isZoomed ? "scale-105" : "scale-100",
-            "opacity-100" // Always visible
+            "w-full h-auto object-cover transition-all duration-500 cursor-pointer",
+            isZoomed ? "scale-110" : "scale-100",
+            "hover:scale-105"
           )}
           onLoad={handleImageLoad}
           onError={(e) => {
@@ -63,35 +102,50 @@ const BlogImage = ({ imageUrl, title }: BlogImageProps) => {
             target.src = "https://images.unsplash.com/photo-1472396961693-142e6e269027?w=1200&q=80";
             handleImageLoad();
           }}
-          style={{ display: imageLoaded ? 'block' : 'none' }}
+          onClick={toggleZoom}
         />
       </div>
       
-      {/* Image caption - always visible */}
-      <div className="bg-[#00555A]/90 text-white text-sm py-3 px-4">
-        <p className="font-medium">{title}</p>
+      {/* Enhanced image caption */}
+      <div className="bg-gradient-to-r from-tulu-blue to-tulu-green text-white py-4 px-6">
+        <p className="font-semibold text-lg">{title}</p>
+        <p className="text-sm text-white/80 mt-1">Click image to zoom • Hover for more options</p>
       </div>
       
-      {/* Hover controls - only show overlay, not hide image */}
+      {/* Enhanced hover controls */}
       {imageLoaded && (
         <div className={cn(
-          "absolute top-4 right-4 flex gap-2 transition-opacity duration-300",
-          isHovering ? "opacity-100" : "opacity-0"
+          "absolute top-4 right-4 flex gap-2 transition-all duration-300",
+          isHovering ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2"
         )}>
           <button 
-            className="bg-white/90 hover:bg-white p-2 rounded-full shadow-md transition-all hover:scale-110"
+            className="bg-white/95 hover:bg-white p-3 rounded-full shadow-lg transition-all hover:scale-110 group"
             onClick={toggleZoom}
             title={isZoomed ? "Reset zoom" : "Zoom image"}
           >
-            <ZoomIn className="h-5 w-5 text-[#00555A]" />
+            <ZoomIn className="h-5 w-5 text-tulu-blue group-hover:text-tulu-red transition-colors" />
           </button>
           <button 
-            className="bg-white/90 hover:bg-white p-2 rounded-full shadow-md transition-all hover:scale-110"
+            className="bg-white/95 hover:bg-white p-3 rounded-full shadow-lg transition-all hover:scale-110 group"
             onClick={handleDownload}
             title="Download image"
           >
-            <Download className="h-5 w-5 text-[#00555A]" />
+            <Download className="h-5 w-5 text-tulu-blue group-hover:text-tulu-green transition-colors" />
           </button>
+          <button 
+            className="bg-white/95 hover:bg-white p-3 rounded-full shadow-lg transition-all hover:scale-110 group"
+            onClick={handleShare}
+            title="Share image"
+          >
+            <Share2 className="h-5 w-5 text-tulu-blue group-hover:text-tulu-gold transition-colors" />
+          </button>
+        </div>
+      )}
+      
+      {/* Zoom indicator */}
+      {isZoomed && (
+        <div className="absolute bottom-20 left-4 bg-black/70 text-white px-3 py-2 rounded-lg text-sm backdrop-blur-sm">
+          🔍 Zoomed • Click to reset
         </div>
       )}
     </div>
