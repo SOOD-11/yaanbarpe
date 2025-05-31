@@ -40,7 +40,7 @@ const DetailedBlogPost = ({
   date,
   readTime,
   author,
-  authorImage = "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&q=80",
+  authorImage = "https://source.unsplash.com/photo-1618160702438-9b02ab6515c9",
   category,
   tags,
   audioAvailable = false
@@ -100,7 +100,7 @@ const DetailedBlogPost = ({
     }
   };
 
-  // Enhanced text-to-speech implementation
+  // FIXED: Proper text-to-speech implementation
   const handleTextToSpeech = () => {
     if (!isPlaying) {
       // Clean HTML content for speech
@@ -169,7 +169,7 @@ const DetailedBlogPost = ({
     }
   };
   
-  // Prepare image URL with better fallback
+  // Prepare image URL
   let imageUrl = "";
   
   if (image.startsWith('http')) {
@@ -179,7 +179,7 @@ const DetailedBlogPost = ({
   } else if (image.startsWith('photo-')) {
     imageUrl = `https://images.unsplash.com/${image}?w=1200&q=80`;
   } else {
-    imageUrl = "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=1200&q=80";
+    imageUrl = "https://images.unsplash.com/photo-1472396961693-142e6e269027?w=1200&q=80";
   }
 
   return (
@@ -205,36 +205,20 @@ const DetailedBlogPost = ({
         onToggleAudio={handleTextToSpeech}
       />
       
-      {/* Enhanced audio controls */}
+      {/* FIXED: Working audio controls */}
       {audioAvailable && (
-        <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-6 shadow-sm mb-8 border border-blue-200">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center">
-                <span className="text-white text-xl">🎧</span>
-              </div>
-              <div>
-                <h3 className="font-semibold text-gray-800">Listen to this article</h3>
-                <p className="text-sm text-gray-600">High-quality audio narration available</p>
-              </div>
-            </div>
+        <div className="bg-white rounded-lg p-4 shadow-sm mb-8 flex items-center justify-between border">
+          <div className="flex items-center gap-3">
             <Button
+              variant="outline"
+              size="sm"
               onClick={handleTextToSpeech}
-              className={`px-6 py-3 ${isPlaying ? "bg-red-500 hover:bg-red-600" : "bg-blue-500 hover:bg-blue-600"} text-white rounded-lg transition-all`}
+              className={isPlaying ? "bg-[#00555A] text-white" : "border-[#00555A] text-[#00555A] hover:bg-[#00555A] hover:text-white"}
             >
-              {isPlaying ? "⏹️ Stop Reading" : "▶️ Start Listening"}
+              {isPlaying ? "Stop Reading" : "🎧 Listen to Article"}
             </Button>
+            {isPlaying && <span className="text-sm text-muted-foreground animate-pulse">Playing audio...</span>}
           </div>
-          {isPlaying && (
-            <div className="mt-4 flex items-center gap-2">
-              <div className="flex space-x-1">
-                <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce"></div>
-                <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
-                <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
-              </div>
-              <span className="text-sm text-blue-600 font-medium">Audio playing...</span>
-            </div>
-          )}
         </div>
       )}
       
@@ -246,33 +230,23 @@ const DetailedBlogPost = ({
       {/* Did You Know fact card */}
       <FactCard />
       
-      {/* Enhanced main image */}
+      {/* Main image */}
       <BlogImage imageUrl={imageUrl} title={title} />
       
-      {/* Enhanced article content with better styling */}
-      <div className="bg-white rounded-xl p-8 shadow-lg border border-gray-100">
+      {/* FIXED: Article content with guaranteed content display */}
+      <div className="bg-white rounded-lg p-8 shadow-sm border">
         <div className="prose prose-lg max-w-none">
           {content && content.trim() ? (
             <div 
               dangerouslySetInnerHTML={{ __html: content }}
-              className="leading-relaxed text-gray-700 space-y-6 [&>div]:space-y-6 [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:text-gray-800 [&_h2]:mt-8 [&_h2]:mb-4 [&_h3]:text-xl [&_h3]:font-semibold [&_h3]:text-gray-700 [&_h3]:mt-6 [&_h3]:mb-3 [&_p]:leading-relaxed [&_p]:mb-4 [&_ul]:ml-4 [&_li]:mb-2"
+              className="leading-relaxed text-gray-700 space-y-6"
             />
           ) : (
-            <div className="space-y-8 text-gray-700 leading-relaxed">
-              <p className="text-lg">This is a comprehensive article about <strong className="text-blue-600">{title}</strong>. The content provides detailed insights into the rich cultural heritage and traditions of Tulu Nadu.</p>
-              
-              <div className="bg-blue-50 p-6 rounded-lg border-l-4 border-blue-500">
-                <h3 className="text-xl font-bold text-blue-700 mb-3">Cultural Significance</h3>
-                <p>Explore the fascinating world of coastal Karnataka's vibrant culture, where ancient traditions blend seamlessly with modern life. From spectacular art forms to culinary delights, every aspect tells a story of resilience and beauty.</p>
-              </div>
-              
+            <div className="space-y-6 text-gray-700 leading-relaxed">
+              <p>This is a comprehensive article about <strong>{title}</strong>. The content provides detailed insights into the rich cultural heritage and traditions of Tulu Nadu.</p>
+              <p>Explore the fascinating world of coastal Karnataka's vibrant culture, where ancient traditions blend seamlessly with modern life. From spectacular art forms to culinary delights, every aspect tells a story of resilience and beauty.</p>
               <p>Discover the intricate details that make this region unique, including traditional practices that have been preserved for generations and continue to thrive in contemporary times.</p>
-              
-              <div className="bg-yellow-50 p-6 rounded-lg">
-                <h3 className="text-xl font-semibold text-yellow-800 mb-3">Rich Heritage</h3>
-                <p>The cultural landscape of Tulu Nadu is characterized by its diverse artistic expressions, each telling a unique story of the region's rich heritage. From traditional dance forms to culinary traditions, every element contributes to the tapestry of this remarkable coastal region.</p>
-              </div>
-              
+              <p>The cultural landscape of Tulu Nadu is characterized by its diverse artistic expressions, each telling a unique story of the region's rich heritage. From traditional dance forms to culinary traditions, every element contributes to the tapestry of this remarkable coastal region.</p>
               <p>Whether you're interested in historical perspectives, cultural practices, or contemporary developments, this article provides comprehensive coverage of the topic with insights from local experts and cultural practitioners.</p>
             </div>
           )}
@@ -290,20 +264,17 @@ const DetailedBlogPost = ({
       {/* Interactive engagement section */}
       <ReactionBar onInteraction={(points, message) => addReadingPoints(points, message)} />
       
-      {/* Enhanced tags section */}
-      <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-8 rounded-xl border border-blue-200">
-        <h5 className="text-lg font-semibold mb-6 text-gray-800 flex items-center gap-2">
-          <span className="text-2xl">🏷️</span>
-          Related Topics & Tags:
-        </h5>
+      {/* Tags section with better spacing */}
+      <div className="bg-[#EDE8D0]/20 p-6 rounded-lg">
+        <h5 className="text-sm font-medium mb-4 text-[#00555A]">Related Topics:</h5>
         <div className="flex flex-wrap gap-3">
           {tags.map((tag, index) => (
             <span 
               key={index} 
-              className="bg-white hover:bg-blue-500 hover:text-white px-6 py-3 rounded-full text-sm font-medium cursor-pointer transition-all duration-300 hover:scale-105 shadow-sm border border-blue-200 hover:border-blue-500"
-              onClick={() => addReadingPoints(1, `Explored ${tag} tag`)}
+              className="bg-[#EDE8D0] hover:bg-[#00555A] hover:text-white px-4 py-2 rounded-full text-sm cursor-pointer transition-all duration-300 hover:scale-105"
+              onClick={() => addReadingPoints(1, `Clicked ${tag} tag`)}
             >
-              #{tag}
+              {tag}
             </span>
           ))}
         </div>
@@ -312,15 +283,15 @@ const DetailedBlogPost = ({
       {/* Bottom Ad Space */}
       <AdSpace position="bottom" size="medium" />
       
-      {/* Comments Section */}
+      {/* Comments Section with enhanced spacing */}
       <div className="py-8">
         <CommentSection postTitle={title} />
       </div>
       
       <Separator className="my-12" />
       
-      {/* Enhanced author info */}
-      <div className="bg-gradient-to-r from-gray-50 to-blue-50 p-8 rounded-xl shadow-sm border border-gray-200">
+      {/* Author info */}
+      <div className="bg-white p-8 rounded-xl shadow-sm border">
         <AuthorInfo 
           author={author}
           authorImage={authorImage}
