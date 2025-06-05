@@ -4,165 +4,202 @@ export interface BlogPost {
   title: string;
   excerpt: string;
   content: string;
-  image: string;
+  author: string;
   date: string;
   readTime: string;
-  author: string;
-  authorImage?: string;
-  category: string;
+  image: string;
   tags: string[];
-  featured?: boolean;
+  category: string;
   audioAvailable?: boolean;
 }
 
 export const blogPosts: BlogPost[] = [
   {
-    id: "yakshagana-legacy",
-    title: "The Intricate Artistry of Yakshagana: A 700-Year Legacy",
-    excerpt: "Delve into the vibrant world of Yakshagana, the traditional theatre form that has shaped Tulu Nadu's cultural identity for centuries, featuring elaborate costumes, mesmerizing dance movements, and compelling storytelling techniques.",
+    id: 'tulu-coastal-heritage',
+    title: 'The Magnificent Coastal Heritage of Tulu Nadu',
+    excerpt: 'Discover the pristine beaches, ancient temples, and rich maritime traditions that define the coastal beauty of Tulu Nadu.',
     content: `
-      <p>In the verdant coastal plains of Karnataka, where the Western Ghats meet the Arabian Sea, exists a cultural treasure unlike any other. Yakshagana, a 700-year-old traditional theatre form, stands as one of Tulu Nadu's most magnificent artistic expressions, combining elaborate costumes, mesmerizing dance movements, dramatic makeup, and compelling storytelling to create an immersive spectacle that has defined the region's cultural identity for centuries.</p>
-
-      <h2>The Origins of a Cultural Masterpiece</h2>
-      <p>The word "Yakshagana" derives from "Yaksha" (celestial beings in Hindu mythology) and "gana" (song), literally translating to "song of the celestial beings." Historical evidence traces its origins to the 13th century, though it reached its artistic zenith during the 16th century under the patronage of the Vijayanagara Empire.</p>
-
-      <p>Unlike many classical art forms that were confined to royal courts, Yakshagana evolved as a people's art form, performed in village squares, temple courtyards, and paddy fields after harvest. This accessible nature allowed it to absorb influences from diverse communities across the region, making it a true reflection of Tulu Nadu's composite cultural identity.</p>
-
-      <h2>The Elaborate Artistry</h2>
-      <p>What distinguishes Yakshagana is its extraordinary attention to detail across multiple artistic dimensions. Perhaps the most visually striking element is its elaborate costume design. Performers wear towering headgear (mundasu) adorned with intricate patterns and motifs that can extend nearly two feet above their heads.</p>
-
-      <p>The costume includes a jacket (kavacha) with mirror work and embroidery, a dhoti styled distinctively, and ornate jewelry that transforms the performer into a larger-than-life character. The facial makeup, applied by specialized artists over several hours, uses natural pigments and follows strict character-specific patterns.</p>
-
-      <h2>Musical Heritage and Modern Preservation</h2>
-      <p>The music of Yakshagana deserves special attention as a distinctive classical tradition. Led by the bhagavata (singer-narrator), the music employs ragas unique to the Tulu Nadu region, accompanied by maddale (percussion), chende (drum), and harmonium.</p>
-
-      <p>Today, Yakshagana supports a vibrant economic ecosystem in Tulu Nadu. The region's 78 active professional troupes contribute approximately ₹42 crore annually through performances, while creating livelihood opportunities for over 3,000 artists and supporting craftspeople.</p>
+      <h2>The Coastal Splendor of Tulu Nadu</h2>
+      <p>The coastline of Tulu Nadu stretches magnificently along the Arabian Sea, offering a unique blend of natural beauty and cultural heritage. From the pristine beaches of Malpe to the historic shores of Ullal, every stretch tells a story of maritime traditions, fishing communities, and ancient trade routes.</p>
+      
+      <h3>St. Mary's Islands - A Geological Wonder</h3>
+      <p>Located off the coast of Malpe, St. Mary's Islands are a geological marvel featuring unique hexagonal basalt rock formations. These islands, also known as Coconut Island, are believed to have been formed by volcanic activity millions of years ago. The crystal-clear waters and the distinctive rock formations make it a paradise for nature lovers and geology enthusiasts.</p>
+      
+      <h3>The Fishing Heritage</h3>
+      <p>The traditional fishing communities of Tulu Nadu have preserved their ancient practices for generations. The sight of colorful fishing boats returning with their catch at dawn, the rhythmic chants of fishermen pulling their nets, and the bustling fish markets create an authentic coastal experience that connects visitors to the region's maritime soul.</p>
+      
+      <h3>Temple Towns by the Sea</h3>
+      <p>The coastal region is dotted with ancient temples that have withstood the test of time and sea breeze. The Anantheshwara Temple in Udupi, with its unique architecture and spiritual significance, stands as a testament to the region's religious heritage. These temples serve as cultural anchors, hosting festivals that bring communities together in celebration of their shared traditions.</p>
+      
+      <h3>Culinary Treasures</h3>
+      <p>The coastal cuisine of Tulu Nadu is a delightful fusion of fresh seafood, coconut, and aromatic spices. From the famous Mangalore fish curry to the delicate Kane fish preparations, every dish tells a story of the sea. The traditional cooking methods, passed down through generations, create flavors that are both unique and deeply satisfying.</p>
     `,
-    image: "https://images.pexels.com/photos/2773927/pexels-photo-2773927.jpeg",
-    date: "May 18, 2025",
-    readTime: "12 min read",
-    author: "Deepak Shetty",
-    authorImage: "https://i.pravatar.cc/150?img=1",
-    category: "Cultural Heritage",
-    tags: ["Yakshagana", "Performance Art", "Cultural Heritage", "Tulu Nadu", "Traditional Theatre"],
-    featured: true,
+    author: 'Cultural Heritage Team',
+    date: '2024-12-01',
+    readTime: '8 min read',
+    image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800',
+    tags: ['Coastal Heritage', 'St. Mary\'s Islands', 'Fishing Culture', 'Temples'],
+    category: 'Heritage',
     audioAvailable: true
   },
   {
-    id: "bhuta-kola-rituals",
-    title: "Sacred Rituals of Bhuta Kola: Connecting with Guardian Spirits",
-    excerpt: "Experience the mystical ancient ritual of Bhuta Kola, where elaborate ceremonies invoke guardian spirits through sacred performances that have sustained coastal Karnataka's spiritual ecosystem for generations.",
+    id: 'yakshagana-art-form',
+    title: 'Yakshagana: The Living Theatre of Tulu Nadu',
+    excerpt: 'Explore the vibrant world of Yakshagana, a traditional art form that combines dance, music, and storytelling in spectacular performances.',
     content: `
-      <p>In the moonlit courtyards of coastal Karnataka, an ancient ritual unfolds that bridges the earthly and divine realms. Bhuta Kola, literally meaning "worship of spirits," represents one of the most profound spiritual traditions of Tulu Nadu, where elaborate ceremonies invoke guardian spirits through sacred performances that have sustained the region's spiritual ecosystem for over a millennium.</p>
-
-      <h2>The Sacred Universe of Bhuta Kola</h2>
-      <p>Bhuta Kola is not merely a performance; it is a living embodiment of ancient animistic beliefs that recognize the presence of protective spirits (Bhutas) in every aspect of life. These guardian spirits are believed to protect villages, families, and individuals from harm while ensuring prosperity and well-being.</p>
-
-      <p>The ritual typically begins at dusk and continues through the night, creating a transformative experience for both participants and observers. The performer, known as the "impersonator," undergoes an intense spiritual preparation that includes fasting, meditation, and ritual purification before embodying the spirit.</p>
-
-      <h2>The Transformation Process</h2>
-      <p>The most striking aspect of Bhuta Kola is the elaborate costume and makeup transformation. The performer's face is painted with intricate designs using natural pigments - vermillion, turmeric, and charcoal create bold patterns that represent different spirits. Each design follows ancient iconographic traditions passed down through generations.</p>
-
-      <p>The costume includes elaborate headgear made from arecanut palm leaves, coconut fronds, and flowers, creating towering structures that can reach eight feet in height. Silver ornaments, bells, and traditional weapons complete the transformation, turning the performer into a living deity.</p>
-
-      <h2>Spiritual Significance and Community Healing</h2>
-      <p>Beyond its theatrical elements, Bhuta Kola serves as a powerful mechanism for community healing and conflict resolution. During the ritual, community members present their problems, disputes, and concerns to the spirit through the performer. The spirit, speaking through the impersonator, provides guidance, resolves conflicts, and offers blessings.</p>
-
-      <p>This tradition has maintained its relevance in modern times, with many people continuing to seek spiritual guidance through Bhuta Kola, especially during times of crisis or important life transitions.</p>
+      <h2>The Spectacular Art of Yakshagana</h2>
+      <p>Yakshagana is not just a performance art; it's a living tradition that embodies the cultural soul of Tulu Nadu. This ancient form of theatre combines elements of dance, music, dialogue, costume, make-up, and stage techniques to create a spectacle that has captivated audiences for centuries.</p>
+      
+      <h3>Origins and Evolution</h3>
+      <p>Dating back to the 11th century, Yakshagana evolved from the ancient traditions of ritual performances and folk theatre. The word 'Yakshagana' literally means 'song of the celestials' (Yaksha + Gana), reflecting its divine origins and spiritual significance. Over the centuries, it has absorbed influences from various cultural streams while maintaining its distinctive identity.</p>
+      
+      <h3>The Performance Structure</h3>
+      <p>A typical Yakshagana performance begins at dusk and continues through the night, often ending at dawn. The performance includes various segments: the initial rituals, character introductions, and the main story presentation. Each character has specific makeup patterns, costumes, and movement styles that help the audience identify their roles and personalities.</p>
+      
+      <h3>Musical Traditions</h3>
+      <p>The music of Yakshagana is performed by a group of musicians called 'Himmela' who use traditional instruments including chenda (drum), maddale (drum), jagave (tambourine), and shanku (conch). The rhythmic patterns and melodies create an immersive atmosphere that enhances the dramatic impact of the performance.</p>
+      
+      <h3>Cultural Preservation</h3>
+      <p>Today, numerous institutions and cultural organizations work tirelessly to preserve and promote Yakshagana. Training centers, annual festivals, and cultural exchanges ensure that this magnificent art form continues to thrive and evolve while maintaining its traditional essence.</p>
     `,
-    image: "https://images.pexels.com/photos/5859323/pexels-photo-5859323.jpeg",
-    date: "May 12, 2025",
-    readTime: "8 min read",
-    author: "Radha Hegde",
-    authorImage: "https://i.pravatar.cc/150?img=5",
-    category: "Spiritual Traditions",
-    tags: ["Bhuta Kola", "Spiritual Rituals", "Guardian Spirits", "Tulu Nadu", "Ancient Traditions"],
+    author: 'Arts & Culture Specialist',
+    date: '2024-11-28',
+    readTime: '10 min read',
+    image: 'https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?w=800',
+    tags: ['Yakshagana', 'Traditional Arts', 'Cultural Heritage', 'Performance'],
+    category: 'Arts',
     audioAvailable: true
   },
   {
-    id: "coastal-cuisine",
-    title: "Coastal Cuisine: The Flavors that Define Tulu Nadu",
-    excerpt: "Explore the distinctive culinary traditions of coastal Karnataka, where coconut, fresh seafood, and unique spice blends come together to create a cuisine unlike any other in India.",
+    id: 'tulu-language-script',
+    title: 'The Ancient Tulu Language and Its Rich Literary Heritage',
+    excerpt: 'Delve into the fascinating world of the Tulu language, its unique script, and the literary treasures that have been preserved through centuries.',
     content: `
-      <p>The cuisine of Tulu Nadu is a symphony of flavors that mirrors the region's coastal geography and cultural diversity. Where the Western Ghats meet the Arabian Sea, a unique culinary tradition has evolved that combines the abundance of the ocean with the spices of the mountains, creating dishes that are both distinctive and deeply rooted in local traditions.</p>
-
-      <h2>The Foundation: Coconut and Spices</h2>
-      <p>At the heart of Tulu Nadu cuisine lies the coconut - not just as an ingredient, but as a way of life. Every part of the coconut finds its way into the kitchen: fresh coconut is grated for curries, coconut oil provides the cooking medium, coconut milk adds richness to dishes, and even coconut palm sap is fermented to create the mildly alcoholic toddy that accompanies many meals.</p>
-
-      <p>The spice palette of Tulu Nadu is unique in India, featuring combinations rarely found elsewhere. Byadgi chilies provide color without excessive heat, while kokum adds a distinctive sourness to curries. Ghangal (dried garcinia) and tamarind create complex flavor profiles that define the region's signature dishes.</p>
-
-      <h2>Seafood: The Ocean's Bounty</h2>
-      <p>With a 320-kilometer coastline, seafood naturally dominates Tulu Nadu's culinary landscape. Fish curry and rice form the staple meal, but the preparation methods showcase remarkable diversity. Kane (kingfish) rava fry represents the region's mastery of crispy, spiced seafood preparations.</p>
-
-      <p>Crab curry, prepared with fresh coconut and aromatic spices, demonstrates the sophisticated flavor balancing that characterizes local cooking. Prawns are prepared in coconut-based curries or dried and used as flavor enhancers in vegetable dishes.</p>
-
-      <h2>Vegetarian Delicacies and Fermented Foods</h2>
-      <p>Despite the prominence of seafood, Tulu Nadu boasts an impressive array of vegetarian specialties. Patrode, made from colocasia leaves stuffed with spiced rice paste and steamed, represents the region's ingenious use of local vegetation.</p>
-
-      <p>Fermentation plays a crucial role in the cuisine. Neer dosa, a delicate, lace-like crepe made from fermented rice batter, serves as the perfect accompaniment to spicy curries. Moode, steamed rice dumplings wrapped in jackfruit leaves, showcase traditional preservation techniques.</p>
-
-      <h2>Sweet Traditions and Festival Foods</h2>
-      <p>Tulu Nadu's sweet preparations reflect both religious traditions and seasonal celebrations. Payasa, a coconut milk-based sweet preparation, varies according to the grain used - rice, wheat, or vermicelli - each creating distinct textures and flavors.</p>
-
-      <p>During festivals, special preparations like chiroti (layered sweet bread) and mysore pak demonstrate the community's collective culinary skills, often prepared in large quantities for temple festivals and community celebrations.</p>
+      <h2>Tulu: A Language of Ancient Wisdom</h2>
+      <p>The Tulu language, spoken by over 2 million people primarily in the coastal districts of Karnataka and northern Kerala, is one of the oldest Dravidian languages with a rich literary heritage spanning over a millennium. Despite being primarily oral for much of its history, Tulu has a sophisticated structure and a wealth of literature that reflects the wisdom and creativity of its speakers.</p>
+      
+      <h3>The Tigalari Script</h3>
+      <p>Tulu was traditionally written in the Tigalari script, which is closely related to the Malayalam script. This ancient script has been used to preserve numerous literary works, including the famous 'Siri Paddana' and other oral epics. The script's unique characteristics make it perfectly suited for capturing the nuances of Tulu pronunciation and rhythm.</p>
+      
+      <h3>Oral Traditions and Epics</h3>
+      <p>The oral tradition of Tulu is extraordinarily rich, with numerous paddanas (epic ballads) that narrate heroic tales, spiritual journeys, and community histories. The 'Siri Paddana,' considered one of the longest epic poems in any language, tells the story of Siri, a folk deity, and spans several volumes when transcribed. These oral epics are performed during religious festivals and community gatherings, keeping the tradition alive.</p>
+      
+      <h3>Modern Revival</h3>
+      <p>In recent decades, there has been a renewed interest in Tulu language and literature. Scholars, writers, and cultural activists are working to document oral traditions, create new literary works, and develop educational materials. The advent of digital technology has opened new possibilities for preserving and promoting Tulu culture.</p>
+      
+      <h3>Cultural Significance</h3>
+      <p>Tulu is not just a means of communication; it's a repository of cultural knowledge, traditional wisdom, and community values. Proverbs, folk songs, and storytelling traditions in Tulu carry deep insights into the philosophy and worldview of the Tulu people, making language preservation crucial for cultural continuity.</p>
     `,
-    image: "https://images.pexels.com/photos/958545/pexels-photo-958545.jpeg",
-    date: "May 21, 2025",
-    readTime: "10 min read",
-    author: "Akshay Kamath",
-    authorImage: "https://i.pravatar.cc/150?img=3",
-    category: "Food & Cuisine",
-    tags: ["Coastal Cuisine", "Seafood", "Coconut", "Traditional Cooking", "Tulu Nadu"],
+    author: 'Linguistics Research Team',
+    date: '2024-11-25',
+    readTime: '7 min read',
+    image: 'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=800',
+    tags: ['Tulu Language', 'Tigalari Script', 'Literature', 'Oral Traditions'],
+    category: 'Language',
+    audioAvailable: false
+  },
+  {
+    id: 'udupi-krishna-temple',
+    title: 'Sri Krishna Matha Udupi: The Spiritual Heart of Tulu Nadu',
+    excerpt: 'Journey through the sacred halls of the Sri Krishna Matha in Udupi, a temple that has been the center of devotion and learning for over 700 years.',
+    content: `
+      <h2>The Divine Legacy of Sri Krishna Matha</h2>
+      <p>Founded by the great philosopher-saint Madhvacharya in the 13th century, the Sri Krishna Matha in Udupi stands as one of the most significant spiritual and cultural centers of South India. This ancient temple complex is not just a place of worship but a living institution that has preserved and propagated the Dvaita philosophy and Udupi traditions for over seven centuries.</p>
+      
+      <h3>The Sacred Architecture</h3>
+      <p>The temple's unique architecture reflects the traditional South Indian style with distinct local influences. The silver-plated entrance door, the intricately carved pillars, and the sacred pond create an atmosphere of divine serenity. The temple's layout follows ancient Vastu principles, creating a harmonious space that facilitates spiritual contemplation and community gathering.</p>
+      
+      <h3>The Paryaya Tradition</h3>
+      <p>One of the most unique aspects of Sri Krishna Matha is the Paryaya system, where the administration of the temple rotates among eight different Mathas (monasteries) every two years. This ancient democratic system ensures that the temple's spiritual and administrative responsibilities are shared, maintaining a balance of power and preserving diverse traditions within the Madhva sampradaya.</p>
+      
+      <h3>Center of Learning</h3>
+      <p>Throughout its history, the Matha has been a center of learning, attracting scholars and students from across India. The temple complex houses libraries containing rare manuscripts, philosophical treatises, and religious texts. The tradition of scholarly debates and spiritual discourses continues to this day, making it a living university of ancient wisdom.</p>
+      
+      <h3>Cultural Festivals</h3>
+      <p>The temple hosts numerous festivals throughout the year, each with its own significance and traditions. The Krishna Janmashtami celebrations, the Paryaya festival, and the daily rituals create a continuous cycle of spiritual activities that bind the community together in devotion and celebration.</p>
+      
+      <h3>The Divine Cuisine</h3>
+      <p>The temple is also famous for its prasadam (sacred food offerings) and the traditional Udupi cuisine that originated in the temple kitchens. The pure vegetarian cooking style, the use of traditional recipes, and the emphasis on sattvic (pure) ingredients have made Udupi cuisine famous worldwide.</p>
+    `,
+    author: 'Temple Heritage Documentation',
+    date: '2024-11-22',
+    readTime: '9 min read',
+    image: 'https://images.unsplash.com/photo-1466442929976-97f336a657be?w=800',
+    tags: ['Udupi Temple', 'Madhvacharya', 'Spiritual Heritage', 'Architecture'],
+    category: 'Spirituality',
     audioAvailable: true
   },
   {
-    id: "tiger-dance-tradition",
-    title: "The Ancient Tiger Dance of Mangaluru",
-    excerpt: "Discover the vibrant Pili Vesha (Tiger Dance) tradition that brings color and energy to Mangaluru's Dasara celebrations, with performers adorned in striking tiger body paint and costumes.",
+    id: 'mangalore-spice-gardens',
+    title: 'The Aromatic Spice Gardens of Mangalore: A Sensory Journey',
+    excerpt: 'Explore the fragrant spice plantations around Mangalore that have made this region the spice capital of the western coast.',
     content: `
-      <p>Every year during Dasara, the streets of Mangaluru come alive with the thunderous roars and vibrant colors of Pili Vesha, the traditional Tiger Dance that has captivated audiences for over 150 years. This spectacular folk art form transforms ordinary men into magnificent tigers through intricate body painting and energetic performances that embody the raw power and grace of the king of the jungle.</p>
-
-      <h2>Origins and Evolution</h2>
-      <p>Pili Vesha originated in the late 19th century in the villages around Mangaluru, born from the region's ancient tradition of spirit worship and animal reverence. The dance was initially performed to honor Goddess Sharada during Navratri celebrations, with the tiger representing her vahana (divine vehicle).</p>
-
-      <p>What began as a simple village ritual has evolved into one of Karnataka's most recognizable cultural expressions, drawing thousands of spectators and participants from across the state and beyond.</p>
-
-      <h2>The Art of Transformation</h2>
-      <p>The most striking aspect of Pili Vesha is the elaborate body painting process that transforms performers into living tigers. Using only natural pigments - yellow ochre for the base, charcoal for the black stripes, and vermillion for accents - skilled artists spend 3-4 hours creating intricate tiger patterns on the dancer's body.</p>
-
-      <p>The painting process is itself a ritual, with specific patterns and techniques passed down through generations. Each troupe has its signature style, and master painters are revered for their ability to create lifelike tiger appearances that seem to move and breathe with the dancer's movements.</p>
-
-      <h2>The Performance: Energy and Athleticism</h2>
-      <p>Pili Vesha is as much about athletic prowess as artistic expression. Performers must possess exceptional stamina and agility to execute the demanding choreography that includes powerful leaps, acrobatic rolls, and synchronized group movements that mimic tiger behavior.</p>
-
-      <p>The dance is accompanied by traditional percussion instruments - the chende (drums), gongs, and trumpets - creating a rhythm that drives the performers to increasingly energetic displays. The sound of dozens of drums reverberating through the streets creates an almost hypnotic atmosphere.</p>
-
-      <h2>Community and Cultural Significance</h2>
-      <p>Pili Vesha represents more than entertainment; it embodies the community spirit of Mangaluru. Entire neighborhoods come together to support their local troupes, with families contributing to costume expenses and young men training year-round for the annual performances.</p>
-
-      <p>The tradition serves as a bridge between generations, with elderly masters training young performers in the intricate techniques of movement and expression. This knowledge transfer ensures the continuation of authentic techniques while allowing for creative evolution.</p>
-
-      <p>Today, Pili Vesha has gained international recognition, with troupes performing in cultural festivals worldwide, carrying the spirit of Tulu Nadu's vibrant traditions to global audiences.</p>
+      <h2>Mangalore: The Spice Capital of the Coast</h2>
+      <p>The hills surrounding Mangalore are home to some of India's most productive spice plantations, where cardamom, pepper, cinnamon, and nutmeg grow in abundance. These aromatic gardens have been the source of prosperity for the region for centuries, attracting traders from around the world and establishing Mangalore as a major spice trading hub.</p>
+      
+      <h3>The Geography of Flavor</h3>
+      <p>The Western Ghats' unique climate, with its heavy monsoons and tropical temperatures, creates the perfect conditions for spice cultivation. The well-drained slopes, rich soil, and consistent rainfall patterns allow for the cultivation of premium quality spices that are sought after in international markets.</p>
+      
+      <h3>Traditional Cultivation Methods</h3>
+      <p>Local farmers have perfected traditional cultivation techniques passed down through generations. The intercropping system, where different spices are grown together, not only maximizes land use but also creates natural pest control systems. The shade-grown methods used for cardamom and the careful processing techniques for pepper ensure the highest quality produce.</p>
+      
+      <h3>The Spice Market Heritage</h3>
+      <p>Mangalore's spice markets are vibrant centers of commerce where the air is thick with aromatic fragrances. The traditional weighing methods, the art of spice blending, and the expertise of local traders create an authentic market experience that connects visitors to centuries-old trading traditions.</p>
+      
+      <h3>Culinary Impact</h3>
+      <p>The abundance of fresh spices has profoundly influenced the local cuisine. Mangalorean dishes are known for their complex spice blends, creating flavors that are both bold and balanced. The traditional methods of roasting and grinding spices just before cooking ensure maximum flavor and aroma in every dish.</p>
+      
+      <h3>Modern Sustainability</h3>
+      <p>Today's spice farmers are embracing sustainable practices, organic cultivation methods, and fair trade principles. These initiatives ensure that the spice gardens continue to thrive while preserving the environment and supporting local communities.</p>
     `,
-    image: "https://images.pexels.com/photos/1190298/pexels-photo-1190298.jpeg",
-    date: "May 5, 2025",
-    readTime: "7 min read",
-    author: "Pramod Shetty",
-    authorImage: "https://i.pravatar.cc/150?img=7",
-    category: "Folk Traditions",
-    tags: ["Tiger Dance", "Pili Vesha", "Dasara", "Folk Art", "Mangaluru"],
+    author: 'Agricultural Heritage Team',
+    date: '2024-11-20',
+    readTime: '6 min read',
+    image: 'https://images.unsplash.com/photo-1596797038530-2c107229654b?w=800',
+    tags: ['Spice Gardens', 'Agriculture', 'Trade Heritage', 'Mangalore'],
+    category: 'Agriculture',
+    audioAvailable: false
+  },
+  {
+    id: 'karkala-gomateshwara',
+    title: 'The Majestic Gomateshwara of Karkala: A Monument to Peace',
+    excerpt: 'Witness the serene grandeur of the 42-foot tall Gomateshwara statue in Karkala, a masterpiece of Jain art and devotion.',
+    content: `
+      <h2>Gomateshwara: The Peaceful Giant of Karkala</h2>
+      <p>Standing majestically atop a granite hill in Karkala, the 42-foot tall monolithic statue of Gomateshwara Bahubali is a testament to the artistic brilliance and spiritual devotion of the Jain community. Carved from a single block of granite in 1432 CE, this magnificent sculpture represents the pinnacle of medieval Indian stone carving artistry.</p>
+      
+      <h3>The Legend of Bahubali</h3>
+      <p>Gomateshwara, also known as Bahubali, was the son of Adinatha, the first Tirthankara of Jainism. According to Jain tradition, after winning a fierce battle with his brother Bharata, Bahubali realized the futility of worldly conquest and renounced his kingdom to pursue spiritual enlightenment. The statue depicts him in the kayotsarga posture, standing in deep meditation.</p>
+      
+      <h3>Architectural Marvel</h3>
+      <p>The statue's proportions and details showcase the sophisticated understanding of human anatomy and artistic principles possessed by medieval Indian sculptors. The serene facial expression, the perfectly balanced posture, and the intricate details of the body create a powerful visual representation of inner peace and spiritual transcendence.</p>
+      
+      <h3>The Mastakabhisheka Ceremony</h3>
+      <p>Every 12 years, the statue is anointed in a grand ceremony called Mastakabhisheka, where devotees pour milk, coconut water, turmeric, and other sacred substances over the statue. This ceremony attracts thousands of pilgrims and visitors, creating a spectacular display of devotion and community participation.</p>
+      
+      <h3>Cultural Significance</h3>
+      <p>The Gomateshwara statue is not just a religious monument but a symbol of peace, non-violence, and spiritual aspiration. It represents the Jain principles of ahimsa (non-violence) and spiritual liberation, inspiring visitors regardless of their religious background to contemplate the deeper meanings of existence.</p>
+      
+      <h3>The Surrounding Complex</h3>
+      <p>The hill complex includes several other Jain temples and monuments, creating a spiritual landscape that has been a center of pilgrimage for centuries. The climb to the summit offers panoramic views of the surrounding countryside, adding to the spiritual experience of visiting this sacred site.</p>
+    `,
+    author: 'Monument Conservation Society',
+    date: '2024-11-18',
+    readTime: '7 min read',
+    image: 'https://images.unsplash.com/photo-1582562124811-c09040d0a901?w=800',
+    tags: ['Gomateshwara', 'Jain Heritage', 'Sculpture', 'Karkala'],
+    category: 'Heritage',
     audioAvailable: true
   }
 ];
 
-export const getBlogPostById = (id: string): BlogPost | undefined => {
-  return blogPosts.find(post => post.id === id);
-};
+export const categories = [
+  'All',
+  'Heritage',
+  'Arts',
+  'Language',
+  'Spirituality',
+  'Agriculture'
+];
 
-export const getFeaturedPosts = (): BlogPost[] => {
-  return blogPosts.filter(post => post.featured);
-};
-
-export const getPostsByCategory = (category: string): BlogPost[] => {
-  return blogPosts.filter(post => post.category === category);
-};
+export const featuredPosts = blogPosts.slice(0, 3);

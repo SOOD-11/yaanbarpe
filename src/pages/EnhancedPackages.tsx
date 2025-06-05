@@ -21,11 +21,13 @@ const EnhancedPackages = () => {
   const [selectedRoute, setSelectedRoute] = useState<string>('');
 
   const handlePackageSelect = (pkg: Package) => {
+    console.log('Package selected:', pkg);
     setSelectedPackage(pkg);
     setCurrentView('details');
   };
 
   const handleRouteView = (routeId: string) => {
+    console.log('Route view requested:', routeId);
     setSelectedRoute(routeId);
     setCurrentView('route');
   };
@@ -85,6 +87,15 @@ const EnhancedPackages = () => {
               </div>
             </motion.div>
           </div>
+
+          {/* Debug Information */}
+          {process.env.NODE_ENV === 'development' && (
+            <div className="mb-4 p-4 bg-gray-100 rounded">
+              <p>Current View: {currentView}</p>
+              <p>Selected Package: {selectedPackage?.title || 'None'}</p>
+              <p>Selected Route: {selectedRoute || 'None'}</p>
+            </div>
+          )}
 
           {/* Main Content */}
           {currentView === 'packages' && (
@@ -198,12 +209,12 @@ const EnhancedPackages = () => {
 
                       {/* Highlights */}
                       <div className="mb-6">
-                        <h3 className="font-semibold mb-3">Experience Highlights</h3>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                        <h3 className="font-semibold mb-3 text-xl">Experience Highlights</h3>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                           {selectedPackage.highlights.map((highlight, index) => (
-                            <div key={index} className="flex items-start gap-2">
-                              <Star className="w-4 h-4 text-tulu-gold mt-0.5 flex-shrink-0" />
-                              <span className="text-sm">{highlight}</span>
+                            <div key={index} className="flex items-start gap-2 p-3 bg-tulu-sand/10 rounded-lg">
+                              <Star className="w-5 h-5 text-tulu-gold mt-0.5 flex-shrink-0" />
+                              <span className="text-sm font-medium">{highlight}</span>
                             </div>
                           ))}
                         </div>
@@ -211,36 +222,39 @@ const EnhancedPackages = () => {
 
                       {/* Itinerary */}
                       <div>
-                        <h3 className="font-semibold mb-3">Detailed Itinerary</h3>
+                        <h3 className="font-semibold mb-4 text-xl">Detailed Itinerary</h3>
                         <div className="space-y-4">
                           {selectedPackage.itinerary.map((day, index) => (
-                            <Card key={index} className="border">
+                            <Card key={index} className="border-l-4 border-l-tulu-blue">
                               <CardHeader className="pb-3">
-                                <CardTitle className="text-lg">Day {day.day}: {day.title}</CardTitle>
-                              </CardHeader>
-                              <CardContent>
-                                <div className="space-y-3">
-                                  <div>
-                                    <h4 className="font-medium mb-2">Activities</h4>
-                                    <ul className="text-sm space-y-1">
-                                      {day.activities.map((activity, actIndex) => (
-                                        <li key={actIndex} className="flex items-start gap-2">
-                                          <span className="text-tulu-blue">•</span>
-                                          {activity}
-                                        </li>
-                                      ))}
-                                    </ul>
+                                <CardTitle className="text-lg flex items-center gap-2">
+                                  <div className="w-8 h-8 bg-tulu-blue text-white rounded-full flex items-center justify-center text-sm font-bold">
+                                    {day.day}
                                   </div>
-                                  <div>
-                                    <h4 className="font-medium mb-2">Meals</h4>
-                                    <ul className="text-sm space-y-1">
-                                      {day.meals.map((meal, mealIndex) => (
-                                        <li key={mealIndex} className="flex items-start gap-2">
-                                          <span className="text-tulu-green">•</span>
-                                          {meal}
-                                        </li>
-                                      ))}
-                                    </ul>
+                                  {day.title}
+                                </CardTitle>
+                              </CardHeader>
+                              <CardContent className="space-y-4">
+                                <div>
+                                  <h4 className="font-medium mb-3 text-tulu-green">🎯 Activities</h4>
+                                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                                    {day.activities.map((activity, actIndex) => (
+                                      <div key={actIndex} className="flex items-start gap-2 p-2 bg-green-50 rounded">
+                                        <span className="text-tulu-blue font-bold">•</span>
+                                        <span className="text-sm">{activity}</span>
+                                      </div>
+                                    ))}
+                                  </div>
+                                </div>
+                                <div>
+                                  <h4 className="font-medium mb-3 text-tulu-green">🍽️ Meals</h4>
+                                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                                    {day.meals.map((meal, mealIndex) => (
+                                      <div key={mealIndex} className="flex items-start gap-2 p-2 bg-orange-50 rounded">
+                                        <span className="text-tulu-green font-bold">•</span>
+                                        <span className="text-sm">{meal}</span>
+                                      </div>
+                                    ))}
                                   </div>
                                 </div>
                               </CardContent>
@@ -257,29 +271,39 @@ const EnhancedPackages = () => {
                   {/* What's Included */}
                   <Card>
                     <CardHeader>
-                      <CardTitle>What's Included</CardTitle>
+                      <CardTitle className="flex items-center gap-2">
+                        <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center">
+                          ✓
+                        </div>
+                        What's Included
+                      </CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <ul className="space-y-2">
+                      <div className="space-y-3">
                         {selectedPackage.includes.map((item, index) => (
-                          <li key={index} className="flex items-start gap-2 text-sm">
-                            <div className="w-2 h-2 bg-tulu-green rounded-full mt-2 flex-shrink-0"></div>
-                            {item}
-                          </li>
+                          <div key={index} className="flex items-start gap-3 p-2 bg-green-50 rounded">
+                            <div className="w-3 h-3 bg-tulu-green rounded-full mt-1.5 flex-shrink-0"></div>
+                            <span className="text-sm font-medium">{item}</span>
+                          </div>
                         ))}
-                      </ul>
+                      </div>
                     </CardContent>
                   </Card>
 
                   {/* Best For */}
                   <Card>
                     <CardHeader>
-                      <CardTitle>Perfect For</CardTitle>
+                      <CardTitle className="flex items-center gap-2">
+                        <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center">
+                          👥
+                        </div>
+                        Perfect For
+                      </CardTitle>
                     </CardHeader>
                     <CardContent>
                       <div className="flex flex-wrap gap-2">
                         {selectedPackage.bestFor.map((tag, index) => (
-                          <Badge key={index} variant="secondary">
+                          <Badge key={index} variant="secondary" className="bg-tulu-blue/10 text-tulu-blue">
                             {tag}
                           </Badge>
                         ))}
@@ -287,16 +311,43 @@ const EnhancedPackages = () => {
                     </CardContent>
                   </Card>
 
-                  {/* Booking Actions */}
+                  {/* Package Stats */}
                   <Card>
+                    <CardHeader>
+                      <CardTitle>Package Information</CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-3">
+                      <div className="flex justify-between">
+                        <span className="text-sm text-muted-foreground">Experience Points</span>
+                        <span className="font-semibold text-tulu-gold">+{selectedPackage.points}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-sm text-muted-foreground">Routes Covered</span>
+                        <span className="font-semibold">{selectedPackage.routes.length}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-sm text-muted-foreground">Tier Level</span>
+                        <Badge variant="outline" className="capitalize">{selectedPackage.tier}</Badge>
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  {/* Booking Actions */}
+                  <Card className="bg-gradient-to-br from-tulu-blue/5 to-tulu-green/5">
                     <CardContent className="p-6 space-y-4">
+                      <div className="text-center mb-4">
+                        <div className="text-3xl font-bold text-tulu-green mb-1">
+                          {formatPrice(selectedPackage.price.min, selectedPackage.price.max)}
+                        </div>
+                        <div className="text-sm text-muted-foreground">per person</div>
+                      </div>
                       <Button className="w-full bg-tulu-blue hover:bg-tulu-green text-lg py-3">
                         Book This Experience
                       </Button>
-                      <Button variant="outline" className="w-full">
+                      <Button variant="outline" className="w-full border-tulu-blue text-tulu-blue hover:bg-tulu-blue hover:text-white">
                         Request Custom Quote
                       </Button>
-                      <Button variant="ghost" className="w-full">
+                      <Button variant="ghost" className="w-full text-tulu-green hover:bg-tulu-green/10">
                         Download Brochure
                       </Button>
                     </CardContent>
