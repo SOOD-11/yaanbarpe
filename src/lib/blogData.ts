@@ -11,6 +11,8 @@ export interface BlogPost {
   tags: string[];
   category: string;
   audioAvailable?: boolean;
+  featured?: boolean;
+  authorImage?: string;
 }
 
 export const blogPosts: BlogPost[] = [
@@ -203,3 +205,7 @@ export const categories = [
 ];
 
 export const featuredPosts = blogPosts.slice(0, 3);
+
+export const getBlogPostById = (id: string): BlogPost | undefined => {
+  return blogPosts.find(post => post.id === id);
+};

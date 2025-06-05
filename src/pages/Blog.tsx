@@ -101,7 +101,7 @@ const Blog = () => {
     "Travel"
   ];
 
-  const featuredPosts = blogPosts.filter(post => post.featured);
+  const featuredPosts = blogPosts.slice(0, 3);
   const allPosts = blogPosts;
 
   return (
