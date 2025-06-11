@@ -1,7 +1,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { ArrowDown } from 'lucide-react';
+import { ArrowDown, Play } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { toast } from '@/hooks/use-toast';
 
@@ -13,16 +13,16 @@ const Hero = () => {
   const [interactionPoints, setInteractionPoints] = useState(0);
   const [imagesLoaded, setImagesLoaded] = useState<boolean[]>([]);
   
-  // Updated with reliable Pexels images
+  // Enhanced high-quality background images
   const backgroundImages = [
-    "https://images.pexels.com/photos/4388164/pexels-photo-4388164.jpeg?auto=compress&cs=tinysrgb&w=1500",
-    "https://images.pexels.com/photos/4388593/pexels-photo-4388593.jpeg?auto=compress&cs=tinysrgb&w=1500",
-    "https://images.pexels.com/photos/7412095/pexels-photo-7412095.jpeg?auto=compress&cs=tinysrgb&w=1500",
-    "https://images.pexels.com/photos/1190298/pexels-photo-1190298.jpeg?auto=compress&cs=tinysrgb&w=1500"
+    "https://images.pexels.com/photos/4388164/pexels-photo-4388164.jpeg?auto=compress&cs=tinysrgb&w=1920",
+    "https://images.pexels.com/photos/2161467/pexels-photo-2161467.jpeg?auto=compress&cs=tinysrgb&w=1920",
+    "https://images.pexels.com/photos/1450353/pexels-photo-1450353.jpeg?auto=compress&cs=tinysrgb&w=1920",
+    "https://images.pexels.com/photos/3944154/pexels-photo-3944154.jpeg?auto=compress&cs=tinysrgb&w=1920"
   ];
   
   useEffect(() => {
-    // Preload images
+    // Preload images with better loading handling
     backgroundImages.forEach((src, index) => {
       const img = new Image();
       img.src = src;
@@ -37,14 +37,12 @@ const Hero = () => {
     
     const imageInterval = setInterval(() => {
       setCurrentImage((prev) => (prev + 1) % backgroundImages.length);
-    }, 5000);
+    }, 6000); // Slower transition for better viewing
     
-    // Show interaction hint after 3 seconds
     const interactionTimeout = setTimeout(() => {
       setShowInteraction(true);
     }, 3000);
     
-    // Load interaction points from localStorage
     const storedPoints = localStorage.getItem('tuluPoints');
     if (storedPoints) {
       setInteractionPoints(parseInt(storedPoints));
@@ -64,7 +62,6 @@ const Hero = () => {
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
-    
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
@@ -78,16 +75,11 @@ const Hero = () => {
     }
   };
   
-  // Simplified point system
   const incrementPoints = (amount: number) => {
-    // Update local state
     setInteractionPoints(prev => prev + amount);
-    
-    // Update global points in localStorage
     const currentPoints = Number(localStorage.getItem('tuluPoints') || '0');
     localStorage.setItem('tuluPoints', (currentPoints + amount).toString());
     
-    // Show toast notification
     toast({
       title: `+${amount} points earned!`,
       description: "Keep exploring to earn more points and unlock content!",
@@ -102,65 +94,70 @@ const Hero = () => {
   return (
     <div 
       ref={heroRef}
-      className="relative h-screen w-full overflow-hidden parallax-container"
+      className="relative h-screen w-full overflow-hidden"
     >
-      {/* Points counter */}
-      <div className="absolute top-4 right-4 bg-tulu-teal/80 backdrop-blur-sm text-white px-4 py-2 rounded-full z-10 flex items-center gap-2">
-        <span className="text-tulu-beige font-bold">{interactionPoints}</span>
-        <span>Experience Points</span>
+      {/* Welcome subtitle */}
+      <div className="absolute top-8 left-1/2 transform -translate-x-1/2 z-20">
+        <p className="font-display text-tulu-beige text-lg md:text-xl italic">
+          Welcome to YaanBarpe
+        </p>
+      </div>
+
+      {/* Enhanced points counter */}
+      <div className="absolute top-6 right-6 bg-black/30 backdrop-blur-md text-white px-6 py-3 rounded-full z-20 flex items-center gap-3 border border-white/20">
+        <div className="w-2 h-2 bg-tulu-beige rounded-full animate-pulse"></div>
+        <span className="text-tulu-beige font-bold text-lg">{interactionPoints}</span>
+        <span className="text-sm">Experience Points</span>
       </div>
       
-      {/* Loading placeholder */}
-      {backgroundImages.map((image, index) => !imagesLoaded[index] && currentImage === index && (
-        <div key={`loading-${index}`} className="absolute inset-0 bg-gray-800 flex items-center justify-center">
-          <div className="text-white text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-4 border-t-transparent border-white mb-4"></div>
-            <p>Loading beautiful imagery...</p>
-          </div>
-        </div>
-      ))}
-      
-      {/* Background images with fade transition */}
+      {/* Enhanced background images with better transitions */}
       {backgroundImages.map((image, index) => (
         <div 
           key={index}
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-1000"
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-all duration-2000 ease-in-out"
           style={{
             backgroundImage: `url('${image}')`,
-            transform: `translateY(${scrollY * 0.4}px)`,
+            transform: `translateY(${scrollY * 0.3}px) scale(${1 + scrollY * 0.0002})`,
             backgroundPosition: 'center center',
-            filter: 'brightness(0.7)',
+            filter: 'brightness(0.6) contrast(1.1)',
             opacity: currentImage === index && imagesLoaded[index] ? 1 : 0,
           }}
         />
       ))}
       
-      {/* Overlay gradient */}
-      <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-black/40" />
+      {/* Enhanced overlay gradients */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/60 z-10" />
+      <div className="absolute inset-0 bg-gradient-to-r from-tulu-teal/20 via-transparent to-tulu-red/20 z-10" />
       
-      {/* Content */}
-      <div className="relative h-full flex flex-col justify-center items-center text-white px-4 md:px-8 max-w-5xl mx-auto text-center">
-        <h1 className="font-display text-4xl md:text-6xl lg:text-7xl font-bold mb-6 animate-fade-in-up">
-          <span className="block">Unveiling</span>
-          <span className="text-tulu-beige">Tulu Nadu's</span>
-          <span className="block">Cultural Treasures</span>
-        </h1>
+      {/* Main content with better positioning */}
+      <div className="relative h-full flex flex-col justify-center items-center text-white px-4 md:px-8 max-w-6xl mx-auto text-center z-20">
+        <div className="mb-8">
+          <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-bold mb-8 leading-tight">
+            <span className="block transform hover:scale-105 transition-transform duration-500">Unveiling</span>
+            <span className="text-tulu-beige block transform hover:scale-105 transition-transform duration-500 delay-100">Tulu Nadu's</span>
+            <span className="block transform hover:scale-105 transition-transform duration-500 delay-200">Cultural Treasures</span>
+          </h1>
+          
+          <div className="w-24 h-1 bg-tulu-beige mx-auto mb-8 rounded-full"></div>
+          
+          <p className="text-xl md:text-2xl max-w-3xl mx-auto mb-10 text-white/95 leading-relaxed">
+            Discover the hidden gems of Karnataka's coastal belt through authentic immersive experiences that connect you with our rich heritage and vibrant culture.
+          </p>
+        </div>
         
-        <p className="text-lg md:text-xl max-w-2xl mx-auto mb-8 text-white/90 animate-fade-in-up animate-delay-200">
-          Discover the hidden gems of Karnataka's coastal belt through authentic immersive experiences that connect you with our rich heritage and vibrant culture.
-        </p>
-        
-        <div className="flex flex-col md:flex-row gap-4 animate-fade-in-up animate-delay-300">
+        {/* Enhanced buttons with better styling */}
+        <div className="flex flex-col md:flex-row gap-6 mb-12">
           <Button 
-            className="bg-tulu-teal hover:bg-tulu-red transition-colors text-white border-white border px-6 py-6 text-lg group"
+            className="bg-tulu-teal hover:bg-tulu-red transition-all duration-300 text-white border-2 border-tulu-beige px-8 py-4 text-lg group transform hover:scale-105 shadow-lg"
             size="lg"
             onClick={() => incrementPoints(10)}
           >
+            <Play className="mr-3 opacity-80 group-hover:opacity-100 transition-opacity" size={20} />
             Explore Our Experiences
-            <ArrowDown className="ml-2 opacity-0 group-hover:opacity-100 transition-opacity" />
+            <ArrowDown className="ml-3 opacity-0 group-hover:opacity-100 transition-all duration-300 group-hover:translate-y-1" />
           </Button>
           <Button 
-            className="bg-transparent hover:bg-white/10 text-white border-white border px-6 py-6 text-lg" 
+            className="bg-transparent hover:bg-white/15 text-white border-2 border-white/60 hover:border-white px-8 py-4 text-lg backdrop-blur-sm transform hover:scale-105 transition-all duration-300" 
             variant="outline"
             size="lg"
             onClick={() => incrementPoints(5)}
@@ -169,42 +166,55 @@ const Hero = () => {
           </Button>
         </div>
         
-        {/* Interactive elements - simplified */}
-        <div className="absolute bottom-20 w-full max-w-4xl mx-auto grid grid-cols-3 gap-4 px-4">
+        {/* Enhanced interactive culture cards */}
+        <div className="absolute bottom-32 w-full max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 px-4">
           {[
-            { title: "Yakshagana", desc: "Traditional dance-drama", points: 3 },
-            { title: "Bhuta Kola", desc: "Sacred spirit worship", points: 4 },
-            { title: "Kambala", desc: "Buffalo race tradition", points: 2 }
+            { title: "Yakshagana", desc: "Traditional dance-drama storytelling", points: 3, icon: "🎭" },
+            { title: "Bhuta Kola", desc: "Sacred spirit worship rituals", points: 4, icon: "🔥" },
+            { title: "Kambala", desc: "Buffalo racing tradition", points: 2, icon: "🏃‍♂️" }
           ].map((item, idx) => (
             <div 
               key={idx}
               className={cn(
-                "bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20 transition-all cursor-pointer",
-                showInteraction && "animate-pulse"
+                "group bg-black/20 backdrop-blur-md rounded-xl p-6 border border-white/30 transition-all duration-500 cursor-pointer transform hover:-translate-y-2 hover:shadow-2xl",
+                showInteraction && "animate-fade-in-up"
               )}
+              style={{ animationDelay: `${idx * 200}ms` }}
               onClick={() => {
                 handleCultureClick();
                 incrementPoints(item.points);
               }}
             >
-              <div className="flex justify-between items-start">
-                <div>
-                  <h3 className="text-xl font-medium">{item.title}</h3>
-                  <p className="text-sm text-white/70">{item.desc}</p>
+              <div className="flex items-center justify-between mb-3">
+                <div className="text-4xl group-hover:scale-110 transition-transform duration-300">
+                  {item.icon}
                 </div>
-                <span className="bg-tulu-red/80 text-white text-xs px-2 py-1 rounded-full">+{item.points}</span>
+                <span className="bg-tulu-red text-white text-sm px-3 py-1 rounded-full font-medium">
+                  +{item.points} pts
+                </span>
+              </div>
+              <h3 className="text-xl font-display font-bold mb-2 group-hover:text-tulu-beige transition-colors">
+                {item.title}
+              </h3>
+              <p className="text-sm text-white/80 group-hover:text-white/95 transition-colors">
+                {item.desc}
+              </p>
+              <div className="mt-4 w-full h-0.5 bg-white/20 rounded-full overflow-hidden">
+                <div className="h-full bg-tulu-beige transform scale-x-0 group-hover:scale-x-100 transition-transform duration-700 origin-left"></div>
               </div>
             </div>
           ))}
         </div>
         
-        {/* Scroll indicator */}
+        {/* Enhanced scroll indicator */}
         <div 
-          className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center cursor-pointer animate-fade-in animate-delay-500"
+          className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center cursor-pointer group z-30"
           onClick={scrollToExplore}
         >
-          <span className="text-sm mb-2">Scroll to Explore</span>
-          <ArrowDown className="animate-bounce" size={24} />
+          <span className="text-sm mb-3 text-white/90 group-hover:text-white transition-colors">Scroll to Explore</span>
+          <div className="w-6 h-10 border-2 border-white/60 rounded-full flex justify-center">
+            <div className="w-1 h-3 bg-white/80 rounded-full mt-2 animate-bounce"></div>
+          </div>
         </div>
       </div>
     </div>
