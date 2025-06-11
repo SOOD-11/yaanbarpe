@@ -33,14 +33,18 @@ const Index = () => {
   }, []);
   
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-background">
       <Navigation />
-      <Hero />
-      <FeaturedExperiences />
-      <CulturalShowcase />
-      <Stats />
-      <Testimonials />
-      <CallToAction />
+      <main className="w-full">
+        <Hero />
+        <div className="relative">
+          <FeaturedExperiences />
+          <CulturalShowcase />
+          <Stats />
+          <Testimonials />
+          <CallToAction />
+        </div>
+      </main>
       <Footer />
     </div>
   );
