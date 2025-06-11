@@ -12,6 +12,7 @@ import BlogPost from "./pages/BlogPost";
 import Packages from "./pages/Packages";
 import EnhancedPackages from "./pages/EnhancedPackages";
 import Experiences from "./pages/Experiences";
+import Heritage from "./pages/Heritage";
 
 const queryClient = new QueryClient();
 
@@ -28,6 +29,7 @@ const App = () => (
           <Route path="/packages" element={<Packages />} />
           <Route path="/enhanced-packages" element={<EnhancedPackages />} />
           <Route path="/experiences" element={<Experiences />} />
+          <Route path="/heritage" element={<Heritage />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

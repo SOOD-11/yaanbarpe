@@ -43,6 +43,15 @@
     --sidebar-accent-foreground: 222.2 47.4% 11.2%;
     --sidebar-border: 214.3 31.8% 91.4%;
     --sidebar-ring: 222.2 84% 4.9%;
+
+    /* Tulu Theme Colors */
+    --tulu-blue: 209 89% 25%;
+    --tulu-teal: 173 58% 39%;
+    --tulu-red: 0 84% 60%;
+    --tulu-gold: 45 100% 51%;
+    --tulu-green: 142 71% 45%;
+    --tulu-beige: 38 44% 85%;
+    --tulu-sand: 39 77% 78%;
   }
 
   .dark {
@@ -82,6 +91,15 @@
     --sidebar-accent-foreground: 210 40% 98%;
     --sidebar-border: 217.2 32.6% 17.5%;
     --sidebar-ring: 212.7 26.8% 83.9%;
+
+    /* Tulu Theme Colors for Dark Mode */
+    --tulu-blue: 209 89% 35%;
+    --tulu-teal: 173 58% 49%;
+    --tulu-red: 0 84% 70%;
+    --tulu-gold: 45 100% 61%;
+    --tulu-green: 142 71% 55%;
+    --tulu-beige: 38 44% 75%;
+    --tulu-sand: 39 77% 68%;
   }
 }
 
@@ -97,6 +115,41 @@
   html {
     scroll-behavior: smooth;
   }
+}
+
+/* Tulu color utilities */
+@layer utilities {
+  .text-tulu-blue { color: hsl(var(--tulu-blue)); }
+  .text-tulu-teal { color: hsl(var(--tulu-teal)); }
+  .text-tulu-red { color: hsl(var(--tulu-red)); }
+  .text-tulu-gold { color: hsl(var(--tulu-gold)); }
+  .text-tulu-green { color: hsl(var(--tulu-green)); }
+  .text-tulu-beige { color: hsl(var(--tulu-beige)); }
+  .text-tulu-sand { color: hsl(var(--tulu-sand)); }
+  
+  .bg-tulu-blue { background-color: hsl(var(--tulu-blue)); }
+  .bg-tulu-teal { background-color: hsl(var(--tulu-teal)); }
+  .bg-tulu-red { background-color: hsl(var(--tulu-red)); }
+  .bg-tulu-gold { background-color: hsl(var(--tulu-gold)); }
+  .bg-tulu-green { background-color: hsl(var(--tulu-green)); }
+  .bg-tulu-beige { background-color: hsl(var(--tulu-beige)); }
+  .bg-tulu-sand { background-color: hsl(var(--tulu-sand)); }
+  
+  .border-tulu-blue { border-color: hsl(var(--tulu-blue)); }
+  .border-tulu-teal { border-color: hsl(var(--tulu-teal)); }
+  .border-tulu-red { border-color: hsl(var(--tulu-red)); }
+  .border-tulu-gold { border-color: hsl(var(--tulu-gold)); }
+  .border-tulu-green { border-color: hsl(var(--tulu-green)); }
+  .border-tulu-beige { border-color: hsl(var(--tulu-beige)); }
+  .border-tulu-sand { border-color: hsl(var(--tulu-sand)); }
+  
+  .hover\:bg-tulu-blue:hover { background-color: hsl(var(--tulu-blue)); }
+  .hover\:bg-tulu-teal:hover { background-color: hsl(var(--tulu-teal)); }
+  .hover\:bg-tulu-red:hover { background-color: hsl(var(--tulu-red)); }
+  .hover\:bg-tulu-gold:hover { background-color: hsl(var(--tulu-gold)); }
+  .hover\:bg-tulu-green:hover { background-color: hsl(var(--tulu-green)); }
+  .hover\:bg-tulu-beige:hover { background-color: hsl(var(--tulu-beige)); }
+  .hover\:bg-tulu-sand:hover { background-color: hsl(var(--tulu-sand)); }
 }
 
 /* Enhanced animations */
