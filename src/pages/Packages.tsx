@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
@@ -11,7 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
-import { Clock, Users, MapPin, Star, ArrowLeft, Heart, Filter, Search, Sparkles, TrendingUp, Award, Zap } from 'lucide-react';
+import { Clock, Users, MapPin, Star, ArrowLeft, Heart, Filter, Search, Sparkles, TrendingUp, Award, Zap, MessageCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const Packages = () => {
@@ -173,7 +172,7 @@ const Packages = () => {
                   onClick={handleBackToSelector}
                   className="rounded-full hover:bg-tulu-sand/20"
                 >
-                  <Ar rowLeft className="w-4 h-4 mr-2" />
+                  <ArrowLeft className="w-4 h-4 mr-2" />
                   Back to Packages
                 </Button>
                 <Badge className="bg-tulu-green/20 text-tulu-green">
