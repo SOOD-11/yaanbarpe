@@ -74,9 +74,9 @@ const Navigation = () => {
                   <ul className="grid gap-3 p-4 md:w-[400px] lg:grid-cols-2">
                     <li className="row-span-3">
                       <NavigationMenuLink asChild>
-                        <a
+                        <Link
                           className="flex flex-col h-full w-full select-none rounded-md bg-gradient-to-b from-tulu-blue/20 via-tulu-blue/10 to-transparent p-6 no-underline outline-none focus:shadow-md"
-                          href="/about"
+                          to="/about"
                         >
                           <div className="mb-2 text-lg font-medium text-tulu-blue">
                             Our Story
@@ -88,12 +88,12 @@ const Navigation = () => {
                             Read More
                             <ChevronDown className="ml-1 h-3 w-3 rotate-[-90deg]" />
                           </div>
-                        </a>
+                        </Link>
                       </NavigationMenuLink>
                     </li>
                     <li>
                       <Link
-                        to="/about/team"
+                        to="/about"
                         className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
                       >
                         <div className="text-sm font-medium leading-none">Team</div>
@@ -104,7 +104,7 @@ const Navigation = () => {
                     </li>
                     <li>
                       <Link
-                        to="/about/values"
+                        to="/about"
                         className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
                       >
                         <div className="text-sm font-medium leading-none">Values</div>
@@ -179,8 +179,8 @@ const Navigation = () => {
             </NavigationMenuList>
           </NavigationMenu>
           
-          <Button className="ml-4 bg-tulu-red hover:bg-tulu-blue transition-colors text-white">
-            Book Experience
+          <Button className="ml-4 bg-tulu-red hover:bg-tulu-blue transition-colors text-white" asChild>
+            <Link to="/booking">Book Experience</Link>
           </Button>
         </div>
         
@@ -248,8 +248,8 @@ const Navigation = () => {
               Contact
             </Link>
             
-            <Button className="bg-tulu-red hover:bg-tulu-blue transition-colors text-white mt-4 py-6 text-lg">
-              Book Experience
+            <Button className="bg-tulu-red hover:bg-tulu-blue transition-colors text-white mt-4 py-6 text-lg" asChild>
+              <Link to="/booking" onClick={() => setMobileMenuOpen(false)}>Book Experience</Link>
             </Button>
           </div>
         </div>

@@ -13,6 +13,10 @@ import Packages from "./pages/Packages";
 import EnhancedPackages from "./pages/EnhancedPackages";
 import Experiences from "./pages/Experiences";
 import Heritage from "./pages/Heritage";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
+import Booking from "./pages/Booking";
+import BookingSuccess from "./pages/BookingSuccess";
 
 const queryClient = new QueryClient();
 
@@ -30,6 +34,10 @@ const App = () => (
           <Route path="/enhanced-packages" element={<EnhancedPackages />} />
           <Route path="/experiences" element={<Experiences />} />
           <Route path="/heritage" element={<Heritage />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/booking" element={<Booking />} />
+          <Route path="/booking-success" element={<BookingSuccess />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

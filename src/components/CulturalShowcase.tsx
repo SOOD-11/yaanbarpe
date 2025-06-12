@@ -1,8 +1,8 @@
-
 import { useRef, useEffect, useState } from 'react';
 import { ArrowRight, MapPin, Clock, Users, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { Link } from 'react-router-dom';
 
 const culturalElements = [
   {
@@ -213,16 +213,22 @@ const CulturalShowcase = () => {
                   <Button 
                     className="bg-tulu-teal hover:bg-tulu-blue text-white group flex-1"
                     size="lg"
+                    asChild
                   >
-                    Explore {element.title}
-                    <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={18} />
+                    <Link to="/heritage">
+                      Explore {element.title}
+                      <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={18} />
+                    </Link>
                   </Button>
                   <Button 
                     variant="outline" 
                     className="border-tulu-red text-tulu-red hover:bg-tulu-red hover:text-white flex-1"
                     size="lg"
+                    asChild
                   >
-                    Book Experience
+                    <Link to={`/booking?experience=${element.id}`}>
+                      Book Experience
+                    </Link>
                   </Button>
                 </div>
               </div>
@@ -243,10 +249,13 @@ const CulturalShowcase = () => {
             <Button 
               className="bg-tulu-red hover:bg-tulu-blue text-white group"
               size="lg"
+              asChild
             >
-              <Users className="mr-2" size={20} />
-              Book Cultural Heritage Tour
-              <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={18} />
+              <Link to="/booking">
+                <Users className="mr-2" size={20} />
+                Book Cultural Heritage Tour
+                <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={18} />
+              </Link>
             </Button>
           </div>
         </div>

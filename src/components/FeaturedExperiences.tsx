@@ -1,10 +1,10 @@
-
 import { useEffect, useRef, useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Clock, Users, MapPin, Star } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { toast } from '@/hooks/use-toast';
+import { Link } from 'react-router-dom';
 
 const experiences = [
   {
@@ -172,10 +172,12 @@ const FeaturedExperiences = () => {
             
             <Button 
               className="bg-tulu-teal hover:bg-tulu-red text-white group hidden lg:flex shadow-lg"
-              onClick={() => handleExperienceClick(10)}
+              asChild
             >
-              View All Experiences
-              <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={18} />
+              <Link to="/experiences">
+                View All Experiences
+                <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={18} />
+              </Link>
             </Button>
           </div>
         </div>
@@ -334,10 +336,16 @@ const FeaturedExperiences = () => {
                           ? "border-tulu-teal text-tulu-teal hover:text-white hover:bg-tulu-teal" 
                           : "border-gray-400 text-gray-400 cursor-not-allowed"
                       }`}
-                      onClick={() => isUnlocked && handleExperienceClick(experience.points)}
+                      asChild={isUnlocked}
                       disabled={!isUnlocked}
                     >
-                      {isUnlocked ? "Book Experience" : "🔒 Locked"}
+                      {isUnlocked ? (
+                        <Link to={`/booking?experience=${experience.id}`}>
+                          Book Experience
+                        </Link>
+                      ) : (
+                        <span>🔒 Locked</span>
+                      )}
                     </Button>
                   </CardContent>
                   
@@ -361,10 +369,12 @@ const FeaturedExperiences = () => {
         <div className="mt-12 flex justify-center lg:hidden">
           <Button 
             className="bg-tulu-teal hover:bg-tulu-red text-white group shadow-lg"
-            onClick={() => handleExperienceClick(10)}
+            asChild
           >
-            View All Experiences
-            <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={18} />
+            <Link to="/experiences">
+              View All Experiences
+              <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={18} />
+            </Link>
           </Button>
         </div>
       </div>
