@@ -42,20 +42,20 @@ const PackageSelector = ({ onPackageSelect, onRouteView }: PackageSelectorProps)
 
   return (
     <div className="space-y-6">
-      {/* Filters */}
-      <Card>
+      {/* Professional Filters */}
+      <Card className="border border-slate-200 shadow-sm bg-white">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Filter className="w-5 h-5" />
+          <CardTitle className="flex items-center gap-2 text-slate-900">
+            <Filter className="w-5 h-5 text-slate-600" />
             Filter Packages
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <div>
-              <label className="text-sm font-medium mb-2 block">Package Tier</label>
+              <label className="text-sm font-medium mb-2 block text-slate-700">Package Tier</label>
               <Select value={selectedTier} onValueChange={setSelectedTier}>
-                <SelectTrigger>
+                <SelectTrigger className="border-slate-200 focus:border-slate-400 focus:ring-slate-400/20">
                   <SelectValue placeholder="All tiers" />
                 </SelectTrigger>
                 <SelectContent>
@@ -70,9 +70,9 @@ const PackageSelector = ({ onPackageSelect, onRouteView }: PackageSelectorProps)
             </div>
             
             <div>
-              <label className="text-sm font-medium mb-2 block">Duration</label>
+              <label className="text-sm font-medium mb-2 block text-slate-700">Duration</label>
               <Select value={durationFilter} onValueChange={setDurationFilter}>
-                <SelectTrigger>
+                <SelectTrigger className="border-slate-200 focus:border-slate-400 focus:ring-slate-400/20">
                   <SelectValue placeholder="All durations" />
                 </SelectTrigger>
                 <SelectContent>
@@ -85,9 +85,9 @@ const PackageSelector = ({ onPackageSelect, onRouteView }: PackageSelectorProps)
             </div>
             
             <div>
-              <label className="text-sm font-medium mb-2 block">Difficulty</label>
+              <label className="text-sm font-medium mb-2 block text-slate-700">Difficulty</label>
               <Select value={difficultyFilter} onValueChange={setDifficultyFilter}>
-                <SelectTrigger>
+                <SelectTrigger className="border-slate-200 focus:border-slate-400 focus:ring-slate-400/20">
                   <SelectValue placeholder="All levels" />
                 </SelectTrigger>
                 <SelectContent>
@@ -100,7 +100,7 @@ const PackageSelector = ({ onPackageSelect, onRouteView }: PackageSelectorProps)
             </div>
             
             <div>
-              <label className="text-sm font-medium mb-2 block">
+              <label className="text-sm font-medium mb-2 block text-slate-700">
                 Price Range: ₹{priceRange[0].toLocaleString()} - ₹{priceRange[1].toLocaleString()}
               </label>
               <Slider
@@ -116,12 +116,12 @@ const PackageSelector = ({ onPackageSelect, onRouteView }: PackageSelectorProps)
         </CardContent>
       </Card>
 
-      {/* Package Tier Tabs */}
+      {/* Professional Package Tier Tabs */}
       <Tabs value={selectedTier} onValueChange={setSelectedTier} className="w-full">
-        <TabsList className="grid w-full grid-cols-7">
-          <TabsTrigger value="all">All</TabsTrigger>
+        <TabsList className="grid w-full grid-cols-7 bg-white border border-slate-200 shadow-sm">
+          <TabsTrigger value="all" className="data-[state=active]:bg-slate-900 data-[state=active]:text-white">All</TabsTrigger>
           {Object.entries(packageTiers).map(([key, tier]) => (
-            <TabsTrigger key={key} value={key} className="text-xs">
+            <TabsTrigger key={key} value={key} className="text-xs data-[state=active]:bg-slate-900 data-[state=active]:text-white">
               {tier.icon}
             </TabsTrigger>
           ))}
@@ -166,11 +166,11 @@ const PackageGrid = ({ packages, onPackageSelect, onRouteView }: PackageGridProp
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: index * 0.1 }}
         >
-          <Card className={`h-full relative overflow-hidden ${pkg.featured ? 'ring-2 ring-tulu-gold' : ''}`}>
+          <Card className={`h-full relative overflow-hidden border border-slate-200 shadow-sm hover:shadow-md transition-shadow bg-white ${pkg.featured ? 'ring-1 ring-amber-200' : ''}`}>
             {pkg.featured && (
               <div className="absolute top-4 right-4 z-10">
-                <Badge className="bg-tulu-gold text-white">
-                  <Star className="w-3 h-3 mr-1" />
+                <Badge className="bg-amber-500 text-white shadow-sm">
+                  <Star className="w-3 h-3 mr-1 fill-current" />
                   Featured
                 </Badge>
               </div>
@@ -183,37 +183,37 @@ const PackageGrid = ({ packages, onPackageSelect, onRouteView }: PackageGridProp
                 className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
               />
               <div className="absolute top-4 left-4">
-                <Badge className={packageTiers[pkg.tier].color}>
+                <Badge className="bg-white/90 text-slate-700 border border-slate-200 shadow-sm">
                   {packageTiers[pkg.tier].icon} {packageTiers[pkg.tier].name}
                 </Badge>
               </div>
-              <div className="absolute bottom-4 right-4 bg-black/70 text-white px-2 py-1 rounded text-sm">
+              <div className="absolute bottom-4 right-4 bg-slate-900/80 text-white px-2 py-1 rounded text-sm">
                 +{pkg.points} points
               </div>
             </div>
 
             <CardContent className="p-6">
               <div className="flex justify-between items-start mb-2">
-                <h3 className="font-bold text-lg">{pkg.title}</h3>
-                <span className="text-tulu-green font-semibold">
+                <h3 className="font-bold text-lg text-slate-900">{pkg.title}</h3>
+                <span className="text-slate-900 font-semibold">
                   {formatPrice(pkg.price.min, pkg.price.max)}
                 </span>
               </div>
               
-              <p className="text-muted-foreground text-sm mb-4 line-clamp-2">
+              <p className="text-slate-600 text-sm mb-4 line-clamp-2">
                 {pkg.description}
               </p>
 
               <div className="flex flex-wrap gap-2 mb-4">
-                <div className="flex items-center text-xs text-muted-foreground">
+                <div className="flex items-center text-xs text-slate-500 bg-slate-50 px-2 py-1 rounded border border-slate-100">
                   <Clock className="w-3 h-3 mr-1" />
                   {pkg.duration}
                 </div>
-                <div className="flex items-center text-xs text-muted-foreground">
+                <div className="flex items-center text-xs text-slate-500 bg-slate-50 px-2 py-1 rounded border border-slate-100">
                   <Users className="w-3 h-3 mr-1" />
                   {pkg.groupSize}
                 </div>
-                <div className="flex items-center text-xs text-muted-foreground">
+                <div className="flex items-center text-xs text-slate-500 bg-slate-50 px-2 py-1 rounded border border-slate-100">
                   <MapPin className="w-3 h-3 mr-1" />
                   {pkg.routes.length} route{pkg.routes.length > 1 ? 's' : ''}
                 </div>
@@ -222,7 +222,7 @@ const PackageGrid = ({ packages, onPackageSelect, onRouteView }: PackageGridProp
               <div className="space-y-2">
                 <Button 
                   onClick={() => onPackageSelect(pkg)}
-                  className="w-full bg-tulu-blue hover:bg-tulu-green"
+                  className="w-full bg-slate-900 hover:bg-slate-800 text-white rounded-lg transition-colors"
                   disabled={!pkg.available}
                 >
                   {pkg.available ? 'View Details' : 'Coming Soon'}
@@ -232,7 +232,7 @@ const PackageGrid = ({ packages, onPackageSelect, onRouteView }: PackageGridProp
                   <Button 
                     variant="outline" 
                     onClick={() => onRouteView(pkg.routes[0])}
-                    className="w-full"
+                    className="w-full border-slate-200 text-slate-700 hover:bg-slate-50 rounded-lg transition-colors"
                   >
                     View Route Map
                   </Button>
