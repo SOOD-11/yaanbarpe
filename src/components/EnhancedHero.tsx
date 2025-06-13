@@ -43,137 +43,141 @@ const EnhancedHero = () => {
   const currentHero = heroSlides[currentSlide];
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Dynamic Background with Parallax Effect */}
+    <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-slate-900">
+      {/* Premium Background with Parallax Effect */}
       <div className="absolute inset-0">
         <div 
           className="absolute inset-0 bg-cover bg-center transition-all duration-1000 ease-in-out transform scale-105"
           style={{ backgroundImage: `url(${currentHero.image})` }}
         />
-        <div className="absolute inset-0 bg-gradient-to-br from-black/70 via-black/50 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-900/80 via-slate-800/60 to-slate-900/90" />
         
-        {/* Animated Geometric Patterns */}
-        <div className="absolute inset-0 opacity-20">
-          <div className="absolute top-20 left-20 w-32 h-32 border-2 border-tulu-gold rounded-full animate-spin" style={{ animationDuration: '20s' }} />
-          <div className="absolute bottom-32 right-32 w-24 h-24 border-2 border-tulu-teal rounded-full animate-bounce" />
-          <div className="absolute top-1/2 left-10 w-16 h-16 bg-tulu-red/30 rounded-full animate-pulse" />
+        {/* Elegant Geometric Patterns */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-20 left-20 w-32 h-32 border border-amber-400/30 rounded-full animate-spin" style={{ animationDuration: '30s' }} />
+          <div className="absolute bottom-32 right-32 w-24 h-24 border border-emerald-400/30 rounded-full animate-pulse" />
+          <div className="absolute top-1/2 left-10 w-16 h-16 bg-rose-400/20 rounded-full animate-bounce" />
         </div>
       </div>
 
       {/* Content */}
       <div className="relative z-10 container mx-auto px-4 md:px-6 lg:px-8">
         <div className="text-center max-w-5xl mx-auto">
-          {/* Floating Badge */}
-          <div className="mb-6 animate-fade-in-up">
-            <Badge className="bg-gradient-to-r from-tulu-gold via-tulu-red to-tulu-teal text-white px-6 py-2 text-sm font-medium shadow-2xl animate-pulse">
-              <Sparkles className="w-4 h-4 mr-2" />
-              {currentSlide === 0 && "🌟 Cultural Heritage Explorer"}
-              {currentSlide === 1 && "🎭 Live Performance Experience"}
-              {currentSlide === 2 && "🏛️ Sacred Architecture Journey"}
+          {/* Premium Badge */}
+          <div className="mb-8 animate-fade-in-up">
+            <Badge className="bg-gradient-to-r from-amber-500 to-orange-500 text-white px-8 py-3 text-base font-medium shadow-2xl border-0">
+              <Sparkles className="w-5 h-5 mr-2" />
+              {currentSlide === 0 && "🌟 Premium Cultural Experiences"}
+              {currentSlide === 1 && "🎭 Authentic Performance Arts"}
+              {currentSlide === 2 && "🏛️ Sacred Heritage Tours"}
             </Badge>
           </div>
 
-          {/* Main Title with Enhanced Typography */}
-          <h1 className="font-display text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-6 leading-tight">
-            <span className="bg-gradient-to-r from-white via-tulu-gold to-white bg-clip-text text-transparent animate-fade-in-up">
+          {/* Main Title with Professional Typography */}
+          <h1 className="font-display text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-8 leading-tight">
+            <span className="bg-gradient-to-r from-white via-slate-100 to-white bg-clip-text text-transparent animate-fade-in-up">
               {currentHero.title.split(' ').slice(0, -2).join(' ')}
             </span>
             <br />
-            <span className="text-tulu-red animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+            <span className="bg-gradient-to-r from-amber-400 via-orange-500 to-amber-400 bg-clip-text text-transparent animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
               {currentHero.title.split(' ').slice(-2).join(' ')}
             </span>
           </h1>
 
-          {/* Subtitle */}
-          <div className="mb-6 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
-            <span className="text-tulu-gold text-xl md:text-2xl font-medium tracking-wide">
+          {/* Refined Subtitle */}
+          <div className="mb-8 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
+            <span className="text-amber-300 text-2xl md:text-3xl font-light tracking-wide">
               {currentHero.subtitle}
             </span>
           </div>
 
-          {/* Description */}
-          <p className="text-white/90 text-lg md:text-xl mb-8 max-w-3xl mx-auto leading-relaxed animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
+          {/* Professional Description */}
+          <p className="text-slate-200 text-xl md:text-2xl mb-10 max-w-4xl mx-auto leading-relaxed font-light animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
             {currentHero.description}
           </p>
 
-          {/* Stats Row */}
-          <div className="flex justify-center gap-8 mb-10 animate-fade-in-up" style={{ animationDelay: '0.8s' }}>
+          {/* Premium Stats Row */}
+          <div className="flex justify-center gap-12 mb-12 animate-fade-in-up" style={{ animationDelay: '0.8s' }}>
             {Object.entries(currentHero.stats).map(([key, value], index) => (
-              <div key={key} className="text-center">
-                <div className="text-2xl md:text-3xl font-bold text-tulu-gold mb-1">{value}</div>
-                <div className="text-white/70 text-sm uppercase tracking-wider">{key.replace(/([A-Z])/g, ' $1').trim()}</div>
+              <div key={key} className="text-center group">
+                <div className="text-3xl md:text-4xl font-bold text-amber-400 mb-2 group-hover:scale-110 transition-transform">{value}</div>
+                <div className="text-slate-300 text-sm uppercase tracking-wider font-medium">{key.replace(/([A-Z])/g, ' $1').trim()}</div>
               </div>
             ))}
           </div>
 
-          {/* Action Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12 animate-fade-in-up" style={{ animationDelay: '1s' }}>
+          {/* Premium Action Buttons */}
+          <div className="flex flex-col sm:flex-row gap-6 justify-center mb-14 animate-fade-in-up" style={{ animationDelay: '1s' }}>
             <Button 
               size="lg"
-              className="bg-gradient-to-r from-tulu-red via-tulu-gold to-tulu-teal hover:from-tulu-teal hover:to-tulu-red text-white px-8 py-4 rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 group"
+              className="bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 hover:from-amber-600 hover:to-orange-600 text-white px-10 py-5 rounded-full shadow-2xl hover:shadow-amber-500/25 transition-all duration-300 transform hover:scale-105 group text-lg font-semibold"
               asChild
             >
               <Link to="/packages">
-                <Sparkles className="w-5 h-5 mr-2 animate-spin" style={{ animationDuration: '3s' }} />
-                Start Your Journey
-                <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-2 transition-transform" />
+                <Globe className="w-6 h-6 mr-3" />
+                Explore Experiences
+                <ArrowRight className="w-6 h-6 ml-3 group-hover:translate-x-2 transition-transform" />
               </Link>
             </Button>
             
             <Button 
               size="lg"
               variant="outline"
-              className="border-2 border-white/50 text-white hover:bg-white/10 backdrop-blur-sm px-8 py-4 rounded-full transition-all duration-300 group"
+              className="border-2 border-slate-300/50 text-white hover:bg-white/10 backdrop-blur-md bg-white/5 px-10 py-5 rounded-full transition-all duration-300 group text-lg font-medium"
               onClick={() => setIsPlaying(!isPlaying)}
             >
-              <Play className={`w-5 h-5 mr-2 ${isPlaying ? 'animate-pulse' : ''}`} />
+              <Play className={`w-6 h-6 mr-3 ${isPlaying ? 'animate-pulse' : ''}`} />
               {isPlaying ? 'Playing Preview' : 'Watch Preview'}
             </Button>
           </div>
 
-          {/* Trust Indicators */}
-          <div className="flex flex-wrap justify-center items-center gap-6 text-white/80 animate-fade-in-up" style={{ animationDelay: '1.2s' }}>
-            <div className="flex items-center gap-2">
-              <Star className="w-5 h-5 text-tulu-gold fill-current" />
+          {/* Professional Trust Indicators */}
+          <div className="flex flex-wrap justify-center items-center gap-8 text-slate-200 animate-fade-in-up" style={{ animationDelay: '1.2s' }}>
+            <div className="flex items-center gap-3 group">
+              <div className="flex">
+                {[1,2,3,4,5].map((star) => (
+                  <Star key={star} className="w-5 h-5 text-amber-400 fill-current" />
+                ))}
+              </div>
               <span className="font-semibold">4.9/5</span>
-              <span className="text-sm">from 500+ reviews</span>
+              <span className="text-slate-400">from 500+ reviews</span>
             </div>
-            <div className="w-px h-6 bg-white/30" />
-            <div className="flex items-center gap-2">
-              <Users className="w-5 h-5 text-tulu-teal" />
+            <div className="w-px h-6 bg-slate-400/30" />
+            <div className="flex items-center gap-3">
+              <Users className="w-6 h-6 text-emerald-400" />
               <span className="font-semibold">2,500+</span>
-              <span className="text-sm">happy travelers</span>
+              <span className="text-slate-400">satisfied travelers</span>
             </div>
-            <div className="w-px h-6 bg-white/30" />
-            <div className="flex items-center gap-2">
-              <Heart className="w-5 h-5 text-tulu-red" />
+            <div className="w-px h-6 bg-slate-400/30" />
+            <div className="flex items-center gap-3">
+              <Heart className="w-6 h-6 text-rose-400" />
               <span className="font-semibold">25+</span>
-              <span className="text-sm">local guides</span>
+              <span className="text-slate-400">expert guides</span>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Slide Indicators */}
+      {/* Refined Slide Indicators */}
       <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex gap-3 z-20">
         {heroSlides.map((_, index) => (
           <button
             key={index}
             onClick={() => setCurrentSlide(index)}
-            className={`w-3 h-3 rounded-full transition-all duration-300 ${
+            className={`h-2 rounded-full transition-all duration-300 ${
               index === currentSlide 
-                ? 'bg-tulu-gold w-8' 
-                : 'bg-white/40 hover:bg-white/60'
+                ? 'bg-amber-400 w-8' 
+                : 'bg-white/40 hover:bg-white/60 w-2'
             }`}
           />
         ))}
       </div>
 
-      {/* Scroll Indicator */}
-      <div className="absolute bottom-8 right-8 text-white/60 animate-bounce">
+      {/* Professional Scroll Indicator */}
+      <div className="absolute bottom-8 right-8 text-slate-300 animate-bounce">
         <div className="flex flex-col items-center gap-2">
-          <span className="text-sm tracking-wider">Scroll</span>
-          <div className="w-px h-8 bg-gradient-to-b from-transparent via-white/60 to-transparent" />
+          <span className="text-sm tracking-wider font-light">Scroll</span>
+          <div className="w-px h-8 bg-gradient-to-b from-transparent via-slate-300 to-transparent" />
         </div>
       </div>
     </div>
