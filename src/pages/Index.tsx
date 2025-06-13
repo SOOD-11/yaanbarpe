@@ -1,9 +1,12 @@
 
 import { useEffect } from 'react';
 import Navigation from '@/components/Navigation';
-import Hero from '@/components/Hero';
-import FeaturedExperiences from '@/components/FeaturedExperiences';
+import EnhancedHero from '@/components/EnhancedHero';
+import ModernFeaturedExperiences from '@/components/ModernFeaturedExperiences';
 import CulturalShowcase from '@/components/CulturalShowcase';
+import InteractiveTeamValues from '@/components/InteractiveTeamValues';
+import EnhancedBlogSection from '@/components/EnhancedBlogSection';
+import InteractiveQuizSection from '@/components/InteractiveQuizSection';
 import Testimonials from '@/components/Testimonials';
 import Stats from '@/components/Stats';
 import CallToAction from '@/components/CallToAction';
@@ -36,10 +39,13 @@ const Index = () => {
     <div className="min-h-screen bg-background">
       <Navigation />
       <main className="w-full">
-        <Hero />
+        <EnhancedHero />
         <div className="relative">
-          <FeaturedExperiences />
+          <ModernFeaturedExperiences />
           <CulturalShowcase />
+          <InteractiveTeamValues />
+          <EnhancedBlogSection />
+          <InteractiveQuizSection />
           <Stats />
           <Testimonials />
           <CallToAction />
