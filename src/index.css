@@ -44,14 +44,13 @@
     --sidebar-border: 214.3 31.8% 91.4%;
     --sidebar-ring: 222.2 84% 4.9%;
 
-    /* Professional Tulu Theme Colors */
-    --tulu-blue: 220 26% 20%;
-    --tulu-teal: 180 25% 25%;
-    --tulu-red: 14 83% 58%;
-    --tulu-gold: 43 96% 56%;
-    --tulu-green: 158 64% 28%;
-    --tulu-beige: 48 15% 88%;
-    --tulu-sand: 44 28% 85%;
+    /* Professional Tech Colors */
+    --tech-primary: 215 28% 17%;
+    --tech-secondary: 217 19% 27%;
+    --tech-accent: 210 14% 37%;
+    --tech-muted: 215 25% 50%;
+    --tech-light: 210 40% 92%;
+    --tech-border: 215 20% 25%;
   }
 
   .dark {
@@ -92,14 +91,13 @@
     --sidebar-border: 217.2 32.6% 17.5%;
     --sidebar-ring: 212.7 26.8% 83.9%;
 
-    /* Professional Tulu Theme Colors for Dark Mode */
-    --tulu-blue: 220 26% 30%;
-    --tulu-teal: 180 25% 35%;
-    --tulu-red: 14 83% 68%;
-    --tulu-gold: 43 96% 66%;
-    --tulu-green: 158 64% 38%;
-    --tulu-beige: 48 15% 78%;
-    --tulu-sand: 44 28% 75%;
+    /* Professional Tech Colors for Dark Mode */
+    --tech-primary: 215 28% 12%;
+    --tech-secondary: 217 19% 20%;
+    --tech-accent: 210 14% 30%;
+    --tech-muted: 215 25% 40%;
+    --tech-light: 210 40% 85%;
+    --tech-border: 215 20% 18%;
   }
 }
 
@@ -125,51 +123,36 @@
   }
 }
 
-/* Professional Tulu color utilities */
+/* Professional Tech color utilities */
 @layer utilities {
-  .text-tulu-blue { color: hsl(var(--tulu-blue)); }
-  .text-tulu-teal { color: hsl(var(--tulu-teal)); }
-  .text-tulu-red { color: hsl(var(--tulu-red)); }
-  .text-tulu-gold { color: hsl(var(--tulu-gold)); }
-  .text-tulu-green { color: hsl(var(--tulu-green)); }
-  .text-tulu-beige { color: hsl(var(--tulu-beige)); }
-  .text-tulu-sand { color: hsl(var(--tulu-sand)); }
+  .text-tech-primary { color: hsl(var(--tech-primary)); }
+  .text-tech-secondary { color: hsl(var(--tech-secondary)); }
+  .text-tech-accent { color: hsl(var(--tech-accent)); }
+  .text-tech-muted { color: hsl(var(--tech-muted)); }
+  .text-tech-light { color: hsl(var(--tech-light)); }
   
-  .bg-tulu-blue { background-color: hsl(var(--tulu-blue)); }
-  .bg-tulu-teal { background-color: hsl(var(--tulu-teal)); }
-  .bg-tulu-red { background-color: hsl(var(--tulu-red)); }
-  .bg-tulu-gold { background-color: hsl(var(--tulu-gold)); }
-  .bg-tulu-green { background-color: hsl(var(--tulu-green)); }
-  .bg-tulu-beige { background-color: hsl(var(--tulu-beige)); }
-  .bg-tulu-sand { background-color: hsl(var(--tulu-sand)); }
+  .bg-tech-primary { background-color: hsl(var(--tech-primary)); }
+  .bg-tech-secondary { background-color: hsl(var(--tech-secondary)); }
+  .bg-tech-accent { background-color: hsl(var(--tech-accent)); }
+  .bg-tech-muted { background-color: hsl(var(--tech-muted)); }
+  .bg-tech-light { background-color: hsl(var(--tech-light)); }
   
-  .border-tulu-blue { border-color: hsl(var(--tulu-blue)); }
-  .border-tulu-teal { border-color: hsl(var(--tulu-teal)); }
-  .border-tulu-red { border-color: hsl(var(--tulu-red)); }
-  .border-tulu-gold { border-color: hsl(var(--tulu-gold)); }
-  .border-tulu-green { border-color: hsl(var(--tulu-green)); }
-  .border-tulu-beige { border-color: hsl(var(--tulu-beige)); }
-  .border-tulu-sand { border-color: hsl(var(--tulu-sand)); }
+  .border-tech-primary { border-color: hsl(var(--tech-primary)); }
+  .border-tech-secondary { border-color: hsl(var(--tech-secondary)); }
+  .border-tech-accent { border-color: hsl(var(--tech-accent)); }
+  .border-tech-border { border-color: hsl(var(--tech-border)); }
   
-  .hover\:bg-tulu-blue:hover { background-color: hsl(var(--tulu-blue)); }
-  .hover\:bg-tulu-teal:hover { background-color: hsl(var(--tulu-teal)); }
-  .hover\:bg-tulu-red:hover { background-color: hsl(var(--tulu-red)); }
-  .hover\:bg-tulu-gold:hover { background-color: hsl(var(--tulu-gold)); }
-  .hover\:bg-tulu-green:hover { background-color: hsl(var(--tulu-green)); }
-  .hover\:bg-tulu-beige:hover { background-color: hsl(var(--tulu-beige)); }
-  .hover\:bg-tulu-sand:hover { background-color: hsl(var(--tulu-sand)); }
+  .hover\:bg-tech-primary:hover { background-color: hsl(var(--tech-primary)); }
+  .hover\:bg-tech-secondary:hover { background-color: hsl(var(--tech-secondary)); }
+  .hover\:bg-tech-accent:hover { background-color: hsl(var(--tech-accent)); }
   
   /* Professional gradient utilities */
-  .gradient-primary {
-    background: linear-gradient(135deg, hsl(var(--tulu-gold)), hsl(var(--tulu-red)));
+  .gradient-tech {
+    background: linear-gradient(135deg, hsl(var(--tech-primary)), hsl(var(--tech-secondary)));
   }
   
-  .gradient-secondary {
-    background: linear-gradient(135deg, hsl(var(--tulu-blue)), hsl(var(--tulu-teal)));
-  }
-  
-  .gradient-accent {
-    background: linear-gradient(135deg, hsl(var(--tulu-green)), hsl(var(--tulu-teal)));
+  .gradient-tech-accent {
+    background: linear-gradient(135deg, hsl(var(--tech-secondary)), hsl(var(--tech-accent)));
   }
 }
 
@@ -221,17 +204,17 @@
 
 /* Professional glass morphism effects */
 .glass-card {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.03);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 25px 45px rgba(0, 0, 0, 0.15);
 }
 
 .glass-card-dark {
-  background: rgba(0, 0, 0, 0.1);
+  background: rgba(0, 0, 0, 0.15);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  box-shadow: 0 25px 45px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  box-shadow: 0 25px 45px rgba(0, 0, 0, 0.25);
 }
 
 /* Professional hover effects */
@@ -256,9 +239,9 @@
   transform: translateY(0);
 }
 
-/* Professional text gradient */
+/* Professional tech gradient */
 .text-gradient {
-  background: linear-gradient(135deg, hsl(var(--tulu-gold)), hsl(var(--tulu-red)), hsl(var(--tulu-teal)));
+  background: linear-gradient(135deg, hsl(var(--tech-light)), hsl(var(--tech-muted)), hsl(var(--tech-accent)));
   background-size: 200% 200%;
   animation: gradient-shift 4s ease infinite;
   -webkit-background-clip: text;
@@ -289,11 +272,11 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, hsl(var(--tulu-gold)), hsl(var(--tulu-red)));
+  background: linear-gradient(135deg, hsl(var(--tech-secondary)), hsl(var(--tech-accent)));
   border-radius: 6px;
   border: 2px solid hsl(var(--muted));
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(135deg, hsl(var(--tulu-red)), hsl(var(--tulu-gold)));
+  background: linear-gradient(135deg, hsl(var(--tech-accent)), hsl(var(--tech-secondary)));
 }

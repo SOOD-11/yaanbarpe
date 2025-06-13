@@ -43,29 +43,36 @@ const EnhancedHero = () => {
   const currentHero = heroSlides[currentSlide];
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-slate-900">
-      {/* Premium Background with Parallax Effect */}
+    <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-slate-950">
+      {/* Professional Background with Parallax Effect */}
       <div className="absolute inset-0">
         <div 
           className="absolute inset-0 bg-cover bg-center transition-all duration-1000 ease-in-out transform scale-105"
           style={{ backgroundImage: `url(${currentHero.image})` }}
         />
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-900/80 via-slate-800/60 to-slate-900/90" />
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-950/90 via-slate-900/80 to-slate-950/95" />
         
-        {/* Elegant Geometric Patterns */}
+        {/* Tech Grid Pattern */}
+        <div className="absolute inset-0 opacity-5">
+          <div className="absolute inset-0" style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpath d='M30 30h30v30H30V30zm15 15v15h15V45H45z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
+          }} />
+        </div>
+        
+        {/* Subtle Geometric Elements */}
         <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-20 left-20 w-32 h-32 border border-amber-400/30 rounded-full animate-spin" style={{ animationDuration: '30s' }} />
-          <div className="absolute bottom-32 right-32 w-24 h-24 border border-emerald-400/30 rounded-full animate-pulse" />
-          <div className="absolute top-1/2 left-10 w-16 h-16 bg-rose-400/20 rounded-full animate-bounce" />
+          <div className="absolute top-20 left-20 w-32 h-32 border border-slate-400/20 rounded-full animate-spin" style={{ animationDuration: '30s' }} />
+          <div className="absolute bottom-32 right-32 w-24 h-24 border border-slate-300/20 rounded-full animate-pulse" />
+          <div className="absolute top-1/2 left-10 w-16 h-16 bg-slate-200/10 rounded-full animate-bounce" />
         </div>
       </div>
 
       {/* Content */}
       <div className="relative z-10 container mx-auto px-4 md:px-6 lg:px-8">
         <div className="text-center max-w-5xl mx-auto">
-          {/* Premium Badge */}
+          {/* Professional Badge */}
           <div className="mb-8 animate-fade-in-up">
-            <Badge className="bg-gradient-to-r from-amber-500 to-orange-500 text-white px-8 py-3 text-base font-medium shadow-2xl border-0">
+            <Badge className="bg-slate-800/80 backdrop-blur-md border border-slate-700/50 text-slate-200 px-8 py-3 text-base font-medium shadow-2xl">
               <Sparkles className="w-5 h-5 mr-2" />
               {currentSlide === 0 && "🌟 Premium Cultural Experiences"}
               {currentSlide === 1 && "🎭 Authentic Performance Arts"}
@@ -75,18 +82,18 @@ const EnhancedHero = () => {
 
           {/* Main Title with Professional Typography */}
           <h1 className="font-display text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-8 leading-tight">
-            <span className="bg-gradient-to-r from-white via-slate-100 to-white bg-clip-text text-transparent animate-fade-in-up">
+            <span className="bg-gradient-to-r from-white via-slate-100 to-slate-200 bg-clip-text text-transparent animate-fade-in-up">
               {currentHero.title.split(' ').slice(0, -2).join(' ')}
             </span>
             <br />
-            <span className="bg-gradient-to-r from-amber-400 via-orange-500 to-amber-400 bg-clip-text text-transparent animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+            <span className="bg-gradient-to-r from-slate-300 via-slate-400 to-slate-300 bg-clip-text text-transparent animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
               {currentHero.title.split(' ').slice(-2).join(' ')}
             </span>
           </h1>
 
           {/* Refined Subtitle */}
           <div className="mb-8 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
-            <span className="text-amber-300 text-2xl md:text-3xl font-light tracking-wide">
+            <span className="text-slate-300 text-2xl md:text-3xl font-light tracking-wide">
               {currentHero.subtitle}
             </span>
           </div>
@@ -96,21 +103,21 @@ const EnhancedHero = () => {
             {currentHero.description}
           </p>
 
-          {/* Premium Stats Row */}
+          {/* Professional Stats Row */}
           <div className="flex justify-center gap-12 mb-12 animate-fade-in-up" style={{ animationDelay: '0.8s' }}>
             {Object.entries(currentHero.stats).map(([key, value], index) => (
               <div key={key} className="text-center group">
-                <div className="text-3xl md:text-4xl font-bold text-amber-400 mb-2 group-hover:scale-110 transition-transform">{value}</div>
-                <div className="text-slate-300 text-sm uppercase tracking-wider font-medium">{key.replace(/([A-Z])/g, ' $1').trim()}</div>
+                <div className="text-3xl md:text-4xl font-bold text-slate-100 mb-2 group-hover:scale-110 transition-transform">{value}</div>
+                <div className="text-slate-400 text-sm uppercase tracking-wider font-medium">{key.replace(/([A-Z])/g, ' $1').trim()}</div>
               </div>
             ))}
           </div>
 
-          {/* Premium Action Buttons */}
+          {/* Professional Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-6 justify-center mb-14 animate-fade-in-up" style={{ animationDelay: '1s' }}>
             <Button 
               size="lg"
-              className="bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 hover:from-amber-600 hover:to-orange-600 text-white px-10 py-5 rounded-full shadow-2xl hover:shadow-amber-500/25 transition-all duration-300 transform hover:scale-105 group text-lg font-semibold"
+              className="bg-slate-100 hover:bg-white text-slate-900 px-10 py-5 rounded-lg shadow-2xl hover:shadow-slate-500/25 transition-all duration-300 transform hover:scale-105 group text-lg font-semibold"
               asChild
             >
               <Link to="/packages">
@@ -123,7 +130,7 @@ const EnhancedHero = () => {
             <Button 
               size="lg"
               variant="outline"
-              className="border-2 border-slate-300/50 text-white hover:bg-white/10 backdrop-blur-md bg-white/5 px-10 py-5 rounded-full transition-all duration-300 group text-lg font-medium"
+              className="border-2 border-slate-300/50 text-white hover:bg-slate-800/50 backdrop-blur-md bg-slate-800/20 px-10 py-5 rounded-lg transition-all duration-300 group text-lg font-medium"
               onClick={() => setIsPlaying(!isPlaying)}
             >
               <Play className={`w-6 h-6 mr-3 ${isPlaying ? 'animate-pulse' : ''}`} />
@@ -136,7 +143,7 @@ const EnhancedHero = () => {
             <div className="flex items-center gap-3 group">
               <div className="flex">
                 {[1,2,3,4,5].map((star) => (
-                  <Star key={star} className="w-5 h-5 text-amber-400 fill-current" />
+                  <Star key={star} className="w-5 h-5 text-slate-300 fill-current" />
                 ))}
               </div>
               <span className="font-semibold">4.9/5</span>
@@ -144,13 +151,13 @@ const EnhancedHero = () => {
             </div>
             <div className="w-px h-6 bg-slate-400/30" />
             <div className="flex items-center gap-3">
-              <Users className="w-6 h-6 text-emerald-400" />
+              <Users className="w-6 h-6 text-slate-300" />
               <span className="font-semibold">2,500+</span>
               <span className="text-slate-400">satisfied travelers</span>
             </div>
             <div className="w-px h-6 bg-slate-400/30" />
             <div className="flex items-center gap-3">
-              <Heart className="w-6 h-6 text-rose-400" />
+              <Heart className="w-6 h-6 text-slate-300" />
               <span className="font-semibold">25+</span>
               <span className="text-slate-400">expert guides</span>
             </div>
@@ -166,8 +173,8 @@ const EnhancedHero = () => {
             onClick={() => setCurrentSlide(index)}
             className={`h-2 rounded-full transition-all duration-300 ${
               index === currentSlide 
-                ? 'bg-amber-400 w-8' 
-                : 'bg-white/40 hover:bg-white/60 w-2'
+                ? 'bg-slate-200 w-8' 
+                : 'bg-slate-500/40 hover:bg-slate-400/60 w-2'
             }`}
           />
         ))}
