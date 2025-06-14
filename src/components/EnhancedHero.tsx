@@ -7,6 +7,8 @@ import { Link } from 'react-router-dom';
 const driveVideo =
   "https://drive.google.com/uc?export=preview&id=1ve-_zZEtaOjbdLnIRjc4tygvrA4FrntQ";
 
+const localVideo = "/hero-bg.mp4"; // Use your own mp4 file in public/
+
 const fallbackImage =
   "https://images.pexels.com/photos/2161467/pexels-photo-2161467.jpeg?auto=compress&cs=tinysrgb&w=1200";
 
@@ -58,7 +60,7 @@ const EnhancedHero = () => {
       <div className="absolute inset-0 z-0">
         {!videoError ? (
           <video
-            src={currentHero.video}
+            src={localVideo}
             className="absolute inset-0 w-full h-full object-cover bg-black"
             autoPlay
             loop
