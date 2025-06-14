@@ -56,6 +56,8 @@ const EnhancedHero = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [videoError, setVideoError] = useState(false);
   const [videoLoaded, setVideoLoaded] = useState(false);
+  const [videoVolume, setVideoVolume] = useState(0.5);
+  const videoRef = React.useRef<HTMLVideoElement | null>(null);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -63,6 +65,20 @@ const EnhancedHero = () => {
     }, 6000);
     return () => clearInterval(timer);
   }, []);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.volume = videoVolume;
+    }
+  }, [videoVolume, isPlaying]);
+
+  const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const vol = Number(e.target.value);
+    setVideoVolume(vol);
+    if (videoRef.current) {
+      videoRef.current.volume = vol;
+    }
+  };
 
   const currentHero = heroSlides[currentSlide];
 
@@ -72,13 +88,15 @@ const EnhancedHero = () => {
       <div className="absolute inset-0 z-0">
         {!videoError ? (
           <video
+            ref={videoRef}
             src={currentHero.video}
             className="absolute inset-0 w-full h-full object-cover bg-black"
             autoPlay
             loop
-            muted
+            muted={!isPlaying}
             playsInline
             controls={false}
+            preload="metadata"
             style={{ zIndex: 1 }}
             onCanPlayThrough={() => setVideoLoaded(true)}
             onError={() => setVideoError(true)}
@@ -157,7 +175,7 @@ const EnhancedHero = () => {
           </div>
 
           {/* Professional Action Buttons */}
-          <div className="flex flex-col sm:flex-row gap-6 justify-center mb-14 animate-fade-in-up" style={{ animationDelay: '1s' }}>
+          <div className="flex flex-col sm:flex-row gap-6 justify-center mb-6 animate-fade-in-up" style={{ animationDelay: '1s' }}>
             <Button 
               size="lg"
               className="bg-slate-100 hover:bg-white text-slate-900 px-10 py-5 rounded-lg shadow-2xl hover:shadow-slate-500/25 transition-all duration-300 transform hover:scale-105 group text-lg font-semibold"
@@ -174,12 +192,33 @@ const EnhancedHero = () => {
               size="lg"
               variant="outline"
               className="border-2 border-slate-300/50 text-white hover:bg-slate-800/50 backdrop-blur-md bg-slate-800/20 px-10 py-5 rounded-lg transition-all duration-300 group text-lg font-medium"
-              onClick={() => setIsPlaying(!isPlaying)}
+              onClick={() => setIsPlaying((playing) => !playing)}
             >
               <Play className={`w-6 h-6 mr-3 ${isPlaying ? 'animate-pulse' : ''}`} />
               {isPlaying ? 'Playing Preview' : 'Watch Preview'}
             </Button>
           </div>
+          
+          {/* Volume Slider: Show only if isPlaying and video loaded, not video error */}
+          {isPlaying && videoLoaded && !videoError && (
+            <div className="flex justify-center items-center gap-4 mb-8 animate-fade-in-up" style={{ animationDelay: '1.1s' }}>
+              <label htmlFor="hero-volume" className="text-slate-300 font-medium">
+                Volume
+              </label>
+              <input
+                id="hero-volume"
+                type="range"
+                min={0}
+                max={1}
+                step={0.01}
+                value={videoVolume}
+                onChange={handleVolumeChange}
+                className="w-48 accent-slate-400"
+                style={{ verticalAlign: 'middle' }}
+              />
+              <span className="text-slate-400 text-sm">{Math.round(videoVolume * 100)}%</span>
+            </div>
+          )}
 
           {/* Professional Trust Indicators */}
           <div className="flex flex-wrap justify-center items-center gap-8 text-slate-200 animate-fade-in-up" style={{ animationDelay: '1.2s' }}>
