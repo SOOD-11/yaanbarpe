@@ -1,43 +1,47 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { ArrowRight, Play, Star, Users, MapPin, Sparkles, Heart, Globe } from 'lucide-react';
+import { ArrowRight, Play, Star, Users, Heart, Globe, Sparkles } from 'lucide-react';
 import { Link } from 'react-router-dom';
+
+const driveVideo =
+  "https://drive.google.com/uc?export=preview&id=1ve-_zZEtaOjbdLnIRjc4tygvrA4FrntQ";
+
+const fallbackImage =
+  "https://images.pexels.com/photos/2161467/pexels-photo-2161467.jpeg?auto=compress&cs=tinysrgb&w=1200";
+
+const heroSlides = [
+  {
+    title: "Discover the Soul of Tulu Nadu",
+    subtitle: "Ancient Traditions, Modern Adventures",
+    description: "Immerse yourself in centuries-old culture through authentic experiences that connect you with the heart of coastal Karnataka.",
+    video: driveVideo,
+    image: fallbackImage,
+    stats: { experiences: "50+", locations: "25+", rating: "4.9" }
+  },
+  {
+    title: "Live Yakshagana Performances",
+    subtitle: "Traditional Theatre Comes Alive",
+    description: "Witness the magic of Yakshagana with master performers in authentic settings, complete with traditional costumes and storytelling.",
+    video: driveVideo,
+    image: "https://images.pexels.com/photos/2417726/pexels-photo-2417726.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    stats: { shows: "Weekly", artists: "15+", history: "500 Years" }
+  },
+  {
+    title: "Sacred Temple Journeys",
+    subtitle: "Spiritual Heritage & Architecture",
+    description: "Explore ancient temples with expert guides who share stories passed down through generations of devotees and scholars.",
+    video: driveVideo,
+    image: "https://images.pexels.com/photos/3944154/pexels-photo-3944154.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    stats: { temples: "30+", guides: "Expert", heritage: "1000+ Years" }
+  }
+];
 
 const EnhancedHero = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
-  
-  // Use Drive video as default background for all slides
-  const driveVideo =
-    "https://drive.google.com/uc?export=preview&id=1ve-_zZEtaOjbdLnIRjc4tygvrA4FrntQ";
-
-  const heroSlides = [
-    {
-      title: "Discover the Soul of Tulu Nadu",
-      subtitle: "Ancient Traditions, Modern Adventures",
-      description: "Immerse yourself in centuries-old culture through authentic experiences that connect you with the heart of coastal Karnataka.",
-      video: driveVideo,
-      image: "https://images.pexels.com/photos/2161467/pexels-photo-2161467.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      stats: { experiences: "50+", locations: "25+", rating: "4.9" }
-    },
-    {
-      title: "Live Yakshagana Performances",
-      subtitle: "Traditional Theatre Comes Alive",
-      description: "Witness the magic of Yakshagana with master performers in authentic settings, complete with traditional costumes and storytelling.",
-      video: driveVideo,
-      image: "https://images.pexels.com/photos/2417726/pexels-photo-2417726.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      stats: { shows: "Weekly", artists: "15+", history: "500 Years" }
-    },
-    {
-      title: "Sacred Temple Journeys",
-      subtitle: "Spiritual Heritage & Architecture",
-      description: "Explore ancient temples with expert guides who share stories passed down through generations of devotees and scholars.",
-      video: driveVideo,
-      image: "https://images.pexels.com/photos/3944154/pexels-photo-3944154.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      stats: { temples: "30+", guides: "Expert", heritage: "1000+ Years" }
-    }
-  ];
+  const [videoError, setVideoError] = useState(false);
+  const [videoLoaded, setVideoLoaded] = useState(false);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -50,32 +54,55 @@ const EnhancedHero = () => {
 
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-slate-950">
-      {/* Video Background for ALL slides */}
-      <div className="absolute inset-0">
-        <video
-          src={currentHero.video}
-          className="absolute inset-0 w-full h-full object-cover"
-          autoPlay
-          loop
-          muted
-          playsInline
-          controls={false}
-          style={{ zIndex: 1 }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-950/90 via-slate-900/80 to-slate-950/95 z-10" />
-        {/* Tech Grid Pattern */}
-        <div className="absolute inset-0 opacity-5">
-          <div className="absolute inset-0" style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpath d='M30 30h30v30H30V30zm15 15v15h15V45H45z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
-          }} />
+      {/* Video Background */}
+      <div className="absolute inset-0 z-0">
+        {!videoError ? (
+          <video
+            src={currentHero.video}
+            className="absolute inset-0 w-full h-full object-cover bg-black"
+            autoPlay
+            loop
+            muted
+            playsInline
+            controls={false}
+            style={{ zIndex: 1 }}
+            onCanPlayThrough={() => setVideoLoaded(true)}
+            onError={() => setVideoError(true)}
+          />
+        ) : (
+          <img
+            src={currentHero.image}
+            alt="Cultural experience background"
+            className="absolute inset-0 w-full h-full object-cover bg-black"
+            style={{ zIndex: 1 }}
+          />
+        )}
+        {/* Lighter, nearly transparent overlay for readability only */}
+        <div className="absolute inset-0 bg-gradient-to-br from-black/10 via-black/10 to-black/20 pointer-events-none z-10" />
+        {/* No heavy overlay anymore */}
+
+        {/* Decor elements (still very low opacity) */}
+        <div className="absolute inset-0 opacity-5 pointer-events-none">
+          <div className="absolute inset-0"
+            style={{
+              backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpath d='M30 30h30v30H30V30zm15 15v15h15V45H45z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
+            }}
+          />
         </div>
-        {/* Subtle Geometric Elements */}
-        <div className="absolute inset-0 opacity-10">
+        <div className="absolute inset-0 opacity-5 pointer-events-none">
           <div className="absolute top-20 left-20 w-32 h-32 border border-slate-400/20 rounded-full animate-spin" style={{ animationDuration: '30s' }} />
           <div className="absolute bottom-32 right-32 w-24 h-24 border border-slate-300/20 rounded-full animate-pulse" />
           <div className="absolute top-1/2 left-10 w-16 h-16 bg-slate-200/10 rounded-full animate-bounce" />
         </div>
       </div>
+      {/* fallback message for video error */}
+      {videoError && (
+        <div className="absolute inset-0 z-30 flex items-center justify-center pointer-events-none">
+          <div className="bg-black/60 text-white text-lg px-6 py-4 rounded-lg shadow-2xl">
+            Video could not be loaded. Showing fallback image.
+          </div>
+        </div>
+      )}
 
       {/* Content */}
       <div className="relative z-20 container mx-auto px-4 md:px-6 lg:px-8">
