@@ -1,11 +1,12 @@
-
 import { useState } from 'react';
-import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { ArrowRight, Clock, Users, MapPin, Star, Heart, Bookmark, Share2, Calendar, Award, Zap, Info } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from '@/hooks/use-toast';
+import { Award, Star, Heart, ArrowRight } from 'lucide-react';
+
+import ExperienceCard from './ExperienceCard';
+import ExperienceDetailModal from './ExperienceDetailModal';
+import ExperienceFilters from './ExperienceFilters';
 
 const experiences = [
   {
@@ -133,13 +134,8 @@ const ModernFeaturedExperiences = () => {
     }
   };
 
-  // New: Experience detail modal
-  const openDetailModal = (exp: any) => {
-    setDetailModal({ open: true, experience: exp });
-  };
+  const openDetailModal = (exp: any) => setDetailModal({ open: true, experience: exp });
   const closeDetailModal = () => setDetailModal({ open: false, experience: null });
-
-  // Book experience action with navigation
   const handleBookExperience = (id: number) => {
     navigate(`/booking?experience=${id}`);
   };
@@ -147,7 +143,6 @@ const ModernFeaturedExperiences = () => {
   return (
     <section className="py-20 bg-gradient-to-br from-background via-tulu-sand/10 to-tulu-beige/20">
       <div className="container mx-auto px-4 md:px-6 lg:px-8">
-        {/* Header */}
         <div className="text-center max-w-4xl mx-auto mb-16">
           <Badge className="mb-4 bg-gradient-to-r from-tulu-red to-tulu-gold text-white px-6 py-2">
             <Award className="w-4 h-4 mr-2" />
@@ -162,232 +157,44 @@ const ModernFeaturedExperiences = () => {
           <p className="text-muted-foreground text-lg leading-relaxed mb-8">
             Dive deep into Tulu Nadu's soul through carefully curated experiences that blend ancient wisdom with modern comfort.
           </p>
-          {/* Category Filters */}
-          <div className="flex flex-wrap justify-center gap-3">
-            {categories.map((category) => (
-              <Button
-                key={category}
-                variant={activeFilter === category ? "default" : "outline"}
-                onClick={() => setActiveFilter(category)}
-                className={`rounded-full transition-all duration-300 ${activeFilter === category ? 'bg-gradient-to-r from-tulu-blue to-tulu-teal text-white shadow-lg' : 'hover:bg-tulu-sand/20'}`}
-              >
-                {category}
-              </Button>
-            ))}
-          </div>
+          <ExperienceFilters
+            categories={categories}
+            activeFilter={activeFilter}
+            setActiveFilter={setActiveFilter}
+          />
         </div>
-        {/* Experiences Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
           {filteredExperiences.map((experience, index) => (
-            <Card
+            <ExperienceCard
               key={experience.id}
-              className="group overflow-hidden border-none shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 bg-white/80 backdrop-blur-sm relative"
-              onMouseEnter={() => setHoveredCard(index)}
-              onMouseLeave={() => setHoveredCard(null)}
-            >
-              <div className="relative h-64 overflow-hidden">
-                {/* Image */}
-                <img
-                  src={experience.image}
-                  alt={experience.title}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                />
-                {/* Overlay Gradient */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
-                {/* Badges */}
-                <div className="absolute top-4 left-4 flex flex-col gap-2">
-                  {experience.isPopular && (
-                    <Badge className="bg-orange-500 text-white animate-pulse">
-                      🔥 Popular
-                    </Badge>
-                  )}
-                  {experience.isFeatured && (
-                    <Badge className="bg-tulu-gold text-white">
-                      <Star className="w-3 h-3 mr-1" />
-                      Featured
-                    </Badge>
-                  )}
-                </div>
-                {/* Action Buttons */}
-                <div className="absolute top-4 right-4 flex flex-col gap-2 z-10">
-                  <Button
-                    size="sm"
-                    variant="ghost"
-                    className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm hover:bg-white/30 p-0"
-                    onClick={() => handleBookmark(experience.id)}
-                  >
-                    <Bookmark className={`w-4 h-4 ${bookmarked.includes(experience.id) ? 'fill-tulu-gold text-tulu-gold' : 'text-white'}`} />
-                  </Button>
-                  <Button
-                    size="sm"
-                    variant="ghost"
-                    className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm hover:bg-white/30 p-0"
-                    onClick={() => handleShare(experience)}
-                  >
-                    <Share2 className="w-4 h-4 text-white" />
-                  </Button>
-                  {/* Explore/Details Button */}
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    className="bg-white/90 hover:bg-tulu-teal text-tulu-blue hover:text-white border-tulu-blue/60"
-                    onClick={() => openDetailModal(experience)}
-                    aria-label="Show Details"
-                  >
-                    <Info className="w-4 h-4" />
-                  </Button>
-                </div>
-                {/* Spots Left Indicator */}
-                {experience.spotsLeft <= 5 && (
-                  <div className="absolute bottom-4 left-4">
-                    <Badge className={`${experience.spotsLeft <= 3 ? 'bg-red-500 animate-pulse' : 'bg-orange-500'} text-white`}>
-                      Only {experience.spotsLeft} spots left!
-                    </Badge>
-                  </div>
-                )}
-                {/* Price */}
-                <div className="absolute bottom-4 right-4 text-right">
-                  <div className="text-white font-bold text-lg">₹{experience.price.toLocaleString()}</div>
-                  <div className="text-white/60 text-sm line-through">₹{experience.originalPrice.toLocaleString()}</div>
-                </div>
-              </div>
-              <CardContent className="p-6">
-                {/* Category & Rating */}
-                <div className="flex justify-between items-center mb-3">
-                  <Badge variant="secondary" className="text-xs">
-                    {experience.category}
-                  </Badge>
-                  <div className="flex items-center gap-1">
-                    <Star className="w-4 h-4 text-tulu-gold fill-current" />
-                    <span className="text-sm font-medium">{experience.rating}</span>
-                    <span className="text-xs text-muted-foreground">({experience.reviews})</span>
-                  </div>
-                </div>
-                {/* Title & Description */}
-                <h3 className="font-bold text-lg mb-2 line-clamp-1 group-hover:text-tulu-blue transition-colors">
-                  {experience.title}
-                </h3>
-                <p className="text-muted-foreground text-sm mb-4 line-clamp-2">
-                  {experience.description}
-                </p>
-                {/* Details */}
-                <div className="grid grid-cols-2 gap-2 mb-4 text-xs">
-                  <div className="flex items-center gap-1">
-                    <Clock className="w-3 h-3 text-tulu-blue" />
-                    <span>{experience.duration}</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <Users className="w-3 h-3 text-tulu-green" />
-                    <span>{experience.groupSize}</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <MapPin className="w-3 h-3 text-tulu-red" />
-                    <span className="truncate">{experience.location}</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <Calendar className="w-3 h-3 text-tulu-teal" />
-                    <span>{new Date(experience.nextDate).toLocaleDateString()}</span>
-                  </div>
-                </div>
-                {/* Action Button */}
-                <Button
-                  className="w-full bg-gradient-to-r from-tulu-blue to-tulu-teal hover:from-tulu-teal hover:to-tulu-green text-white rounded-xl transition-all duration-300 group/btn"
-                  onClick={() => handleBookExperience(experience.id)}
-                  data-testid="book-experience"
-                >
-                  <Zap className="w-4 h-4 mr-2" />
-                  Book Experience
-                  <ArrowRight className="w-4 h-4 ml-2 group-hover/btn:translate-x-1 transition-transform" />
-                </Button>
-              </CardContent>
-              {/* Hover Details Overlay */}
-              <div className={`absolute inset-0 bg-gradient-to-b from-tulu-blue/95 to-tulu-teal/95 p-6 flex flex-col justify-center transition-all duration-500
-                ${hoveredCard === index ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
-                <h4 className="text-white font-bold text-xl mb-4">What's Included:</h4>
-                <ul className="space-y-2 text-white/90">
-                  {experience.includes.map((item, idx) => (
-                    <li key={idx} className="flex items-center gap-2">
-                      <span className="w-2 h-2 bg-tulu-gold rounded-full"></span>
-                      <span className="text-sm">{item}</span>
-                    </li>
-                  ))}
-                </ul>
-                <div className="mt-6 pt-4 border-t border-white/20">
-                  <div className="flex items-center justify-between text-white text-sm">
-                    <span>Difficulty: {experience.difficulty}</span>
-                    <span className="font-semibold">{experience.spotsLeft} spots left</span>
-                  </div>
-                </div>
-              </div>
-            </Card>
+              experience={experience}
+              isBookmarked={bookmarked.includes(experience.id)}
+              onBookmark={handleBookmark}
+              onShare={handleShare}
+              onOpenDetail={openDetailModal}
+              onBook={handleBookExperience}
+              hovered={hoveredCard === index}
+              setHovered={(hover: boolean) => setHoveredCard(hover ? index : null)}
+            />
           ))}
         </div>
-
-        {/* Experience Detail Modal */}
         {detailModal.open && detailModal.experience && (
-          <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center px-2">
-            <div className="bg-white rounded-xl shadow-2xl max-w-lg w-full relative p-8 animate-fade-in">
-              <Button
-                variant="ghost"
-                className="absolute top-3 right-3 text-black/40"
-                onClick={closeDetailModal}
-              >
-                ✕
-              </Button>
-              <div className="flex flex-col items-start gap-4">
-                <img src={detailModal.experience.image} alt={detailModal.experience.title} className="w-full h-52 object-cover rounded-xl mb-4" />
-                <Badge className="bg-tulu-teal text-white">{detailModal.experience.category}</Badge>
-                <h2 className="text-2xl font-bold mb-2">{detailModal.experience.title}</h2>
-                <p className="text-muted-foreground mb-2">{detailModal.experience.description}</p>
-                <ul className="mb-2">
-                  {detailModal.experience.includes.map((item: string, idx: number) => (
-                    <li key={idx} className="flex items-center gap-2 text-tulu-blue">
-                      <span className="w-2 h-2 bg-tulu-gold rounded-full"></span>
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-                <div className="flex gap-3 text-sm mb-3">
-                  <span className="flex items-center gap-1"><MapPin className="w-4 h-4" /> {detailModal.experience.location}</span>
-                  <span className="flex items-center gap-1"><Users className="w-4 h-4" /> {detailModal.experience.groupSize}</span>
-                  <span className="flex items-center gap-1"><Clock className="w-4 h-4" /> {detailModal.experience.duration}</span>
-                </div>
-                <div className="flex flex-col md:flex-row gap-4 w-full">
-                  <Button
-                    className="bg-tulu-red hover:bg-tulu-gold text-white w-full font-bold"
-                    onClick={() => {
-                      handleBookExperience(detailModal.experience.id);
-                      closeDetailModal();
-                    }}
-                  >
-                    Book Now
-                  </Button>
-                  <Button
-                    variant="outline"
-                    className="w-full"
-                    onClick={closeDetailModal}
-                  >
-                    Close
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </div>
+          <ExperienceDetailModal
+            experience={detailModal.experience}
+            onClose={closeDetailModal}
+            onBook={handleBookExperience}
+          />
         )}
-
-        {/* CTA Section */}
         <div className="text-center">
-          <Button
-            size="lg"
-            className="bg-gradient-to-r from-tulu-red via-tulu-gold to-tulu-teal hover:from-tulu-teal hover:to-tulu-red text-white px-12 py-4 rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 group"
-            asChild
-          >
-            <Link to="/experiences">
+          <Link to="/experiences">
+            <button
+              className="bg-gradient-to-r from-tulu-red via-tulu-gold to-tulu-teal hover:from-tulu-teal hover:to-tulu-red text-white px-12 py-4 rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 group"
+            >
               <Heart className="w-5 h-5 mr-2 animate-pulse" />
               Explore All Adventures
               <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-2 transition-transform" />
-            </Link>
-          </Button>
+            </button>
+          </Link>
         </div>
       </div>
     </section>

@@ -8,21 +8,16 @@ const EnhancedHero = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   
-  // Video links of Tulu Nadu for demo
-  const tuluVideos = [
-    "https://player.vimeo.com/external/455577390.sd.mp4?s=11cc9a5c33b8d3af33c093ea3a2acac9779cc1bb&profile_id=165", // Beach/temple
-    "https://player.vimeo.com/external/253067087.sd.mp4?s=1b7b1b14eb51345f77fc80c843f0e1ebeacb2a6a&profile_id=165", // Dance performance
-    "https://player.vimeo.com/external/403504372.sd.mp4?s=82ecbeedb08663a20ef7e9f1f21da433d0f1353f&profile_id=165" // Landscape
-  ];
+  // Use Drive video as default background for all slides
+  const driveVideo =
+    "https://drive.google.com/uc?export=preview&id=1ve-_zZEtaOjbdLnIRjc4tygvrA4FrntQ";
 
-  // All heroSlides remain the same, we'll just override the image/video background
   const heroSlides = [
     {
       title: "Discover the Soul of Tulu Nadu",
       subtitle: "Ancient Traditions, Modern Adventures",
       description: "Immerse yourself in centuries-old culture through authentic experiences that connect you with the heart of coastal Karnataka.",
-      // DEMO VIDEO: Replace this image with a stock video for demo
-      video: tuluVideos[0],
+      video: driveVideo,
       image: "https://images.pexels.com/photos/2161467/pexels-photo-2161467.jpeg?auto=compress&cs=tinysrgb&w=1200",
       stats: { experiences: "50+", locations: "25+", rating: "4.9" }
     },
@@ -30,6 +25,7 @@ const EnhancedHero = () => {
       title: "Live Yakshagana Performances",
       subtitle: "Traditional Theatre Comes Alive",
       description: "Witness the magic of Yakshagana with master performers in authentic settings, complete with traditional costumes and storytelling.",
+      video: driveVideo,
       image: "https://images.pexels.com/photos/2417726/pexels-photo-2417726.jpeg?auto=compress&cs=tinysrgb&w=1200",
       stats: { shows: "Weekly", artists: "15+", history: "500 Years" }
     },
@@ -37,6 +33,7 @@ const EnhancedHero = () => {
       title: "Sacred Temple Journeys",
       subtitle: "Spiritual Heritage & Architecture",
       description: "Explore ancient temples with expert guides who share stories passed down through generations of devotees and scholars.",
+      video: driveVideo,
       image: "https://images.pexels.com/photos/3944154/pexels-photo-3944154.jpeg?auto=compress&cs=tinysrgb&w=1200",
       stats: { temples: "30+", guides: "Expert", heritage: "1000+ Years" }
     }
