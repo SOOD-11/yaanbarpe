@@ -1,11 +1,11 @@
-
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ArrowRight, Play, Star, Users, Heart, Globe, Sparkles } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
-const driveVideo = "https://drive.google.com/uc?export=preview&id=1ve-_zZEtaOjbdLnIRjc4tygvrA4FrntQ";
+// Cloudinary video link provided by user
+const driveVideo = "https://res.cloudinary.com/dxjszh5rz/video/upload/v1749888061/user_images/jerehlxflhj3cofrswfo.mp4";
 
 // Updated: Five slides, more cultural images!
 const heroSlides = [
@@ -235,4 +235,3 @@ const EnhancedHero = () => {
 };
 
 export default EnhancedHero;
-
