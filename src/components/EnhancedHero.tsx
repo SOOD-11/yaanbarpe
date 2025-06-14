@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -14,6 +13,8 @@ const EnhancedHero = () => {
       title: "Discover the Soul of Tulu Nadu",
       subtitle: "Ancient Traditions, Modern Adventures",
       description: "Immerse yourself in centuries-old culture through authentic experiences that connect you with the heart of coastal Karnataka.",
+      // DEMO VIDEO: Replace this image with a stock video for demo
+      video: "https://www.w3schools.com/html/mov_bbb.mp4",
       image: "https://images.pexels.com/photos/2161467/pexels-photo-2161467.jpeg?auto=compress&cs=tinysrgb&w=1200",
       stats: { experiences: "50+", locations: "25+", rating: "4.9" }
     },
@@ -44,21 +45,33 @@ const EnhancedHero = () => {
 
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-slate-950">
-      {/* Professional Background with Parallax Effect */}
+      {/* Video or Image Background */}
       <div className="absolute inset-0">
-        <div 
-          className="absolute inset-0 bg-cover bg-center transition-all duration-1000 ease-in-out transform scale-105"
-          style={{ backgroundImage: `url(${currentHero.image})` }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-950/90 via-slate-900/80 to-slate-950/95" />
-        
+        {/* If video available and slide is 0, show video, else show image */}
+        {currentSlide === 0 && currentHero.video ? (
+          <video
+            src={currentHero.video}
+            className="absolute inset-0 w-full h-full object-cover"
+            autoPlay
+            loop
+            muted
+            playsInline
+            controls={false}
+            style={{ zIndex: 1 }}
+          />
+        ) : (
+          <div 
+            className="absolute inset-0 bg-cover bg-center transition-all duration-1000 ease-in-out transform scale-105"
+            style={{ backgroundImage: `url(${currentHero.image})` }}
+          />
+        )}
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-950/90 via-slate-900/80 to-slate-950/95 z-10" />
         {/* Tech Grid Pattern */}
         <div className="absolute inset-0 opacity-5">
           <div className="absolute inset-0" style={{
             backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpath d='M30 30h30v30H30V30zm15 15v15h15V45H45z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
           }} />
         </div>
-        
         {/* Subtle Geometric Elements */}
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-20 left-20 w-32 h-32 border border-slate-400/20 rounded-full animate-spin" style={{ animationDuration: '30s' }} />
@@ -68,7 +81,7 @@ const EnhancedHero = () => {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 container mx-auto px-4 md:px-6 lg:px-8">
+      <div className="relative z-20 container mx-auto px-4 md:px-6 lg:px-8">
         <div className="text-center max-w-5xl mx-auto">
           {/* Professional Badge */}
           <div className="mb-8 animate-fade-in-up">
