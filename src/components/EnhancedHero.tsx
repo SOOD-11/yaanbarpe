@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -6,6 +7,7 @@ import { Link } from 'react-router-dom';
 
 const driveVideo = "https://drive.google.com/uc?export=preview&id=1ve-_zZEtaOjbdLnIRjc4tygvrA4FrntQ";
 
+// Updated: Five slides, more cultural images!
 const heroSlides = [
   {
     title: "Discover the Soul of Tulu Nadu",
@@ -30,6 +32,22 @@ const heroSlides = [
     video: driveVideo,
     image: "https://images.pexels.com/photos/3944154/pexels-photo-3944154.jpeg?auto=compress&cs=tinysrgb&w=1200",
     stats: { temples: "30+", guides: "Expert", heritage: "1000+ Years" }
+  },
+  {
+    title: "Explore Udupi's Coastal Beauty",
+    subtitle: "Serenity by the Sea",
+    description: "Unwind on golden beaches, explore vibrant fish markets, and savor the flavors of coastal Karnataka's unique cuisine.",
+    video: driveVideo,
+    image: "https://images.pexels.com/photos/533769/pexels-photo-533769.jpeg?auto=compress&cs=tinysrgb&w=1200", // Beautiful Indian coast
+    stats: { beaches: "10+", seafood: "Delicious", festivals: "Year-round" }
+  },
+  {
+    title: "Festivals of Lights & Colors",
+    subtitle: "Celebrate Like a Local",
+    description: "Join joyous local festivals filled with dazzling rituals, lively music, and vibrant colors—a Tulu Nadu cultural experience you'll never forget.",
+    video: driveVideo,
+    image: "https://images.pexels.com/photos/4527383/pexels-photo-4527383.jpeg?auto=compress&cs=tinysrgb&w=1200", // Festival/holi image
+    stats: { festivals: "20+", rituals: "Diverse", joy: "Unmatched" }
   }
 ];
 
@@ -88,14 +106,7 @@ const EnhancedHero = () => {
           <div className="absolute top-1/2 left-10 w-16 h-16 bg-slate-200/10 rounded-full animate-bounce" />
         </div>
       </div>
-      {/* fallback message for video error */}
-      {videoError && (
-        <div className="absolute inset-0 z-30 flex items-center justify-center pointer-events-none">
-          <div className="bg-black/60 text-white text-lg px-6 py-4 rounded-lg shadow-2xl">
-            Video could not be loaded. Showing fallback image.
-          </div>
-        </div>
-      )}
+      {/* --- Removed the "Video could not be loaded. Showing fallback image." overlay. --- */}
 
       {/* Content */}
       <div className="relative z-20 container mx-auto px-4 md:px-6 lg:px-8">
@@ -107,6 +118,8 @@ const EnhancedHero = () => {
               {currentSlide === 0 && "🌟 Premium Cultural Experiences"}
               {currentSlide === 1 && "🎭 Authentic Performance Arts"}
               {currentSlide === 2 && "🏛️ Sacred Heritage Tours"}
+              {currentSlide === 3 && "🌊 Coastal Wonders"}
+              {currentSlide === 4 && "🥁 Festival Nights"}
             </Badge>
           </div>
 
@@ -222,3 +235,4 @@ const EnhancedHero = () => {
 };
 
 export default EnhancedHero;
+
