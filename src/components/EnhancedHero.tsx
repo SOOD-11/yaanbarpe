@@ -8,13 +8,21 @@ const EnhancedHero = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   
+  // Video links of Tulu Nadu for demo
+  const tuluVideos = [
+    "https://player.vimeo.com/external/455577390.sd.mp4?s=11cc9a5c33b8d3af33c093ea3a2acac9779cc1bb&profile_id=165", // Beach/temple
+    "https://player.vimeo.com/external/253067087.sd.mp4?s=1b7b1b14eb51345f77fc80c843f0e1ebeacb2a6a&profile_id=165", // Dance performance
+    "https://player.vimeo.com/external/403504372.sd.mp4?s=82ecbeedb08663a20ef7e9f1f21da433d0f1353f&profile_id=165" // Landscape
+  ];
+
+  // All heroSlides remain the same, we'll just override the image/video background
   const heroSlides = [
     {
       title: "Discover the Soul of Tulu Nadu",
       subtitle: "Ancient Traditions, Modern Adventures",
       description: "Immerse yourself in centuries-old culture through authentic experiences that connect you with the heart of coastal Karnataka.",
       // DEMO VIDEO: Replace this image with a stock video for demo
-      video: "https://www.w3schools.com/html/mov_bbb.mp4",
+      video: tuluVideos[0],
       image: "https://images.pexels.com/photos/2161467/pexels-photo-2161467.jpeg?auto=compress&cs=tinysrgb&w=1200",
       stats: { experiences: "50+", locations: "25+", rating: "4.9" }
     },
@@ -45,26 +53,18 @@ const EnhancedHero = () => {
 
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-slate-950">
-      {/* Video or Image Background */}
+      {/* Video Background for ALL slides */}
       <div className="absolute inset-0">
-        {/* If video available and slide is 0, show video, else show image */}
-        {currentSlide === 0 && currentHero.video ? (
-          <video
-            src={currentHero.video}
-            className="absolute inset-0 w-full h-full object-cover"
-            autoPlay
-            loop
-            muted
-            playsInline
-            controls={false}
-            style={{ zIndex: 1 }}
-          />
-        ) : (
-          <div 
-            className="absolute inset-0 bg-cover bg-center transition-all duration-1000 ease-in-out transform scale-105"
-            style={{ backgroundImage: `url(${currentHero.image})` }}
-          />
-        )}
+        <video
+          src={currentHero.video}
+          className="absolute inset-0 w-full h-full object-cover"
+          autoPlay
+          loop
+          muted
+          playsInline
+          controls={false}
+          style={{ zIndex: 1 }}
+        />
         <div className="absolute inset-0 bg-gradient-to-br from-slate-950/90 via-slate-900/80 to-slate-950/95 z-10" />
         {/* Tech Grid Pattern */}
         <div className="absolute inset-0 opacity-5">

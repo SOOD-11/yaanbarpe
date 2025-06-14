@@ -10,6 +10,7 @@ const culturalElements = [
     title: 'Yakshagana',
     description: 'A traditional theatre form that combines dance, music, dialogue, costume, and stage techniques with a unique style and form. This ancient art form tells stories from Hindu epics through elaborate costumes, face paintings, and energetic performances.',
     image: 'https://images.pexels.com/photos/2417726/pexels-photo-2417726.jpeg?auto=compress&cs=tinysrgb&w=1200',
+    video: 'https://player.vimeo.com/external/253067087.sd.mp4?s=1b7b1b14eb51345f77fc80c843f0e1ebeacb2a6a&profile_id=165', // Dance, ancient art
     fact: '78 active troupes contribute ₹42 crore yearly through performances',
     details: [
       'Over 500 years old tradition',
@@ -26,6 +27,7 @@ const culturalElements = [
     title: 'Sri Krishna Matha',
     description: 'One of the most sacred temples in Karnataka, established by the philosopher and theologian Madhvacharya in the 13th century. The temple is famous for its unique window (Kanakana Kindi) through which devotees can view the deity.',
     image: 'https://images.pexels.com/photos/2161467/pexels-photo-2161467.jpeg?auto=compress&cs=tinysrgb&w=1200',
+    video: 'https://player.vimeo.com/external/455577390.sd.mp4?s=11cc9a5c33b8d3af33c093ea3a2acac9779cc1bb&profile_id=165',
     fact: 'Attracts 6.8 million pilgrims annually, generating ₹1,450 crore in revenue',
     details: [
       '700+ years of continuous worship',
@@ -42,6 +44,7 @@ const culturalElements = [
     title: "St. Mary's Islands",
     description: "A geological monument featuring unique hexagonal basalt rock formations created by volcanic activity millions of years ago. These pristine islands offer crystal clear waters and stunning natural beauty that attracts geologists and nature lovers alike.",
     image: 'https://images.pexels.com/photos/1450353/pexels-photo-1450353.jpeg?auto=compress&cs=tinysrgb&w=1200',
+    video: 'https://player.vimeo.com/external/403504372.sd.mp4?s=82ecbeedb08663a20ef7e9f1f21da433d0f1353f&profile_id=165',
     fact: 'Recorded 1.1 million visitors in 2024, with 18% being international tourists',
     details: [
       '88 million years old rock formations',
@@ -58,6 +61,7 @@ const culturalElements = [
     title: 'Bhuta Kola',
     description: 'A ritualistic folk dance and religious ceremony where performers embody spirits (Bhutas) and Daivas. This ancient tradition involves elaborate costumes, face paintings, and fire dancing, creating a mystical atmosphere that connects the community with their ancestral spirits.',
     image: 'https://images.pexels.com/photos/3944154/pexels-photo-3944154.jpeg?auto=compress&cs=tinysrgb&w=1200',
+    video: 'https://player.vimeo.com/external/185045350.sd.mp4?s=befd13df95da561cd1e8d375e768bdfae8da50e1&profile_id=165', // Ritual/fire
     fact: 'Over 400 different spirit forms documented across 200+ villages',
     details: [
       'Ancient spirit worship tradition',
@@ -70,6 +74,9 @@ const culturalElements = [
     experience: 'Witness authentic village ceremonies'
   }
 ];
+
+// Gather all images for gallery
+const areaGalleryImages = culturalElements.map(c => ({ src: c.image, alt: c.title }));
 
 const CulturalShowcase = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -139,15 +146,17 @@ const CulturalShowcase = () => {
               onMouseEnter={() => setHoveredElement(index)}
               onMouseLeave={() => setHoveredElement(null)}
             >
-              {/* Image Section */}
+              {/* Video Section */}
               <div className="lg:w-1/2">
-                <div className="relative rounded-3xl overflow-hidden shadow-2xl group">
-                  <img 
-                    src={element.image} 
-                    alt={element.title}
-                    className={`w-full h-[500px] object-cover transition-all duration-700 ${
-                      hoveredElement === index ? 'scale-110' : 'scale-100'
-                    }`}
+                <div className="relative rounded-3xl overflow-hidden shadow-2xl group aspect-video">
+                  <video 
+                    src={element.video}
+                    className={`w-full h-[500px] object-cover transition-all duration-700`}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    controls={false}
                   />
                   
                   {/* Overlay with fact */}
@@ -264,4 +273,5 @@ const CulturalShowcase = () => {
   );
 };
 
+export { areaGalleryImages };
 export default CulturalShowcase;
