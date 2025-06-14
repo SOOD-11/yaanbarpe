@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ArrowRight, Play, Star, Users, Heart, Globe, Sparkles } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import SolidContentCard from './SolidContentCard';
 
 // Cloudinary video link provided by user
 const driveVideo = "https://res.cloudinary.com/dxjszh5rz/video/upload/v1749888061/user_images/jerehlxflhj3cofrswfo.mp4";
@@ -109,8 +110,9 @@ const EnhancedHero = () => {
             style={{ zIndex: 1 }}
           />
         )}
-        {/* Overlay for readability */}
-        <div className="absolute inset-0 bg-gradient-to-br from-black/10 via-black/10 to-black/20 pointer-events-none z-10" />
+        {/* Overlay for readability - increased opacity */}
+        <div className="absolute inset-0 bg-gradient-to-br from-black/60 via-black/60 to-black/80 pointer-events-none z-10 transition-all duration-500" />
+        {/* Decorative SVG and blurry shapes (unchanged) */}
         <div className="absolute inset-0 opacity-5 pointer-events-none">
           <div className="absolute inset-0"
             style={{
@@ -124,14 +126,13 @@ const EnhancedHero = () => {
           <div className="absolute top-1/2 left-10 w-16 h-16 bg-slate-200/10 rounded-full animate-bounce" />
         </div>
       </div>
-      {/* --- Removed the "Video could not be loaded. Showing fallback image." overlay. --- */}
 
-      {/* Content */}
-      <div className="relative z-20 container mx-auto px-4 md:px-6 lg:px-8">
-        <div className="text-center max-w-5xl mx-auto">
-          {/* Professional Badge */}
-          <div className="mb-8 animate-fade-in-up">
-            <Badge className="bg-slate-800/80 backdrop-blur-md border border-slate-700/50 text-slate-200 px-8 py-3 text-base font-medium shadow-2xl">
+      {/* Content in card */}
+      <div className="relative z-20 container mx-auto px-4 md:px-6 lg:px-8 flex flex-col items-center justify-center">
+        <SolidContentCard className="mt-8 md:mt-20 w-full">
+          {/* Badge */}
+          <div className="mb-6 animate-fade-in-up">
+            <Badge className="bg-slate-800/90 backdrop-blur-lg border border-slate-700/50 text-slate-200 px-8 py-3 text-base font-medium shadow-2xl">
               <Sparkles className="w-5 h-5 mr-2" />
               {currentSlide === 0 && "🌟 Premium Cultural Experiences"}
               {currentSlide === 1 && "🎭 Authentic Performance Arts"}
@@ -141,8 +142,8 @@ const EnhancedHero = () => {
             </Badge>
           </div>
 
-          {/* Main Title with Professional Typography */}
-          <h1 className="font-display text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-8 leading-tight">
+          {/* Main Title */}
+          <h1 className="font-display text-center text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-6 leading-tight text-slate-100 drop-shadow-lg">
             <span className="bg-gradient-to-r from-white via-slate-100 to-slate-200 bg-clip-text text-transparent animate-fade-in-up">
               {currentHero.title.split(' ').slice(0, -2).join(' ')}
             </span>
@@ -152,57 +153,63 @@ const EnhancedHero = () => {
             </span>
           </h1>
 
-          {/* Refined Subtitle */}
-          <div className="mb-8 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
+          {/* Subtitle */}
+          <div className="mb-4 animate-fade-in-up" style={{ animationDelay: '0.35s' }}>
             <span className="text-slate-300 text-2xl md:text-3xl font-light tracking-wide">
               {currentHero.subtitle}
             </span>
           </div>
 
-          {/* Professional Description */}
-          <p className="text-slate-200 text-xl md:text-2xl mb-10 max-w-4xl mx-auto leading-relaxed font-light animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
+          {/* Description */}
+          <p className="text-slate-200 text-lg md:text-2xl mb-4 md:mb-6 max-w-4xl mx-auto leading-relaxed font-light animate-fade-in-up" style={{ animationDelay: '0.55s' }}>
             {currentHero.description}
           </p>
+        </SolidContentCard>
 
-          {/* Professional Stats Row */}
-          <div className="flex justify-center gap-12 mb-12 animate-fade-in-up" style={{ animationDelay: '0.8s' }}>
-            {Object.entries(currentHero.stats).map(([key, value], index) => (
-              <div key={key} className="text-center group">
-                <div className="text-3xl md:text-4xl font-bold text-slate-100 mb-2 group-hover:scale-110 transition-transform">{value}</div>
-                <div className="text-slate-400 text-sm uppercase tracking-wider font-medium">{key.replace(/([A-Z])/g, ' $1').trim()}</div>
-              </div>
-            ))}
-          </div>
+        {/* Stats & Buttons in separate card */}
+        <div className="w-full mt-4 mb-2 flex flex-col items-center gap-4">
+          <SolidContentCard className="flex-col md:flex-row gap-8 bg-black/60 backdrop-blur-md py-6 md:py-8 px-5 md:px-8 w-full max-w-3xl">
+            {/* Stats */}
+            <div className="flex flex-row gap-8 md:gap-12 mb-4 md:mb-0 self-center flex-wrap justify-center">
+              {Object.entries(currentHero.stats).map(([key, value], index) => (
+                <div key={key} className="text-center group min-w-[70px]">
+                  <div className="text-2xl md:text-3xl font-bold text-slate-100 mb-1 group-hover:scale-110 transition-transform">{value}</div>
+                  <div className="text-slate-400 text-xs uppercase tracking-wider font-medium">{key.replace(/([A-Z])/g, ' $1').trim()}</div>
+                </div>
+              ))}
+            </div>
+            {/* Buttons */}
+            <div className="flex flex-col sm:flex-row gap-3 md:gap-5 self-center">
+              <Button 
+                size="lg"
+                className="bg-slate-100 hover:bg-white text-slate-900 px-7 py-3 rounded-lg shadow-xl transition-all duration-300 transform hover:scale-105 group text-lg font-semibold"
+                asChild
+              >
+                <Link to="/packages">
+                  <Globe className="w-6 h-6 mr-3" />
+                  Explore Experiences
+                  <ArrowRight className="w-6 h-6 ml-3 group-hover:translate-x-2 transition-transform" />
+                </Link>
+              </Button>
+              
+              <Button 
+                size="lg"
+                variant="outline"
+                className="border-2 border-slate-300/50 text-white hover:bg-slate-800/50 backdrop-blur-md bg-slate-800/20 px-7 py-3 rounded-lg transition-all duration-300 group text-lg font-medium"
+                onClick={() => setIsPlaying((playing) => !playing)}
+              >
+                <Play className={`w-6 h-6 mr-3 ${isPlaying ? 'animate-pulse' : ''}`} />
+                {isPlaying ? 'Playing Preview' : 'Watch Preview'}
+              </Button>
+            </div>
+          </SolidContentCard>
+        </div>
 
-          {/* Professional Action Buttons */}
-          <div className="flex flex-col sm:flex-row gap-6 justify-center mb-6 animate-fade-in-up" style={{ animationDelay: '1s' }}>
-            <Button 
-              size="lg"
-              className="bg-slate-100 hover:bg-white text-slate-900 px-10 py-5 rounded-lg shadow-2xl hover:shadow-slate-500/25 transition-all duration-300 transform hover:scale-105 group text-lg font-semibold"
-              asChild
-            >
-              <Link to="/packages">
-                <Globe className="w-6 h-6 mr-3" />
-                Explore Experiences
-                <ArrowRight className="w-6 h-6 ml-3 group-hover:translate-x-2 transition-transform" />
-              </Link>
-            </Button>
-            
-            <Button 
-              size="lg"
-              variant="outline"
-              className="border-2 border-slate-300/50 text-white hover:bg-slate-800/50 backdrop-blur-md bg-slate-800/20 px-10 py-5 rounded-lg transition-all duration-300 group text-lg font-medium"
-              onClick={() => setIsPlaying((playing) => !playing)}
-            >
-              <Play className={`w-6 h-6 mr-3 ${isPlaying ? 'animate-pulse' : ''}`} />
-              {isPlaying ? 'Playing Preview' : 'Watch Preview'}
-            </Button>
-          </div>
-          
-          {/* Volume Slider: Show only if isPlaying and video loaded, not video error */}
-          {isPlaying && videoLoaded && !videoError && (
-            <div className="flex justify-center items-center gap-4 mb-8 animate-fade-in-up" style={{ animationDelay: '1.1s' }}>
-              <label htmlFor="hero-volume" className="text-slate-300 font-medium">
+        {/* Volume bar only when playing + video loaded */}
+        {isPlaying && videoLoaded && !videoError && (
+          <div className="w-full flex justify-center mt-2 animate-fade-in-up" style={{ animationDelay: '1.05s' }}>
+            <SolidContentCard className="flex-row items-center py-2 px-4 bg-black/60 max-w-lg">
+              <label htmlFor="hero-volume" className="text-slate-300 font-medium mr-3">
                 Volume
               </label>
               <input
@@ -213,37 +220,39 @@ const EnhancedHero = () => {
                 step={0.01}
                 value={videoVolume}
                 onChange={handleVolumeChange}
-                className="w-48 accent-slate-400"
+                className="w-40 accent-slate-400"
                 style={{ verticalAlign: 'middle' }}
               />
-              <span className="text-slate-400 text-sm">{Math.round(videoVolume * 100)}%</span>
-            </div>
-          )}
+              <span className="text-slate-400 text-sm ml-3">{Math.round(videoVolume * 100)}%</span>
+            </SolidContentCard>
+          </div>
+        )}
 
-          {/* Professional Trust Indicators */}
-          <div className="flex flex-wrap justify-center items-center gap-8 text-slate-200 animate-fade-in-up" style={{ animationDelay: '1.2s' }}>
-            <div className="flex items-center gap-3 group">
+        {/* Trust indicators */}
+        <div className="w-full flex justify-center mt-4">
+          <SolidContentCard className="flex flex-wrap justify-center items-center gap-6 text-slate-200 bg-black/40 py-4 px-6">
+            <div className="flex items-center gap-2 group">
               <div className="flex">
                 {[1,2,3,4,5].map((star) => (
-                  <Star key={star} className="w-5 h-5 text-slate-300 fill-current" />
+                  <Star key={star} className="w-4 h-4 text-slate-300 fill-current" />
                 ))}
               </div>
-              <span className="font-semibold">4.9/5</span>
-              <span className="text-slate-400">from 500+ reviews</span>
+              <span className="font-semibold ml-1">4.9/5</span>
+              <span className="text-slate-400 ml-2 text-xs">from 500+ reviews</span>
             </div>
             <div className="w-px h-6 bg-slate-400/30" />
-            <div className="flex items-center gap-3">
-              <Users className="w-6 h-6 text-slate-300" />
+            <div className="flex items-center gap-2">
+              <Users className="w-5 h-5 text-slate-300" />
               <span className="font-semibold">2,500+</span>
-              <span className="text-slate-400">satisfied travelers</span>
+              <span className="text-slate-400 ml-1 text-xs">satisfied travelers</span>
             </div>
             <div className="w-px h-6 bg-slate-400/30" />
-            <div className="flex items-center gap-3">
-              <Heart className="w-6 h-6 text-slate-300" />
+            <div className="flex items-center gap-2">
+              <Heart className="w-5 h-5 text-slate-300" />
               <span className="font-semibold">25+</span>
-              <span className="text-slate-400">expert guides</span>
+              <span className="text-slate-400 ml-1 text-xs">expert guides</span>
             </div>
-          </div>
+          </SolidContentCard>
         </div>
       </div>
 
