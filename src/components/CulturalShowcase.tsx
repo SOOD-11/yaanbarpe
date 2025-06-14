@@ -146,21 +146,29 @@ const CulturalShowcase = () => {
               onMouseEnter={() => setHoveredElement(index)}
               onMouseLeave={() => setHoveredElement(null)}
             >
-              {/* Video Section */}
+              {/* Video/Image Section */}
               <div className="lg:w-1/2">
-                <div className="relative rounded-3xl overflow-hidden shadow-2xl group aspect-video">
+                <div className="relative rounded-3xl overflow-hidden shadow-2xl group aspect-video bg-black">
+                  {/* Fallback Image as background */}
+                  <img 
+                    src={element.image}
+                    alt={element.title}
+                    className="absolute inset-0 w-full h-full object-cover z-0"
+                    style={{objectFit: 'cover'}}
+                  />
+                  {/* Overlay video if present and autoPlay */}
                   <video 
                     src={element.video}
-                    className={`w-full h-[500px] object-cover transition-all duration-700`}
+                    className="w-full h-[500px] object-cover relative z-10"
                     autoPlay
                     loop
                     muted
                     playsInline
                     controls={false}
+                    style={{background: "transparent"}}
                   />
-                  
                   {/* Overlay with fact */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent">
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent z-20">
                     <div className="absolute bottom-6 left-6 right-6">
                       <div className="bg-white/10 backdrop-blur-md rounded-lg p-4 border border-white/20">
                         <span className="text-tulu-beige text-sm font-semibold uppercase tracking-wide">Amazing Fact</span>
@@ -168,9 +176,8 @@ const CulturalShowcase = () => {
                       </div>
                     </div>
                   </div>
-                  
                   {/* Corner badge */}
-                  <div className="absolute top-4 right-4 bg-tulu-red text-white px-4 py-2 rounded-full text-sm font-bold">
+                  <div className="absolute top-4 right-4 bg-tulu-red text-white px-4 py-2 rounded-full text-sm font-bold z-30">
                     Heritage Site
                   </div>
                 </div>
