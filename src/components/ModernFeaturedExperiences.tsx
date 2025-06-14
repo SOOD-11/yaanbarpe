@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -285,10 +284,14 @@ const ModernFeaturedExperiences = () => {
 
                 {/* Action Button */}
                 <Button 
-                  className="w-full bg-gradient-to-r from-tulu-blue to-tulu-teal hover:from-tulu-teal hover:to-tulu-green text-white rounded-xl transition-all duration-300 group/btn"
+                  className="w-full bg-gradient-to-r from-tulu-blue to-tulu-teal hover:from-tulu-teal hover:to-tulu-green text-white rounded-xl transition-all duration-300 group/btn pointer-events-auto"
                   asChild
                 >
-                  <Link to={`/booking?experience=${experience.id}`}>
+                  <Link
+                    to={`/booking?experience=${experience.id}`}
+                    data-testid="book-experience"
+                    className="pointer-events-auto flex items-center justify-center w-full"
+                  >
                     <Zap className="w-4 h-4 mr-2" />
                     Book Experience
                     <ArrowRight className="w-4 h-4 ml-2 group-hover/btn:translate-x-1 transition-transform" />
