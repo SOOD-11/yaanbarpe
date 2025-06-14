@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useState, useEffect, useRef } from 'react';
 import { toast } from '@/hooks/use-toast';
@@ -258,8 +257,11 @@ const DetailedBlogPost = ({
         <AdSpace position="middle" size="medium" />
       </div>
       
-      {/* Knowledge Quiz */}
-      <KnowledgeQuiz onQuizComplete={(score) => addReadingPoints(score * 2, `Quiz completed! +${score * 2} points`)} />
+      {/* Knowledge Quiz - Now passes blog title */}
+      <KnowledgeQuiz 
+        blogTitle={title}
+        onQuizComplete={(score) => addReadingPoints(score * 2, `Quiz completed! +${score * 2} points`)} 
+      />
       
       {/* Interactive engagement section */}
       <ReactionBar onInteraction={(points, message) => addReadingPoints(points, message)} />
