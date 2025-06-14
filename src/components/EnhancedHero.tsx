@@ -4,13 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { ArrowRight, Play, Star, Users, Heart, Globe, Sparkles } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
-const driveVideo =
-  "https://drive.google.com/uc?export=preview&id=1ve-_zZEtaOjbdLnIRjc4tygvrA4FrntQ";
-
-const localVideo = "/hero-bg.mp4"; // Use your own mp4 file in public/
-
-const fallbackImage =
-  "https://images.pexels.com/photos/2161467/pexels-photo-2161467.jpeg?auto=compress&cs=tinysrgb&w=1200";
+const driveVideo = "https://drive.google.com/uc?export=preview&id=1ve-_zZEtaOjbdLnIRjc4tygvrA4FrntQ";
 
 const heroSlides = [
   {
@@ -18,7 +12,6 @@ const heroSlides = [
     subtitle: "Ancient Traditions, Modern Adventures",
     description: "Immerse yourself in centuries-old culture through authentic experiences that connect you with the heart of coastal Karnataka.",
     video: driveVideo,
-    image: fallbackImage,
     stats: { experiences: "50+", locations: "25+", rating: "4.9" }
   },
   {
@@ -26,7 +19,6 @@ const heroSlides = [
     subtitle: "Traditional Theatre Comes Alive",
     description: "Witness the magic of Yakshagana with master performers in authentic settings, complete with traditional costumes and storytelling.",
     video: driveVideo,
-    image: "https://images.pexels.com/photos/2417726/pexels-photo-2417726.jpeg?auto=compress&cs=tinysrgb&w=1200",
     stats: { shows: "Weekly", artists: "15+", history: "500 Years" }
   },
   {
@@ -34,7 +26,6 @@ const heroSlides = [
     subtitle: "Spiritual Heritage & Architecture",
     description: "Explore ancient temples with expert guides who share stories passed down through generations of devotees and scholars.",
     video: driveVideo,
-    image: "https://images.pexels.com/photos/3944154/pexels-photo-3944154.jpeg?auto=compress&cs=tinysrgb&w=1200",
     stats: { temples: "30+", guides: "Expert", heritage: "1000+ Years" }
   }
 ];
@@ -60,7 +51,7 @@ const EnhancedHero = () => {
       <div className="absolute inset-0 z-0">
         {!videoError ? (
           <video
-            src={localVideo}
+            src={driveVideo}
             className="absolute inset-0 w-full h-full object-cover bg-black"
             autoPlay
             loop
@@ -72,18 +63,14 @@ const EnhancedHero = () => {
             onError={() => setVideoError(true)}
           />
         ) : (
-          <img
-            src={currentHero.image}
-            alt="Cultural experience background"
-            className="absolute inset-0 w-full h-full object-cover bg-black"
-            style={{ zIndex: 1 }}
-          />
+          <div className="absolute inset-0 flex items-center justify-center bg-black z-30">
+            <span className="text-white bg-black/70 px-6 py-4 rounded-lg text-lg">
+              Video could not be loaded. Please check the Drive link permissions.
+            </span>
+          </div>
         )}
-        {/* Lighter, nearly transparent overlay for readability only */}
+        {/* Slight overlay only for readability */}
         <div className="absolute inset-0 bg-gradient-to-br from-black/10 via-black/10 to-black/20 pointer-events-none z-10" />
-        {/* No heavy overlay anymore */}
-
-        {/* Decor elements (still very low opacity) */}
         <div className="absolute inset-0 opacity-5 pointer-events-none">
           <div className="absolute inset-0"
             style={{
@@ -101,7 +88,7 @@ const EnhancedHero = () => {
       {videoError && (
         <div className="absolute inset-0 z-30 flex items-center justify-center pointer-events-none">
           <div className="bg-black/60 text-white text-lg px-6 py-4 rounded-lg shadow-2xl">
-            Video could not be loaded. Showing fallback image.
+            Video could not be loaded. Please check your Google Drive link permissions or try hosting the video elsewhere.
           </div>
         </div>
       )}
