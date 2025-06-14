@@ -4,7 +4,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
-import { Brain, Trophy, Star, Zap, CheckCircle, XCircle, RefreshCw, Share2 } from 'lucide-react';
+import { Brain, Trophy, Star, Zap, CheckCircle, XCircle, RefreshCw, Share2, Clock, Target } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
 
 const quizQuestions = [
@@ -64,6 +64,7 @@ const InteractiveQuizSection = () => {
   const [quizCompleted, setQuizCompleted] = useState(false);
   const [timeLeft, setTimeLeft] = useState(30);
   const [isTimerActive, setIsTimerActive] = useState(false);
+  const [quizStarted, setQuizStarted] = useState(false);
 
   const currentQ = quizQuestions[currentQuestion];
   const progress = ((currentQuestion + 1) / quizQuestions.length) * 100;
@@ -78,6 +79,7 @@ const InteractiveQuizSection = () => {
   }, [timeLeft, isTimerActive]);
 
   const startQuiz = () => {
+    setQuizStarted(true);
     setIsTimerActive(true);
     setTimeLeft(30);
   };
@@ -110,7 +112,7 @@ const InteractiveQuizSection = () => {
         setQuizCompleted(true);
         setIsTimerActive(false);
       }
-    }, 2000);
+    }, 2500);
   };
 
   const resetQuiz = () => {
@@ -122,6 +124,7 @@ const InteractiveQuizSection = () => {
     setQuizCompleted(false);
     setTimeLeft(30);
     setIsTimerActive(false);
+    setQuizStarted(false);
   };
 
   const shareScore = () => {
@@ -153,56 +156,55 @@ const InteractiveQuizSection = () => {
     return "🚀 Great start! There's so much more to discover!";
   };
 
-  if (!isTimerActive && currentQuestion === 0 && !quizCompleted) {
+  if (!quizStarted && !quizCompleted) {
     return (
-      <section className="py-20 bg-gradient-to-br from-tulu-blue/5 to-tulu-teal/5">
+      <section className="py-20 bg-gradient-to-br from-slate-50 to-gray-100">
         <div className="container mx-auto px-4 md:px-6 lg:px-8">
-          <div className="max-w-2xl mx-auto text-center">
-            <Badge className="mb-4 bg-gradient-to-r from-tulu-gold to-tulu-red text-white px-6 py-2">
-              <Brain className="w-4 h-4 mr-2" />
-              Cultural Knowledge Quiz
-            </Badge>
-            
-            <h2 className="font-display text-4xl md:text-5xl font-bold mb-6">
-              <span className="bg-gradient-to-r from-tulu-blue to-tulu-teal bg-clip-text text-transparent">
-                Test Your
-              </span>{' '}
-              <span className="text-tulu-red">Cultural IQ</span>
-            </h2>
-            
-            <p className="text-muted-foreground text-lg mb-8">
-              Challenge yourself with 5 questions about Tulu culture, traditions, and heritage. Each question has 30 seconds!
-            </p>
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-12">
+              <Badge className="mb-6 bg-slate-800 text-white px-6 py-3 text-sm font-medium">
+                <Brain className="w-4 h-4 mr-2" />
+                Cultural Knowledge Quiz
+              </Badge>
+              
+              <h2 className="font-display text-4xl md:text-5xl font-bold mb-6 text-slate-800">
+                Test Your <span className="bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">Cultural IQ</span>
+              </h2>
+              
+              <p className="text-slate-600 text-lg mb-12 max-w-2xl mx-auto leading-relaxed">
+                Challenge yourself with 5 carefully crafted questions about Tulu culture, traditions, and heritage. Each question has 30 seconds - can you beat the clock?
+              </p>
+            </div>
 
-            <Card className="p-8 bg-gradient-to-br from-white to-tulu-sand/10 border-2 border-tulu-gold/20">
-              <CardContent className="p-0">
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-tulu-blue">5</div>
-                    <div className="text-sm text-muted-foreground">Questions</div>
+            <Card className="max-w-2xl mx-auto bg-white shadow-2xl border-0 rounded-3xl overflow-hidden">
+              <CardContent className="p-12">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
+                  <div className="text-center p-4 bg-blue-50 rounded-2xl">
+                    <div className="text-3xl font-bold text-blue-600 mb-2">5</div>
+                    <div className="text-sm text-slate-600 font-medium">Questions</div>
                   </div>
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-tulu-green">30s</div>
-                    <div className="text-sm text-muted-foreground">Per Question</div>
+                  <div className="text-center p-4 bg-green-50 rounded-2xl">
+                    <div className="text-3xl font-bold text-green-600 mb-2">30s</div>
+                    <div className="text-sm text-slate-600 font-medium">Per Question</div>
                   </div>
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-tulu-red">4</div>
-                    <div className="text-sm text-muted-foreground">Categories</div>
+                  <div className="text-center p-4 bg-purple-50 rounded-2xl">
+                    <div className="text-3xl font-bold text-purple-600 mb-2">4</div>
+                    <div className="text-sm text-slate-600 font-medium">Categories</div>
                   </div>
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-tulu-gold">100</div>
-                    <div className="text-sm text-muted-foreground">Points Max</div>
+                  <div className="text-center p-4 bg-yellow-50 rounded-2xl">
+                    <div className="text-3xl font-bold text-yellow-600 mb-2">100</div>
+                    <div className="text-sm text-slate-600 font-medium">Points Max</div>
                   </div>
                 </div>
 
                 <Button 
                   size="lg"
                   onClick={startQuiz}
-                  className="bg-gradient-to-r from-tulu-blue to-tulu-teal hover:from-tulu-teal hover:to-tulu-green text-white px-12 py-4 rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 group"
+                  className="w-full bg-gradient-to-r from-slate-800 to-slate-700 hover:from-slate-700 hover:to-slate-600 text-white px-12 py-6 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 group text-lg font-semibold"
                 >
-                  <Zap className="w-5 h-5 mr-2 animate-pulse" />
+                  <Zap className="w-6 h-6 mr-3 animate-pulse" />
                   Start Quiz Challenge
-                  <Trophy className="w-5 h-5 ml-2 group-hover:animate-bounce" />
+                  <Trophy className="w-6 h-6 ml-3 group-hover:animate-bounce" />
                 </Button>
               </CardContent>
             </Card>
@@ -214,34 +216,38 @@ const InteractiveQuizSection = () => {
 
   if (quizCompleted) {
     return (
-      <section className="py-20 bg-gradient-to-br from-tulu-blue/5 to-tulu-teal/5">
+      <section className="py-20 bg-gradient-to-br from-slate-50 to-gray-100">
         <div className="container mx-auto px-4 md:px-6 lg:px-8">
           <div className="max-w-2xl mx-auto text-center">
-            <Card className="p-8 bg-gradient-to-br from-white to-tulu-sand/10 border-2 border-tulu-gold/20">
-              <CardContent className="p-0">
-                <Trophy className="w-20 h-20 text-tulu-gold mx-auto mb-6 animate-bounce" />
-                
-                <h3 className="font-display text-3xl font-bold mb-4">
-                  Quiz Complete! 🎉
-                </h3>
-                
-                <div className="text-6xl font-bold bg-gradient-to-r from-tulu-blue to-tulu-teal bg-clip-text text-transparent mb-4">
-                  {score}/{quizQuestions.length}
+            <Card className="bg-white shadow-2xl border-0 rounded-3xl overflow-hidden">
+              <CardContent className="p-12">
+                <div className="mb-8">
+                  <Trophy className="w-20 h-20 text-yellow-500 mx-auto mb-6 animate-bounce" />
+                  
+                  <h3 className="font-display text-3xl font-bold mb-4 text-slate-800">
+                    Quiz Complete! 🎉
+                  </h3>
+                  
+                  <div className="text-6xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent mb-6">
+                    {score}/{quizQuestions.length}
+                  </div>
+                  
+                  <p className="text-xl mb-8 text-slate-600 font-medium">
+                    {getScoreMessage()}
+                  </p>
                 </div>
-                
-                <p className="text-xl mb-6 text-tulu-green font-medium">
-                  {getScoreMessage()}
-                </p>
 
                 {/* Score Breakdown */}
-                <div className="grid grid-cols-2 gap-4 mb-8 text-sm">
-                  <div className="bg-green-50 rounded-lg p-4">
-                    <CheckCircle className="w-6 h-6 text-green-500 mx-auto mb-2" />
-                    <div className="font-bold text-green-700">{score} Correct</div>
+                <div className="grid grid-cols-2 gap-4 mb-8">
+                  <div className="bg-green-50 rounded-2xl p-6 border border-green-200">
+                    <CheckCircle className="w-8 h-8 text-green-500 mx-auto mb-3" />
+                    <div className="font-bold text-green-700 text-xl">{score}</div>
+                    <div className="text-green-600 text-sm">Correct</div>
                   </div>
-                  <div className="bg-red-50 rounded-lg p-4">
-                    <XCircle className="w-6 h-6 text-red-500 mx-auto mb-2" />
-                    <div className="font-bold text-red-700">{quizQuestions.length - score} Incorrect</div>
+                  <div className="bg-red-50 rounded-2xl p-6 border border-red-200">
+                    <XCircle className="w-8 h-8 text-red-500 mx-auto mb-3" />
+                    <div className="font-bold text-red-700 text-xl">{quizQuestions.length - score}</div>
+                    <div className="text-red-600 text-sm">Incorrect</div>
                   </div>
                 </div>
 
@@ -249,7 +255,7 @@ const InteractiveQuizSection = () => {
                   <Button 
                     onClick={resetQuiz}
                     variant="outline"
-                    className="border-tulu-blue text-tulu-blue hover:bg-tulu-blue hover:text-white"
+                    className="border-slate-300 text-slate-600 hover:bg-slate-100 hover:text-slate-800 rounded-xl px-6 py-3 font-medium"
                   >
                     <RefreshCw className="w-4 h-4 mr-2" />
                     Try Again
@@ -257,16 +263,16 @@ const InteractiveQuizSection = () => {
                   
                   <Button 
                     onClick={shareScore}
-                    className="bg-gradient-to-r from-tulu-green to-tulu-teal text-white"
+                    className="bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white rounded-xl px-6 py-3 font-medium"
                   >
                     <Share2 className="w-4 h-4 mr-2" />
                     Share Score
                   </Button>
                 </div>
 
-                <div className="mt-8 p-4 bg-tulu-blue/10 rounded-lg">
-                  <p className="text-sm text-muted-foreground">
-                    Want to learn more about Tulu culture? Explore our experiences and blog posts!
+                <div className="mt-8 p-6 bg-slate-50 rounded-2xl border border-slate-200">
+                  <p className="text-slate-600 text-sm">
+                    Want to learn more about Tulu culture? Explore our experiences and blog posts to deepen your knowledge!
                   </p>
                 </div>
               </CardContent>
@@ -278,87 +284,89 @@ const InteractiveQuizSection = () => {
   }
 
   return (
-    <section className="py-20 bg-gradient-to-br from-tulu-blue/5 to-tulu-teal/5">
+    <section className="py-20 bg-gradient-to-br from-slate-50 to-gray-100">
       <div className="container mx-auto px-4 md:px-6 lg:px-8">
-        <div className="max-w-2xl mx-auto">
+        <div className="max-w-3xl mx-auto">
           {/* Header */}
           <div className="text-center mb-8">
-            <Badge className="mb-4 bg-gradient-to-r from-tulu-gold to-tulu-red text-white px-6 py-2">
+            <Badge className="mb-4 bg-slate-800 text-white px-6 py-2 font-medium">
               <Brain className="w-4 h-4 mr-2" />
               Question {currentQuestion + 1} of {quizQuestions.length}
             </Badge>
             
-            <Progress value={progress} className="mb-4" />
+            <Progress value={progress} className="mb-6 h-3 bg-slate-200" />
           </div>
 
-          <Card className="p-8 bg-gradient-to-br from-white to-tulu-sand/10 border-2 border-tulu-gold/20">
-            <CardContent className="p-0">
-              {/* Timer */}
-              <div className="flex justify-between items-center mb-6">
-                <Badge variant="secondary">{currentQ.category}</Badge>
-                <div className={`flex items-center gap-2 px-3 py-1 rounded-full ${
+          <Card className="bg-white shadow-2xl border-0 rounded-3xl overflow-hidden">
+            <CardContent className="p-10">
+              {/* Timer and Category */}
+              <div className="flex justify-between items-center mb-8">
+                <Badge variant="secondary" className="px-4 py-2 bg-slate-100 text-slate-700 font-medium">
+                  {currentQ.category}
+                </Badge>
+                <div className={`flex items-center gap-2 px-4 py-2 rounded-xl font-mono font-bold ${
                   timeLeft <= 10 ? 'bg-red-100 text-red-700 animate-pulse' : 'bg-blue-100 text-blue-700'
                 }`}>
-                  <div className="w-2 h-2 rounded-full bg-current animate-pulse" />
-                  <span className="font-mono font-bold">{timeLeft}s</span>
+                  <Clock className="w-4 h-4" />
+                  <span>{timeLeft}s</span>
                 </div>
               </div>
 
               {/* Question */}
-              <h3 className="text-xl md:text-2xl font-bold mb-8 leading-relaxed">
+              <h3 className="text-2xl md:text-3xl font-bold mb-10 leading-relaxed text-slate-800">
                 {currentQ.question}
               </h3>
 
               {/* Options */}
-              <div className="space-y-3 mb-8">
+              <div className="space-y-4 mb-10">
                 {currentQ.options.map((option, index) => (
                   <button
                     key={index}
                     onClick={() => handleAnswerSelect(index)}
                     disabled={showResult}
-                    className={`w-full p-4 text-left rounded-xl border-2 transition-all duration-300 ${
+                    className={`w-full p-5 text-left rounded-2xl border-2 transition-all duration-300 font-medium ${
                       showResult
                         ? index === currentQ.correct
-                          ? 'border-green-500 bg-green-50 text-green-700'
+                          ? 'border-green-500 bg-green-50 text-green-800'
                           : index === selectedAnswer && selectedAnswer !== currentQ.correct
-                          ? 'border-red-500 bg-red-50 text-red-700'
-                          : 'border-gray-200 bg-gray-50'
+                          ? 'border-red-500 bg-red-50 text-red-800'
+                          : 'border-slate-200 bg-slate-50 text-slate-600'
                         : selectedAnswer === index
-                        ? 'border-tulu-blue bg-tulu-blue/10 text-tulu-blue'
-                        : 'border-gray-200 hover:border-tulu-sand hover:bg-tulu-sand/10'
+                        ? 'border-blue-500 bg-blue-50 text-blue-800 shadow-lg'
+                        : 'border-slate-200 hover:border-slate-300 hover:bg-slate-50 hover:shadow-md'
                     }`}
                   >
-                    <div className="flex items-center gap-3">
-                      <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center text-sm font-bold ${
+                    <div className="flex items-center gap-4">
+                      <div className={`w-8 h-8 rounded-full border-2 flex items-center justify-center text-sm font-bold ${
                         showResult
                           ? index === currentQ.correct
                             ? 'border-green-500 bg-green-500 text-white'
                             : index === selectedAnswer && selectedAnswer !== currentQ.correct
                             ? 'border-red-500 bg-red-500 text-white'
-                            : 'border-gray-300'
+                            : 'border-slate-300 text-slate-500'
                           : selectedAnswer === index
-                          ? 'border-tulu-blue bg-tulu-blue text-white'
-                          : 'border-gray-300'
+                          ? 'border-blue-500 bg-blue-500 text-white'
+                          : 'border-slate-300 text-slate-500'
                       }`}>
                         {String.fromCharCode(65 + index)}
                       </div>
-                      <span className="flex-1">{option}</span>
+                      <span className="flex-1 text-lg">{option}</span>
                       {showResult && index === currentQ.correct && (
-                        <CheckCircle className="w-5 h-5 text-green-500" />
+                        <CheckCircle className="w-6 h-6 text-green-500" />
                       )}
                       {showResult && index === selectedAnswer && selectedAnswer !== currentQ.correct && (
-                        <XCircle className="w-5 h-5 text-red-500" />
+                        <XCircle className="w-6 h-6 text-red-500" />
                       )}
                     </div>
                   </button>
                 ))}
               </div>
 
-              {/* Explanation (shown after answer) */}
+              {/* Explanation */}
               {showResult && (
-                <div className="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r-lg mb-6">
-                  <h4 className="font-semibold text-blue-900 mb-2">Explanation:</h4>
-                  <p className="text-blue-800">{currentQ.explanation}</p>
+                <div className="bg-blue-50 border-l-4 border-blue-500 p-6 rounded-r-2xl mb-8">
+                  <h4 className="font-semibold text-blue-900 mb-3 text-lg">Explanation:</h4>
+                  <p className="text-blue-800 leading-relaxed">{currentQ.explanation}</p>
                 </div>
               )}
 
@@ -367,9 +375,10 @@ const InteractiveQuizSection = () => {
                 <Button 
                   onClick={handleNext}
                   disabled={selectedAnswer === null}
-                  className="w-full bg-gradient-to-r from-tulu-blue to-tulu-teal hover:from-tulu-teal hover:to-tulu-green text-white py-3 rounded-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full bg-gradient-to-r from-slate-800 to-slate-700 hover:from-slate-700 hover:to-slate-600 text-white py-4 rounded-2xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed text-lg font-semibold"
                 >
                   {currentQuestion === quizQuestions.length - 1 ? 'Finish Quiz' : 'Next Question'}
+                  <Target className="w-5 h-5 ml-2" />
                 </Button>
               )}
             </CardContent>

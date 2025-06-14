@@ -105,167 +105,89 @@ const Blog = () => {
   const allPosts = blogPosts;
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-slate-50 to-gray-100">
       <Navigation />
       
-      {/* Newsletter popup with fixed positioning and higher z-index */}
-      {showNewsletter && (
-        <div className="fixed bottom-4 right-4 z-[100] max-w-sm">
-          <div className="bg-white rounded-lg shadow-xl border border-[#00555A]/20 p-4 animate-slide-up">
-            <div className="flex justify-between items-start mb-2">
-              <h3 className="font-bold text-[#00555A] text-sm">Cultural Newsletter</h3>
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                className="h-6 w-6 p-0"
-                onClick={() => setShowNewsletter(false)}
-              >
-                <X className="h-4 w-4" />
-              </Button>
-            </div>
-            <p className="text-xs text-muted-foreground mb-3">Weekly insights into Tulu Nadu's heritage</p>
-            <Button 
-              size="sm" 
-              className="bg-[#00555A] hover:bg-[#CC4E5C] text-white w-full"
-              onClick={() => {
-                addPoints(5, "Subscribed to newsletter");
-                setShowNewsletter(false);
-                toast({
-                  title: "Subscribed! +5 points",
-                  description: "Welcome to our cultural newsletter!",
-                  duration: 3000,
-                });
-              }}
-            >
-              Subscribe
-            </Button>
-          </div>
-        </div>
-      )}
-      
-      <div className="bg-gradient-to-b from-[#EDE8D0]/20 to-background pt-32">
-        <div className="container mx-auto py-8 px-4 md:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-12 scroll-reveal">
-            <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-[#00555A]">
-              Discover Tulu Nadu's <span className="text-[#CC4E5C]">Living Heritage</span>
+      <div className="bg-gradient-to-b from-slate-900 via-slate-800 to-slate-700 pt-32">
+        <div className="container mx-auto py-16 px-4 md:px-6 lg:px-8">
+          <div className="text-center max-w-4xl mx-auto mb-16 scroll-reveal">
+            <Badge className="mb-6 bg-slate-100 text-slate-900 hover:bg-white px-6 py-2 text-sm font-medium">
+              <BookOpen className="w-4 h-4 mr-2" />
+              Cultural Insights & Stories
+            </Badge>
+            
+            <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-white leading-tight">
+              Discover Tulu Nadu's{' '}
+              <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
+                Living Heritage
+              </span>
             </h1>
-            <p className="text-muted-foreground text-lg mb-8">
-              Explore our collection of stories, insights, and experiences that showcase the rich cultural tapestry of Tulu Nadu
+            
+            <p className="text-slate-300 text-lg mb-8 leading-relaxed max-w-2xl mx-auto">
+              Explore our collection of stories, insights, and experiences that showcase the rich cultural tapestry of Tulu Nadu through expert perspectives and authentic narratives.
             </p>
             
-            {/* User-friendly gamification display */}
-            <div className="flex justify-center gap-4 mb-8">
-              <div className="bg-white rounded-lg p-4 shadow-md flex items-center gap-4 hover:shadow-lg transition-shadow">
-                <div className="flex flex-col items-center">
-                  <div className="flex items-center gap-2">
-                    <Star className="text-[#E5B31B] w-5 h-5 fill-[#E5B31B]" />
-                    <span className="font-bold text-xl">{userPoints}</span>
+            {/* Professional gamification display */}
+            <div className="flex justify-center mb-8">
+              <div className="bg-slate-800/50 backdrop-blur-sm rounded-2xl p-6 border border-slate-700 shadow-2xl">
+                <div className="flex items-center gap-8">
+                  <div className="flex flex-col items-center">
+                    <div className="flex items-center gap-2 mb-1">
+                      <Star className="text-yellow-400 w-5 h-5 fill-yellow-400" />
+                      <span className="font-bold text-xl text-white">{userPoints}</span>
+                    </div>
+                    <span className="text-sm text-slate-300">Points</span>
                   </div>
-                  <span className="text-sm text-muted-foreground">Points</span>
-                </div>
-                
-                <div className="h-10 border-l border-gray-200 mx-2"></div>
-                
-                <div className="flex flex-col items-center">
-                  <div className="flex items-center gap-2">
-                    <Trophy className="text-[#00555A] w-5 h-5" />
-                    <span className="font-bold text-xl">Level {userLevel}</span>
+                  
+                  <div className="h-12 border-l border-slate-600"></div>
+                  
+                  <div className="flex flex-col items-center">
+                    <div className="flex items-center gap-2 mb-1">
+                      <Trophy className="text-blue-400 w-5 h-5" />
+                      <span className="font-bold text-xl text-white">Level {userLevel}</span>
+                    </div>
+                    <span className="text-sm text-slate-300">Explorer</span>
                   </div>
-                  <span className="text-sm text-muted-foreground">Explorer</span>
-                </div>
-                
-                <div className="h-10 border-l border-gray-200 mx-2"></div>
-                
-                <div className="flex flex-col items-center">
-                  <div className="flex items-center gap-2">
-                    <span className="font-bold text-xl">🏆 {getBadgeCount()}</span>
+                  
+                  <div className="h-12 border-l border-slate-600"></div>
+                  
+                  <div className="flex flex-col items-center">
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="font-bold text-xl text-white">🏆 {getBadgeCount()}</span>
+                    </div>
+                    <span className="text-sm text-slate-300">Badges</span>
                   </div>
-                  <span className="text-sm text-muted-foreground">Badges</span>
                 </div>
               </div>
             </div>
             
-            <form className="mt-8 max-w-xl mx-auto" onSubmit={handleSearch}>
+            <form className="mt-8 max-w-2xl mx-auto" onSubmit={handleSearch}>
               <div className="relative">
                 <Input 
-                  placeholder="Search our stories..." 
-                  className="pl-10 py-6 rounded-full border-[#00555A]/30 focus:border-[#00555A]"
+                  placeholder="Search stories, insights, and cultural content..." 
+                  className="pl-12 pr-16 py-4 rounded-2xl border-slate-600 bg-slate-800/50 backdrop-blur-sm text-white placeholder:text-slate-400 focus:border-blue-400 focus:ring-blue-400/20 text-lg"
                   value={searchValue}
                   onChange={(e) => setSearchValue(e.target.value)}
                 />
-                <Search className="absolute left-3 top-3 text-muted-foreground" size={18} />
+                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400" size={20} />
                 <Button 
                   type="submit"
-                  className="absolute right-1 top-1 bg-[#00555A] hover:bg-[#CC4E5C] rounded-full h-10 group"
+                  className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 rounded-xl h-10 px-6 group transition-all duration-300"
                 >
                   Search
-                  <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </div>
             </form>
             
-            {/* Filter toggle button */}
-            <div className="mt-4">
-              <Button
-                variant="outline"
-                size="sm"
-                className="flex gap-1 items-center border-[#00555A]/30"
-                onClick={() => setIsFilterOpen(!isFilterOpen)}
-              >
-                <Filter className="h-4 w-4" />
-                <span>{isFilterOpen ? "Hide filters" : "Show filters"}</span>
-              </Button>
-            </div>
-            
-            {/* Expanded filter options */}
-            {isFilterOpen && (
-              <div className="mt-4 p-4 bg-white rounded-lg shadow-md animate-fade-in">
-                <h3 className="font-medium text-[#00555A] mb-3">Filter by:</h3>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                  <div>
-                    <h4 className="text-sm font-medium text-muted-foreground mb-2">Reading Time</h4>
-                    <div className="flex flex-wrap gap-1">
-                      <Badge variant="outline" className="cursor-pointer hover:bg-[#00555A]/10">Under 5 min</Badge>
-                      <Badge variant="outline" className="cursor-pointer hover:bg-[#00555A]/10">5-10 min</Badge>
-                      <Badge variant="outline" className="cursor-pointer hover:bg-[#00555A]/10">10+ min</Badge>
-                    </div>
-                  </div>
-                  <div>
-                    <h4 className="text-sm font-medium text-muted-foreground mb-2">Content Type</h4>
-                    <div className="flex flex-wrap gap-1">
-                      <Badge variant="outline" className="cursor-pointer hover:bg-[#00555A]/10">Article</Badge>
-                      <Badge variant="outline" className="cursor-pointer hover:bg-[#00555A]/10">Guide</Badge>
-                      <Badge variant="outline" className="cursor-pointer hover:bg-[#00555A]/10">Interview</Badge>
-                    </div>
-                  </div>
-                  <div>
-                    <h4 className="text-sm font-medium text-muted-foreground mb-2">Date</h4>
-                    <div className="flex flex-wrap gap-1">
-                      <Badge variant="outline" className="cursor-pointer hover:bg-[#00555A]/10">This Week</Badge>
-                      <Badge variant="outline" className="cursor-pointer hover:bg-[#00555A]/10">This Month</Badge>
-                      <Badge variant="outline" className="cursor-pointer hover:bg-[#00555A]/10">This Year</Badge>
-                    </div>
-                  </div>
-                  <div>
-                    <h4 className="text-sm font-medium text-muted-foreground mb-2">Level</h4>
-                    <div className="flex flex-wrap gap-1">
-                      <Badge variant="outline" className="cursor-pointer hover:bg-[#00555A]/10">Beginner</Badge>
-                      <Badge variant="outline" className="cursor-pointer hover:bg-[#00555A]/10">Intermediate</Badge>
-                      <Badge variant="outline" className="cursor-pointer hover:bg-[#00555A]/10">Advanced</Badge>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-            
-            <div className="mt-8 flex flex-wrap justify-center gap-2">
+            <div className="mt-8 flex flex-wrap justify-center gap-3">
               {categories.map((category) => (
                 <Button 
                   key={category}
                   variant="outline" 
                   size="sm"
-                  className={`rounded-full border-[#00555A]/30 hover:bg-[#00555A] hover:text-white transition-colors ${
-                    activeCategory === category ? "bg-[#00555A] text-white" : ""
+                  className={`rounded-full border-slate-600 bg-slate-800/30 backdrop-blur-sm text-slate-300 hover:bg-slate-700 hover:text-white hover:border-slate-500 transition-all duration-300 ${
+                    activeCategory === category ? "bg-slate-700 text-white border-slate-500" : ""
                   }`}
                   onClick={() => handleCategoryClick(category)}
                 >
@@ -274,17 +196,21 @@ const Blog = () => {
               ))}
             </div>
           </div>
+        </div>
+      </div>
 
-          <Tabs defaultValue="featured" className="mb-12">
-            <TabsList className="mb-6 mx-auto max-w-md">
-              <TabsTrigger value="featured">Featured</TabsTrigger>
-              <TabsTrigger value="popular">Popular</TabsTrigger>
-              <TabsTrigger value="recent">Recent</TabsTrigger>
-              <TabsTrigger value="recommended">Recommended</TabsTrigger>
-            </TabsList>
+      <div className="container mx-auto px-4 md:px-6 lg:px-8 py-16">
+        <Tabs defaultValue="featured" className="mb-16">
+          <TabsList className="mb-8 mx-auto bg-white shadow-lg border border-slate-200 rounded-xl p-1">
+            <TabsTrigger value="featured" className="rounded-lg px-6 py-2 font-medium">Featured</TabsTrigger>
+            <TabsTrigger value="popular" className="rounded-lg px-6 py-2 font-medium">Popular</TabsTrigger>
+            <TabsTrigger value="recent" className="rounded-lg px-6 py-2 font-medium">Recent</TabsTrigger>
+            <TabsTrigger value="recommended" className="rounded-lg px-6 py-2 font-medium">Recommended</TabsTrigger>
+          </TabsList>
 
-            <TabsContent value="featured" className="animate-fade-in">
-              {featuredPosts.length > 0 && (
+          <TabsContent value="featured" className="animate-fade-in">
+            {featuredPosts.length > 0 && (
+              <div className="bg-white rounded-3xl shadow-xl border border-slate-200 overflow-hidden hover:shadow-2xl transition-shadow duration-500">
                 <BlogPost 
                   featured={true}
                   title={featuredPosts[0].title}
@@ -297,11 +223,13 @@ const Blog = () => {
                   audioAvailable={featuredPosts[0].audioAvailable}
                   postId={featuredPosts[0].id}
                 />
-              )}
-            </TabsContent>
+              </div>
+            )}
+          </TabsContent>
 
-            <TabsContent value="popular" className="animate-fade-in">
-              {allPosts.length > 1 && (
+          <TabsContent value="popular" className="animate-fade-in">
+            {allPosts.length > 1 && (
+              <div className="bg-white rounded-3xl shadow-xl border border-slate-200 overflow-hidden hover:shadow-2xl transition-shadow duration-500">
                 <BlogPost 
                   featured={true}
                   title={allPosts[1].title}
@@ -314,11 +242,13 @@ const Blog = () => {
                   audioAvailable={allPosts[1].audioAvailable}
                   postId={allPosts[1].id}
                 />
-              )}
-            </TabsContent>
+              </div>
+            )}
+          </TabsContent>
 
-            <TabsContent value="recent" className="animate-fade-in">
-              {allPosts.length > 2 && (
+          <TabsContent value="recent" className="animate-fade-in">
+            {allPosts.length > 2 && (
+              <div className="bg-white rounded-3xl shadow-xl border border-slate-200 overflow-hidden hover:shadow-2xl transition-shadow duration-500">
                 <BlogPost 
                   featured={true}
                   title={allPosts[2].title}
@@ -331,19 +261,21 @@ const Blog = () => {
                   audioAvailable={allPosts[2].audioAvailable}
                   postId={allPosts[2].id}
                 />
-              )}
-            </TabsContent>
-
-            <TabsContent value="recommended" className="animate-fade-in">
-              <div className="bg-[#EDE8D0]/20 p-4 rounded-lg mb-8 animate-fade-in">
-                <div className="flex gap-2 items-center mb-2">
-                  <BookOpen className="h-4 w-4 text-[#00555A]" />
-                  <h3 className="text-sm font-medium text-[#00555A]">Recommended based on your reading history</h3>
-                </div>
-                <p className="text-sm text-muted-foreground">These are personalized selections based on articles you've enjoyed previously.</p>
               </div>
+            )}
+          </TabsContent>
 
-              {allPosts.length > 3 && (
+          <TabsContent value="recommended" className="animate-fade-in">
+            <div className="bg-blue-50 border border-blue-200 p-6 rounded-2xl mb-8">
+              <div className="flex gap-3 items-center mb-2">
+                <BookOpen className="h-5 w-5 text-blue-600" />
+                <h3 className="text-lg font-semibold text-blue-900">Personalized for You</h3>
+              </div>
+              <p className="text-blue-700">These stories are curated based on your reading preferences and interests.</p>
+            </div>
+
+            {allPosts.length > 3 && (
+              <div className="bg-white rounded-3xl shadow-xl border border-slate-200 overflow-hidden hover:shadow-2xl transition-shadow duration-500">
                 <BlogPost 
                   featured={true}
                   title={allPosts[3].title}
@@ -356,20 +288,16 @@ const Blog = () => {
                   audioAvailable={allPosts[3].audioAvailable}
                   postId={allPosts[3].id}
                 />
-              )}
-            </TabsContent>
-          </Tabs>
+              </div>
+            )}
+          </TabsContent>
+        </Tabs>
 
-          {/* Top Ad Space */}
-          <div className="mb-12">
-            <AdSpace position="top" size="large" />
-          </div>
-
-          {/* All blog posts grid with better spacing */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-16">
-            {allPosts.map((post, index) => (
+        {/* Blog posts grid with professional styling */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-20">
+          {allPosts.map((post, index) => (
+            <div key={post.id} className="bg-white rounded-2xl shadow-lg border border-slate-200 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
               <BlogPost 
-                key={post.id}
                 title={post.title}
                 excerpt={post.excerpt}
                 image={post.image}
@@ -380,88 +308,88 @@ const Blog = () => {
                 audioAvailable={post.audioAvailable}
                 postId={post.id}
               />
-            ))}
-          </div>
+            </div>
+          ))}
+        </div>
 
-          {/* All blog posts grid with better spacing */}
-          <div className="mt-12 text-center">
-            <Button 
-              className="bg-[#00555A] hover:bg-[#CC4E5C] transition-colors group"
-              onClick={() => addPoints(5, "Exploring more articles")}
-            >
-              View All Articles
-              <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={18} />
+        <div className="mt-16 text-center">
+          <Button 
+            className="bg-gradient-to-r from-slate-800 to-slate-700 hover:from-slate-700 hover:to-slate-600 text-white px-8 py-3 rounded-xl transition-all duration-300 group shadow-lg"
+            onClick={() => addPoints(5, "Exploring more articles")}
+          >
+            View All Articles
+            <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={18} />
+          </Button>
+        </div>
+        
+        {/* Professional content sections */}
+        <div className="mt-20 grid gap-8 md:grid-cols-2">
+          <div className="bg-white rounded-2xl shadow-lg p-8 border border-slate-200 hover:shadow-xl transition-shadow duration-300">
+            <div className="flex items-center gap-3 mb-6">
+              <Calendar className="h-6 w-6 text-slate-600" />
+              <h3 className="font-display text-2xl font-bold text-slate-800">Upcoming Events</h3>
+            </div>
+            <ul className="space-y-4">
+              <li className="border-b border-slate-100 pb-4">
+                <div className="flex justify-between items-start mb-2">
+                  <span className="font-semibold text-slate-800">Yakshagana Workshop</span>
+                  <span className="text-sm text-blue-600 font-medium">May 25, 2025</span>
+                </div>
+                <p className="text-sm text-slate-600">Learn the basics of Yakshagana makeup and movements from master artists</p>
+              </li>
+              <li className="border-b border-slate-100 pb-4">
+                <div className="flex justify-between items-start mb-2">
+                  <span className="font-semibold text-slate-800">Tulu Cultural Festival</span>
+                  <span className="text-sm text-blue-600 font-medium">June 10-12, 2025</span>
+                </div>
+                <p className="text-sm text-slate-600">Three-day celebration of Tulu Nadu's diverse traditions and heritage</p>
+              </li>
+              <li>
+                <div className="flex justify-between items-start mb-2">
+                  <span className="font-semibold text-slate-800">Coastal Cuisine Masterclass</span>
+                  <span className="text-sm text-blue-600 font-medium">June 18, 2025</span>
+                </div>
+                <p className="text-sm text-slate-600">Master traditional Mangalorean seafood dishes with expert chefs</p>
+              </li>
+            </ul>
+            <Button variant="ghost" className="mt-6 text-slate-600 hover:text-slate-800 p-0 h-auto font-medium">
+              View all events
+              <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
           </div>
           
-          <div className="mt-16 grid gap-8 md:grid-cols-2">
-            <div className="bg-white rounded-lg shadow-md p-6 border border-gray-100 hover:shadow-lg transition-shadow">
-              <div className="flex items-center gap-3 mb-4">
-                <Calendar className="h-5 w-5 text-[#00555A]" />
-                <h3 className="font-display text-xl font-bold text-[#00555A]">Upcoming Events</h3>
-              </div>
-              <ul className="space-y-4">
-                <li className="border-b border-gray-100 pb-3">
-                  <div className="flex justify-between items-center">
-                    <span className="font-medium">Yakshagana Workshop</span>
-                    <span className="text-sm text-[#CC4E5C]">May 25, 2025</span>
-                  </div>
-                  <p className="text-sm text-muted-foreground mt-1">Learn the basics of Yakshagana makeup and movements</p>
-                </li>
-                <li className="border-b border-gray-100 pb-3">
-                  <div className="flex justify-between items-center">
-                    <span className="font-medium">Tulu Cultural Festival</span>
-                    <span className="text-sm text-[#CC4E5C]">June 10-12, 2025</span>
-                  </div>
-                  <p className="text-sm text-muted-foreground mt-1">Three-day celebration of Tulu Nadu's diverse traditions</p>
-                </li>
-                <li>
-                  <div className="flex justify-between items-center">
-                    <span className="font-medium">Cooking Class: Coastal Cuisine</span>
-                    <span className="text-sm text-[#CC4E5C]">June 18, 2025</span>
-                  </div>
-                  <p className="text-sm text-muted-foreground mt-1">Master the art of traditional Mangalorean seafood dishes</p>
-                </li>
-              </ul>
-              <Button variant="ghost" className="mt-4 text-[#00555A] p-0 h-auto">
-                View all events
-                <ArrowRight className="ml-1 h-4 w-4" />
-              </Button>
+          <div className="bg-white rounded-2xl shadow-lg p-8 border border-slate-200 hover:shadow-xl transition-shadow duration-300">
+            <div className="flex items-center gap-3 mb-6">
+              <BookOpen className="h-6 w-6 text-slate-600" />
+              <h3 className="font-display text-2xl font-bold text-slate-800">Reading Collections</h3>
             </div>
-            
-            <div className="bg-white rounded-lg shadow-md p-6 border border-gray-100 hover:shadow-lg transition-shadow">
-              <div className="flex items-center gap-3 mb-4">
-                <BookOpen className="h-5 w-5 text-[#00555A]" />
-                <h3 className="font-display text-xl font-bold text-[#00555A]">Reading Collections</h3>
-              </div>
-              <ul className="space-y-4">
-                <li className="flex gap-3 border-b border-gray-100 pb-3">
-                  <span className="bg-[#EDE8D0] text-[#00555A] font-bold w-8 h-8 rounded-full flex items-center justify-center">7</span>
-                  <div>
-                    <h4 className="font-medium">Beginner's Guide to Tulu Nadu</h4>
-                    <p className="text-sm text-muted-foreground">Essential reading for first-time visitors</p>
-                  </div>
-                </li>
-                <li className="flex gap-3 border-b border-gray-100 pb-3">
-                  <span className="bg-[#EDE8D0] text-[#00555A] font-bold w-8 h-8 rounded-full flex items-center justify-center">5</span>
-                  <div>
-                    <h4 className="font-medium">Sacred Spaces & Temples</h4>
-                    <p className="text-sm text-muted-foreground">Exploring the spiritual heritage of the region</p>
-                  </div>
-                </li>
-                <li className="flex gap-3">
-                  <span className="bg-[#EDE8D0] text-[#00555A] font-bold w-8 h-8 rounded-full flex items-center justify-center">4</span>
-                  <div>
-                    <h4 className="font-medium">Culinary Journey</h4>
-                    <p className="text-sm text-muted-foreground">Deep dive into Tulu Nadu's food traditions</p>
-                  </div>
-                </li>
-              </ul>
-              <Button variant="ghost" className="mt-4 text-[#00555A] p-0 h-auto">
-                Browse collections
-                <ArrowRight className="ml-1 h-4 w-4" />
-              </Button>
-            </div>
+            <ul className="space-y-4">
+              <li className="flex gap-4 items-start border-b border-slate-100 pb-4">
+                <span className="bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-bold w-10 h-10 rounded-xl flex items-center justify-center text-sm">7</span>
+                <div>
+                  <h4 className="font-semibold text-slate-800 mb-1">Beginner's Guide to Tulu Nadu</h4>
+                  <p className="text-sm text-slate-600">Essential reading for first-time visitors and culture enthusiasts</p>
+                </div>
+              </li>
+              <li className="flex gap-4 items-start border-b border-slate-100 pb-4">
+                <span className="bg-gradient-to-r from-green-500 to-emerald-500 text-white font-bold w-10 h-10 rounded-xl flex items-center justify-center text-sm">5</span>
+                <div>
+                  <h4 className="font-semibold text-slate-800 mb-1">Sacred Spaces & Temples</h4>
+                  <p className="text-sm text-slate-600">Exploring the spiritual heritage and architectural marvels</p>
+                </div>
+              </li>
+              <li className="flex gap-4 items-start">
+                <span className="bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold w-10 h-10 rounded-xl flex items-center justify-center text-sm">4</span>
+                <div>
+                  <h4 className="font-semibold text-slate-800 mb-1">Culinary Journey</h4>
+                  <p className="text-sm text-slate-600">Deep dive into Tulu Nadu's rich food traditions and recipes</p>
+                </div>
+              </li>
+            </ul>
+            <Button variant="ghost" className="mt-6 text-slate-600 hover:text-slate-800 p-0 h-auto font-medium">
+              Browse collections
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
           </div>
         </div>
       </div>
