@@ -1,9 +1,9 @@
+
 import { useEffect } from 'react';
 import Navigation from '@/components/Navigation';
 import EnhancedHero from '@/components/EnhancedHero';
 import ModernFeaturedExperiences from '@/components/ModernFeaturedExperiences';
-import CulturalShowcase, { areaGalleryImages } from '@/components/CulturalShowcase';
-import AreaGallery from '@/components/AreaGallery';
+import CulturalShowcase from '@/components/CulturalShowcase';
 import InteractiveTeamValues from '@/components/InteractiveTeamValues';
 import EnhancedBlogSection from '@/components/EnhancedBlogSection';
 import InteractiveQuizSection from '@/components/InteractiveQuizSection';
@@ -43,7 +43,6 @@ const Index = () => {
         <div className="relative">
           <ModernFeaturedExperiences />
           <CulturalShowcase />
-          <AreaGallery images={areaGalleryImages} />
           <InteractiveTeamValues />
           <EnhancedBlogSection />
           <InteractiveQuizSection />

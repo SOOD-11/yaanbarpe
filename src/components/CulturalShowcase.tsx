@@ -1,3 +1,4 @@
+
 import { useRef, useEffect, useState } from 'react';
 import CulturalElementMedia from './CulturalElementMedia';
 import CulturalElementDetails from './CulturalElementDetails';
@@ -5,84 +6,113 @@ import { Users, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 
-const culturalElements = [
-  {
-    id: 1,
-    title: 'Yakshagana',
-    description: 'A traditional theatre form that combines dance, music, dialogue, costume, and stage techniques with a unique style and form. This ancient art form tells stories from Hindu epics through elaborate costumes, face paintings, and energetic performances.',
-    image: 'https://images.pexels.com/photos/2417726/pexels-photo-2417726.jpeg?auto=compress&cs=tinysrgb&w=1200',
-    video: 'https://player.vimeo.com/external/253067087.sd.mp4?s=1b7b1b14eb51345f77fc80c843f0e1ebeacb2a6a&profile_id=165', // Dance, ancient art
-    fact: '78 active troupes contribute ₹42 crore yearly through performances',
-    details: [
-      'Over 500 years old tradition',
-      'Performed throughout the night',
-      'Elaborate face paintings and costumes',
-      'Stories from Ramayana and Mahabharata'
-    ],
-    location: 'Udupi, Mangalore',
-    bestTime: 'October to March',
-    experience: 'Join live performance workshops'
-  },
-  {
-    id: 2,
-    title: 'Sri Krishna Matha',
-    description: 'One of the most sacred temples in Karnataka, established by the philosopher and theologian Madhvacharya in the 13th century. The temple is famous for its unique window (Kanakana Kindi) through which devotees can view the deity.',
-    image: 'https://images.pexels.com/photos/2161467/pexels-photo-2161467.jpeg?auto=compress&cs=tinysrgb&w=1200',
-    video: 'https://player.vimeo.com/external/455577390.sd.mp4?s=11cc9a5c33b8d3af33c093ea3a2acac9779cc1bb&profile_id=165',
-    fact: 'Attracts 6.8 million pilgrims annually, generating ₹1,450 crore in revenue',
-    details: [
-      '700+ years of continuous worship',
-      'Unique Kanakana Kindi viewing window',
-      'Daily cultural programs',
-      'Traditional prasadam distribution'
-    ],
-    location: 'Udupi',
-    bestTime: 'Year round',
-    experience: 'Temple architecture tours available'
-  },
-  {
-    id: 3,
-    title: "St. Mary's Islands",
-    description: "A geological monument featuring unique hexagonal basalt rock formations created by volcanic activity millions of years ago. These pristine islands offer crystal clear waters and stunning natural beauty that attracts geologists and nature lovers alike.",
-    image: 'https://images.pexels.com/photos/1450353/pexels-photo-1450353.jpeg?auto=compress&cs=tinysrgb&w=1200',
-    video: 'https://player.vimeo.com/external/403504372.sd.mp4?s=82ecbeedb08663a20ef7e9f1f21da433d0f1353f&profile_id=165',
-    fact: 'Recorded 1.1 million visitors in 2024, with 18% being international tourists',
-    details: [
-      '88 million years old rock formations',
-      'Boat rides from Malpe beach',
-      'Crystal clear turquoise waters',
-      'Protected geological site'
-    ],
-    location: 'Malpe, Udupi',
-    bestTime: 'November to February',
-    experience: 'Geological tours and photography sessions'
-  },
-  {
-    id: 4,
-    title: 'Bhuta Kola',
-    description: 'A ritualistic folk dance and religious ceremony where performers embody spirits (Bhutas) and Daivas. This ancient tradition involves elaborate costumes, face paintings, and fire dancing, creating a mystical atmosphere that connects the community with their ancestral spirits.',
-    image: 'https://images.pexels.com/photos/3944154/pexels-photo-3944154.jpeg?auto=compress&cs=tinysrgb&w=1200',
-    video: 'https://player.vimeo.com/external/185045350.sd.mp4?s=befd13df95da561cd1e8d375e768bdfae8da50e1&profile_id=165', // Ritual/fire
-    fact: 'Over 400 different spirit forms documented across 200+ villages',
-    details: [
-      'Ancient spirit worship tradition',
-      'Fire dancing performances',
-      'Community blessing ceremonies',
-      'Elaborate spirit costumes'
-    ],
-    location: 'Coastal Karnataka villages',
-    bestTime: 'December to March',
-    experience: 'Witness authentic village ceremonies'
-  }
-];
+// Organized cultural elements by categories
+const culturalCategories = {
+  culture: [
+    {
+      id: 1,
+      title: 'Yakshagana',
+      description: 'A traditional theatre form that combines dance, music, dialogue, costume, and stage techniques with a unique style and form. This ancient art form tells stories from Hindu epics through elaborate costumes, face paintings, and energetic performances.',
+      image: 'https://images.pexels.com/photos/2417726/pexels-photo-2417726.jpeg?auto=compress&cs=tinysrgb&w=1200',
+      video: 'https://player.vimeo.com/external/253067087.sd.mp4?s=1b7b1b14eb51345f77fc80c843f0e1ebeacb2a6a&profile_id=165',
+      fact: '78 active troupes contribute ₹42 crore yearly through performances',
+      details: [
+        'Over 500 years old tradition',
+        'Performed throughout the night',
+        'Elaborate face paintings and costumes',
+        'Stories from Ramayana and Mahabharata'
+      ],
+      location: 'Udupi, Mangalore',
+      bestTime: 'October to March',
+      experience: 'Join live performance workshops'
+    },
+    {
+      id: 4,
+      title: 'Bhuta Kola',
+      description: 'A ritualistic folk dance and religious ceremony where performers embody spirits (Bhutas) and Daivas. This ancient tradition involves elaborate costumes, face paintings, and fire dancing, creating a mystical atmosphere that connects the community with their ancestral spirits.',
+      image: 'https://images.pexels.com/photos/3944154/pexels-photo-3944154.jpeg?auto=compress&cs=tinysrgb&w=1200',
+      video: 'https://player.vimeo.com/external/185045350.sd.mp4?s=befd13df95da561cd1e8d375e768bdfae8da50e1&profile_id=165',
+      fact: 'Over 400 different spirit forms documented across 200+ villages',
+      details: [
+        'Ancient spirit worship tradition',
+        'Fire dancing performances',
+        'Community blessing ceremonies',
+        'Elaborate spirit costumes'
+      ],
+      location: 'Coastal Karnataka villages',
+      bestTime: 'December to March',
+      experience: 'Witness authentic village ceremonies'
+    }
+  ],
+  temples: [
+    {
+      id: 2,
+      title: 'Sri Krishna Matha',
+      description: 'One of the most sacred temples in Karnataka, established by the philosopher and theologian Madhvacharya in the 13th century. The temple is famous for its unique window (Kanakana Kindi) through which devotees can view the deity.',
+      image: 'https://images.pexels.com/photos/2161467/pexels-photo-2161467.jpeg?auto=compress&cs=tinysrgb&w=1200',
+      video: 'https://player.vimeo.com/external/455577390.sd.mp4?s=11cc9a5c33b8d3af33c093ea3a2acac9779cc1bb&profile_id=165',
+      fact: 'Attracts 6.8 million pilgrims annually, generating ₹1,450 crore in revenue',
+      details: [
+        '700+ years of continuous worship',
+        'Unique Kanakana Kindi viewing window',
+        'Daily cultural programs',
+        'Traditional prasadam distribution'
+      ],
+      location: 'Udupi',
+      bestTime: 'Year round',
+      experience: 'Temple architecture tours available'
+    }
+  ],
+  beaches: [
+    {
+      id: 3,
+      title: "St. Mary's Islands",
+      description: "A geological monument featuring unique hexagonal basalt rock formations created by volcanic activity millions of years ago. These pristine islands offer crystal clear waters and stunning natural beauty that attracts geologists and nature lovers alike.",
+      image: 'https://images.pexels.com/photos/1450353/pexels-photo-1450353.jpeg?auto=compress&cs=tinysrgb&w=1200',
+      video: 'https://player.vimeo.com/external/403504372.sd.mp4?s=82ecbeedb08663a20ef7e9f1f21da433d0f1353f&profile_id=165',
+      fact: 'Recorded 1.1 million visitors in 2024, with 18% being international tourists',
+      details: [
+        '88 million years old rock formations',
+        'Boat rides from Malpe beach',
+        'Crystal clear turquoise waters',
+        'Protected geological site'
+      ],
+      location: 'Malpe, Udupi',
+      bestTime: 'November to February',
+      experience: 'Geological tours and photography sessions'
+    }
+  ],
+  food: [
+    {
+      id: 5,
+      title: 'Udupi Cuisine',
+      description: 'Traditional vegetarian cuisine known for its unique flavors, fresh ingredients, and innovative cooking techniques. Udupi cuisine has influenced South Indian cooking worldwide through its emphasis on coconut, curry leaves, and diverse preparations.',
+      image: 'https://images.pexels.com/photos/1640770/pexels-photo-1640770.jpeg?auto=compress&cs=tinysrgb&w=1200',
+      video: 'https://player.vimeo.com/external/253067087.sd.mp4?s=1b7b1b14eb51345f77fc80c843f0e1ebeacb2a6a&profile_id=165',
+      fact: 'Over 2,000 Udupi restaurants worldwide serving authentic cuisine',
+      details: [
+        'Pure vegetarian tradition',
+        'Unique cooking methods',
+        'Fresh local ingredients',
+        'Famous for dosas and sambar'
+      ],
+      location: 'Udupi region',
+      bestTime: 'Year round',
+      experience: 'Cooking workshops and food tours'
+    }
+  ]
+};
 
-// Gather all images for gallery
-const areaGalleryImages = culturalElements.map(c => ({ src: c.image, alt: c.title }));
+const categoryNames = {
+  culture: 'Cultural Arts',
+  temples: 'Sacred Temples',
+  beaches: 'Coastal Beauty',
+  food: 'Culinary Heritage'
+};
 
 const CulturalShowcase = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const elementsRef = useRef<(HTMLDivElement | null)[]>([]);
-  const [hoveredElement, setHoveredElement] = useState<number | null>(null);
+  const [activeCategory, setActiveCategory] = useState('culture');
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -99,10 +129,6 @@ const CulturalShowcase = () => {
     if (sectionRef.current) {
       observer.observe(sectionRef.current);
     }
-
-    elementsRef.current.forEach((element) => {
-      if (element) observer.observe(element);
-    });
 
     return () => {
       observer.disconnect();
@@ -130,22 +156,35 @@ const CulturalShowcase = () => {
             <span className="text-tulu-red">Tulu Nadu</span>
           </h2>
           
-          <p className="text-muted-foreground max-w-4xl mx-auto text-lg leading-relaxed">
-            Tulu Nadu's rich cultural tapestry features ancient traditions, vibrant art forms, and spiritual landmarks 
-            that have shaped the region's unique identity for centuries. Each tradition tells a story of devotion, 
-            artistry, and community spirit that continues to thrive today.
+          <p className="text-muted-foreground max-w-4xl mx-auto text-lg leading-relaxed mb-12">
+            Explore Tulu Nadu's rich cultural heritage through four distinct categories that showcase 
+            the region's traditions, spirituality, natural beauty, and culinary excellence.
           </p>
+
+          {/* Category Navigation */}
+          <div className="flex flex-wrap justify-center gap-4 mb-16">
+            {Object.entries(categoryNames).map(([key, name]) => (
+              <button
+                key={key}
+                onClick={() => setActiveCategory(key)}
+                className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
+                  activeCategory === key
+                    ? 'bg-tulu-red text-white shadow-lg'
+                    : 'bg-white/10 backdrop-blur-sm border border-tulu-sand/30 text-tulu-blue hover:bg-tulu-red/10 hover:border-tulu-red/30'
+                }`}
+              >
+                {name}
+              </button>
+            ))}
+          </div>
         </div>
         
-        {/* Cultural Elements Grid */}
+        {/* Cultural Elements for Active Category */}
         <div className="space-y-32">
-          {culturalElements.map((element, index) => (
+          {culturalCategories[activeCategory as keyof typeof culturalCategories].map((element, index) => (
             <div
               key={element.id}
-              ref={(el) => (elementsRef.current[index] = el)}
               className={`scroll-reveal ${index % 2 === 0 ? '' : 'lg:flex-row-reverse'} flex flex-col lg:flex-row gap-12 items-center`}
-              onMouseEnter={() => setHoveredElement(index)}
-              onMouseLeave={() => setHoveredElement(null)}
             >
               <div className="lg:w-1/2">
                 <CulturalElementMedia
@@ -196,5 +235,4 @@ const CulturalShowcase = () => {
   );
 };
 
-export { areaGalleryImages };
 export default CulturalShowcase;

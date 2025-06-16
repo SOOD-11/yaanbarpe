@@ -11,7 +11,6 @@ import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
 import Packages from "./pages/Packages";
 import EnhancedPackages from "./pages/EnhancedPackages";
-import Experiences from "./pages/Experiences";
 import Heritage from "./pages/Heritage";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
@@ -32,7 +31,6 @@ const App = () => (
           <Route path="/blog/:postId" element={<BlogPost />} />
           <Route path="/packages" element={<Packages />} />
           <Route path="/enhanced-packages" element={<EnhancedPackages />} />
-          <Route path="/experiences" element={<Experiences />} />
           <Route path="/heritage" element={<Heritage />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
