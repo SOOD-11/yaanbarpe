@@ -38,7 +38,6 @@ const PackageComparison = ({ preselectedPackages = [], onPackageSelect }: Packag
       case 'Duration': return pkg.duration;
       case 'Group Size': return pkg.groupSize;
       case 'Difficulty': return pkg.difficulty;
-      case 'Points': return `${pkg.points} points`;
       case 'Transportation': return pkg.includes.includes('Transportation') || pkg.includes.includes('Private transportation');
       case 'Meals': return pkg.includes.some(item => item.toLowerCase().includes('meal') || item.toLowerCase().includes('lunch') || item.toLowerCase().includes('dinner'));
       case 'Accommodation': return pkg.includes.some(item => item.toLowerCase().includes('accommodation'));
@@ -53,7 +52,6 @@ const PackageComparison = ({ preselectedPackages = [], onPackageSelect }: Packag
     'Duration',
     'Group Size', 
     'Difficulty',
-    'Points',
     'Transportation',
     'Meals',
     'Accommodation',

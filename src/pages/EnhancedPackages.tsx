@@ -165,9 +165,6 @@ const EnhancedPackages = () => {
                           </Badge>
                         )}
                       </div>
-                      <div className="absolute bottom-4 right-4 bg-black/70 text-white px-3 py-1 rounded">
-                        +{selectedPackage.points} Experience Points
-                      </div>
                     </div>
                     
                     <CardContent className="p-6">
@@ -317,10 +314,6 @@ const EnhancedPackages = () => {
                       <CardTitle>Package Information</CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-3">
-                      <div className="flex justify-between">
-                        <span className="text-sm text-muted-foreground">Experience Points</span>
-                        <span className="font-semibold text-tulu-gold">+{selectedPackage.points}</span>
-                      </div>
                       <div className="flex justify-between">
                         <span className="text-sm text-muted-foreground">Routes Covered</span>
                         <span className="font-semibold">{selectedPackage.routes.length}</span>
