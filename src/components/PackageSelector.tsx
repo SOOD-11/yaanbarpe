@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Slider } from '@/components/ui/slider';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Calendar, Clock, Users, MapPin, Star, Filter } from 'lucide-react';
+import { Clock, Users, MapPin, Star, Filter, Triangle } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 interface PackageSelectorProps {
@@ -17,7 +17,7 @@ interface PackageSelectorProps {
 
 const PackageSelector = ({ onPackageSelect, onRouteView }: PackageSelectorProps) => {
   const [selectedTier, setSelectedTier] = useState<string>('all');
-  const [priceRange, setPriceRange] = useState<number[]>([0, 150000]);
+  const [priceRange, setPriceRange] = useState<number[]>([0, 75000]);
   const [durationFilter, setDurationFilter] = useState<string>('all');
   const [difficultyFilter, setDifficultyFilter] = useState<string>('all');
 
@@ -26,9 +26,9 @@ const PackageSelector = ({ onPackageSelect, onRouteView }: PackageSelectorProps)
       const tierMatch = selectedTier === 'all' || pkg.tier === selectedTier;
       const priceMatch = pkg.price.min >= priceRange[0] && pkg.price.max <= priceRange[1];
       const durationMatch = durationFilter === 'all' || 
-        (durationFilter === 'short' && pkg.duration.includes('hour')) ||
-        (durationFilter === 'medium' && pkg.duration.includes('day') && !pkg.duration.includes('7-9')) ||
-        (durationFilter === 'long' && (pkg.duration.includes('7-9') || pkg.duration === 'Custom'));
+        (durationFilter === 'short' && (pkg.duration.includes('hour') || pkg.duration === '1 day')) ||
+        (durationFilter === 'medium' && pkg.duration.includes('2 days')) ||
+        (durationFilter === 'long' && (pkg.duration.includes('4 days') || pkg.duration.includes('7-9')));
       const difficultyMatch = difficultyFilter === 'all' || pkg.difficulty === difficultyFilter;
       
       return tierMatch && priceMatch && durationMatch && difficultyMatch;
@@ -40,8 +40,87 @@ const PackageSelector = ({ onPackageSelect, onRouteView }: PackageSelectorProps)
     return `₹${min.toLocaleString()} - ₹${max.toLocaleString()}`;
   };
 
+  // Pyramid Structure Component
+  const PyramidStructure = () => (
+    <Card className="mb-6 border border-slate-200 shadow-sm bg-white">
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2 text-slate-900">
+          <Triangle className="w-5 h-5 text-slate-600" />
+          Tulu Nadu Experience Pyramid
+        </CardTitle>
+        <p className="text-sm text-slate-600">Our structured approach from easy accessibility to premium immersive experiences</p>
+      </CardHeader>
+      <CardContent>
+        <div className="space-y-4">
+          {/* Emulsive - Top */}
+          <div className="flex items-center justify-between p-4 bg-purple-50 border border-purple-200 rounded-lg">
+            <div className="flex items-center gap-3">
+              <span className="text-2xl">🏛️</span>
+              <div>
+                <h4 className="font-bold text-purple-800">Emulsive Package</h4>
+                <p className="text-sm text-purple-600">7-9 Day Premium Immersive Experience</p>
+              </div>
+            </div>
+            <Badge className="bg-purple-100 text-purple-800">₹50,000+</Badge>
+          </div>
+          
+          {/* Semi-Emulsive */}
+          <div className="flex items-center justify-between p-4 bg-orange-50 border border-orange-200 rounded-lg">
+            <div className="flex items-center gap-3">
+              <span className="text-2xl">🎨</span>
+              <div>
+                <h4 className="font-bold text-orange-800">Semi-Emulsive Package</h4>
+                <p className="text-sm text-orange-600">4-Day Wide Exposure Experience</p>
+              </div>
+            </div>
+            <Badge className="bg-orange-100 text-orange-800">₹25,000 - ₹32,000</Badge>
+          </div>
+          
+          {/* Intermediate */}
+          <div className="flex items-center justify-between p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+            <div className="flex items-center gap-3">
+              <span className="text-2xl">🎭</span>
+              <div>
+                <h4 className="font-bold text-yellow-800">Intermediate Package</h4>
+                <p className="text-sm text-yellow-600">2-Day Deeper Cultural Exploration</p>
+              </div>
+            </div>
+            <Badge className="bg-yellow-100 text-yellow-800">₹12,000 - ₹15,000</Badge>
+          </div>
+          
+          {/* Business Executive */}
+          <div className="flex items-center justify-between p-4 bg-blue-50 border border-blue-200 rounded-lg">
+            <div className="flex items-center gap-3">
+              <span className="text-2xl">💼</span>
+              <div>
+                <h4 className="font-bold text-blue-800">Business Executive</h4>
+                <p className="text-sm text-blue-600">Professional Cultural Brief</p>
+              </div>
+            </div>
+            <Badge className="bg-blue-100 text-blue-800">₹8,000 - ₹10,000</Badge>
+          </div>
+          
+          {/* Basic - Bottom */}
+          <div className="flex items-center justify-between p-4 bg-green-50 border border-green-200 rounded-lg">
+            <div className="flex items-center gap-3">
+              <span className="text-2xl">🌱</span>
+              <div>
+                <h4 className="font-bold text-green-800">Basic Package</h4>
+                <p className="text-sm text-green-600">Entry Level - Easy Accessibility</p>
+              </div>
+            </div>
+            <Badge className="bg-green-100 text-green-800">₹2,500 - ₹5,500</Badge>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+
   return (
     <div className="space-y-6">
+      {/* Pyramid Structure */}
+      <PyramidStructure />
+
       {/* Professional Filters */}
       <Card className="border border-slate-200 shadow-sm bg-white">
         <CardHeader>
@@ -77,9 +156,9 @@ const PackageSelector = ({ onPackageSelect, onRouteView }: PackageSelectorProps)
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">All Durations</SelectItem>
-                  <SelectItem value="short">Half/Full Day</SelectItem>
-                  <SelectItem value="medium">2-4 Days</SelectItem>
-                  <SelectItem value="long">7+ Days</SelectItem>
+                  <SelectItem value="short">6 Hours - 1 Day</SelectItem>
+                  <SelectItem value="medium">2 Days</SelectItem>
+                  <SelectItem value="long">4+ Days</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -106,9 +185,9 @@ const PackageSelector = ({ onPackageSelect, onRouteView }: PackageSelectorProps)
               <Slider
                 value={priceRange}
                 onValueChange={setPriceRange}
-                max={150000}
+                max={75000}
                 min={0}
-                step={5000}
+                step={2500}
                 className="w-full"
               />
             </div>
@@ -118,7 +197,7 @@ const PackageSelector = ({ onPackageSelect, onRouteView }: PackageSelectorProps)
 
       {/* Professional Package Tier Tabs */}
       <Tabs value={selectedTier} onValueChange={setSelectedTier} className="w-full">
-        <TabsList className="grid w-full grid-cols-7 bg-white border border-slate-200 shadow-sm">
+        <TabsList className="grid w-full grid-cols-6 bg-white border border-slate-200 shadow-sm">
           <TabsTrigger value="all" className="data-[state=active]:bg-slate-900 data-[state=active]:text-white">All</TabsTrigger>
           {Object.entries(packageTiers).map(([key, tier]) => (
             <TabsTrigger key={key} value={key} className="text-xs data-[state=active]:bg-slate-900 data-[state=active]:text-white">
@@ -184,11 +263,8 @@ const PackageGrid = ({ packages, onPackageSelect, onRouteView }: PackageGridProp
               />
               <div className="absolute top-4 left-4">
                 <Badge className="bg-white/90 text-slate-700 border border-slate-200 shadow-sm">
-                  {packageTiers[pkg.tier].icon} {packageTiers[pkg.tier].name}
+                  {packageTiers[pkg.tier].icon} {packageTiers[pkg.tier].level}
                 </Badge>
-              </div>
-              <div className="absolute bottom-4 right-4 bg-slate-900/80 text-white px-2 py-1 rounded text-sm">
-                +{pkg.points} points
               </div>
             </div>
 

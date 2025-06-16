@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
@@ -221,7 +220,8 @@ const Packages = () => {
 
           {currentView === 'package' && selectedPackage && (
             <div className="space-y-8">
-              <div className="flex items-center gap-4 mb-6">
+              {/* Back button moved to left side */}
+              <div className="flex items-center justify-start gap-4 mb-6">
                 <Button 
                   variant="outline" 
                   onClick={handleBackToSelector}
@@ -282,9 +282,6 @@ const Packages = () => {
                             </span>
                             <span className="text-sm text-slate-500 ml-2">per person</span>
                           </div>
-                          <Badge variant="secondary" className="bg-amber-50 text-amber-700 border border-amber-200">
-                            +{selectedPackage.points} points
-                          </Badge>
                         </div>
                         
                         <div className="space-y-3">

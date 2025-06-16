@@ -20,7 +20,7 @@ export interface PackageRoute {
 
 export interface Package {
   id: string;
-  tier: 'basic' | 'business' | 'intermediate' | 'semi-emulsive' | 'fully-emulsive' | 'supreme';
+  tier: 'basic' | 'intermediate' | 'semi-emulsive' | 'emulsive' | 'business-executive';
   title: string;
   duration: string;
   price: {
@@ -41,7 +41,6 @@ export interface Package {
   difficulty: 'easy' | 'moderate' | 'challenging';
   groupSize: string;
   bestFor: string[];
-  points: number;
   featured?: boolean;
   available?: boolean;
 }
@@ -100,25 +99,52 @@ export const routes: PackageRoute[] = [
         duration: '2 hours'
       }
     ]
+  },
+  {
+    id: 'food-trail',
+    name: 'Culinary Heritage Trail',
+    description: 'Traditional Tulu Nadu cuisine and cooking experiences',
+    mapCenter: [13.3409, 74.7421],
+    totalDistance: '95 km',
+    points: [
+      {
+        id: 'udupi-cuisine',
+        name: 'Traditional Udupi Kitchen',
+        type: 'culinary',
+        coordinates: [13.3409, 74.7421],
+        description: 'Learn authentic Udupi cooking techniques',
+        image: 'https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=400',
+        duration: '3 hours'
+      },
+      {
+        id: 'coastal-seafood',
+        name: 'Coastal Seafood Experience',
+        type: 'culinary',
+        coordinates: [13.2100, 74.7400],
+        description: 'Fresh coastal delicacies and fishing culture',
+        image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=400',
+        duration: '2 hours'
+      }
+    ]
   }
 ];
 
 export const packages: Package[] = [
-  // BASIC TIER
+  // BASIC PACKAGE (Entry Level) - 6 Hour Packages
   {
-    id: 'udupi-essentials-6h',
+    id: 'udupi-basic-6h',
     tier: 'basic',
-    title: 'Udupi Essentials',
+    title: 'Udupi Spiritual Discovery',
     duration: '6 hours',
-    price: { min: 2000, max: 2500 },
-    description: 'Experience the spiritual heart of Tulu Nadu with temple visits and authentic cuisine',
-    highlights: ['Sri Krishna Temple visit', 'Traditional Udupi cuisine', 'Local market exploration'],
-    includes: ['Transportation', 'Temple guide', 'Lunch', 'Cultural briefing'],
+    price: { min: 2500, max: 3000 },
+    description: 'Drive + immersive zone entry to experience the spiritual heart of Tulu Nadu',
+    highlights: ['Sri Krishna Temple complex', 'Traditional Udupi cuisine', 'Local market exploration', 'Cultural briefing'],
+    includes: ['Transportation', 'Temple guide', 'Traditional lunch', 'Cultural orientation'],
     itinerary: [
       {
         day: 1,
         title: 'Udupi Spiritual & Culinary Journey',
-        activities: ['Sri Krishna Temple visit', 'Traditional cooking demo', 'Local market tour'],
+        activities: ['Temple complex tour', 'Traditional cooking demo', 'Local market exploration', 'Cultural briefing'],
         meals: ['Traditional Udupi lunch']
       }
     ],
@@ -126,25 +152,24 @@ export const packages: Package[] = [
     image: 'https://images.unsplash.com/photo-1466442929976-97f336a657be?w=600',
     difficulty: 'easy',
     groupSize: '2-15 people',
-    bestFor: ['First-time visitors', 'Spiritual seekers', 'Food enthusiasts'],
-    points: 10,
+    bestFor: ['First-time visitors', 'Spiritual seekers', 'Cultural enthusiasts'],
     featured: true,
     available: true
   },
   {
-    id: 'mangalore-heritage-6h',
+    id: 'mangalore-basic-6h',
     tier: 'basic',
-    title: 'Mangalore Heritage',
+    title: 'Mangalore Heritage Explorer',
     duration: '6 hours',
-    price: { min: 2200, max: 2800 },
-    description: 'Discover Mangalore\'s rich heritage through temples and spice markets',
-    highlights: ['Historic temples', 'Spice market tour', 'Traditional crafts'],
-    includes: ['Transportation', 'Guide', 'Refreshments', 'Craft demonstration'],
+    price: { min: 2800, max: 3300 },
+    description: 'Discover Mangalore\'s rich heritage through temples, spice markets, and traditional crafts',
+    highlights: ['Historic temples', 'Spice market tour', 'Traditional crafts', 'Coastal culture'],
+    includes: ['Transportation', 'Local guide', 'Refreshments', 'Craft demonstration'],
     itinerary: [
       {
         day: 1,
         title: 'Mangalore Cultural Discovery',
-        activities: ['Temple visits', 'Spice market exploration', 'Traditional craft workshop'],
+        activities: ['Temple visits', 'Spice market exploration', 'Traditional craft workshop', 'Coastal walk'],
         meals: ['Local snacks and refreshments']
       }
     ],
@@ -152,52 +177,100 @@ export const packages: Package[] = [
     image: 'https://images.unsplash.com/photo-1582562124811-c09040d0a901?w=600',
     difficulty: 'easy',
     groupSize: '2-15 people',
-    bestFor: ['History buffs', 'Culture enthusiasts', 'Shopping lovers'],
-    points: 10,
+    bestFor: ['History enthusiasts', 'Culture lovers', 'Shopping enthusiasts'],
     available: true
   },
   {
-    id: 'coastal-explorer-1day',
+    id: 'kundapura-basic-6h',
     tier: 'basic',
-    title: 'Coastal Explorer',
-    duration: '1 day',
-    price: { min: 4500, max: 5500 },
-    description: 'Full day exploring the stunning coastline and geological wonders',
-    highlights: ["St. Mary's Islands", 'Malpe Beach', 'Lighthouse visit', 'Sunset viewing'],
-    includes: ['Transportation', 'Boat ride', 'Lunch', 'Guide', 'Entry fees'],
+    title: 'Kundapura Coastal Experience',
+    duration: '6 hours',
+    price: { min: 2700, max: 3200 },
+    description: 'Explore the fishing heritage and coastal beauty of Kundapura',
+    highlights: ['Fishing harbor visit', 'Beach exploration', 'Coastal cuisine', 'Maritime culture'],
+    includes: ['Transportation', 'Local guide', 'Seafood lunch', 'Boat ride'],
     itinerary: [
       {
         day: 1,
-        title: 'Coastal Wonders',
-        activities: ["St. Mary's Islands exploration", 'Beach activities', 'Lighthouse tour', 'Sunset photography'],
-        meals: ['Coastal seafood lunch']
+        title: 'Kundapura Maritime Journey',
+        activities: ['Fishing harbor tour', 'Beach activities', 'Boat ride', 'Coastal cuisine tasting'],
+        meals: ['Fresh seafood lunch']
       }
     ],
     routes: ['coastal-explorer'],
-    image: 'https://images.unsplash.com/photo-1500673922987-e212871fec22?w=600',
+    image: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=600',
     difficulty: 'easy',
     groupSize: '2-12 people',
-    bestFor: ['Nature lovers', 'Photography enthusiasts', 'Adventure seekers'],
-    points: 15,
+    bestFor: ['Nature lovers', 'Seafood enthusiasts', 'Photography lovers'],
+    available: true
+  },
+  {
+    id: 'karkala-basic-6h',
+    tier: 'basic',
+    title: 'Karkala Heritage Trail',
+    duration: '6 hours',
+    price: { min: 2600, max: 3100 },
+    description: 'Discover the historical significance and architectural marvels of Karkala',
+    highlights: ['Gomateshwara statue', 'Ancient temples', 'Historical monuments', 'Local culture'],
+    includes: ['Transportation', 'Guide', 'Traditional lunch', 'Monument entry'],
+    itinerary: [
+      {
+        day: 1,
+        title: 'Karkala Historical Journey',
+        activities: ['Gomateshwara statue visit', 'Ancient temple tour', 'Historical walk', 'Cultural interaction'],
+        meals: ['Traditional lunch']
+      }
+    ],
+    routes: ['temple-circuit'],
+    image: 'https://images.unsplash.com/photo-1571115764595-644a1f56a55c?w=600',
+    difficulty: 'moderate',
+    groupSize: '2-15 people',
+    bestFor: ['History buffs', 'Architecture enthusiasts', 'Spiritual seekers'],
+    available: true
+  },
+
+  // 1-Day Package
+  {
+    id: 'tulunadu-complete-1day',
+    tier: 'basic',
+    title: 'Complete Tulu Nadu Discovery',
+    duration: '1 day',
+    price: { min: 4500, max: 5500 },
+    description: 'Comprehensive one-day exploration including beaches, temples, and geography of Tulu Nadu',
+    highlights: ['Beaches and coastline', 'Temple architecture', 'Geographic diversity', 'Cultural immersion'],
+    includes: ['Transportation', 'All meals', 'Guide', 'Entry fees', 'Cultural activities'],
+    itinerary: [
+      {
+        day: 1,
+        title: 'Complete Tulu Nadu Experience',
+        activities: ['Morning temple visits', 'Coastal exploration', 'Traditional lunch', 'Cultural activities', 'Sunset viewing'],
+        meals: ['Traditional breakfast', 'Coastal lunch', 'Evening refreshments']
+      }
+    ],
+    routes: ['temple-circuit', 'coastal-explorer'],
+    image: 'https://images.unsplash.com/photo-1500673922987-e212871fec22?w=600',
+    difficulty: 'moderate',
+    groupSize: '2-12 people',
+    bestFor: ['Comprehensive explorers', 'Time-conscious travelers', 'Cultural enthusiasts'],
     featured: true,
     available: true
   },
 
-  // BUSINESS EXECUTIVE
+  // Business Executive Package
   {
-    id: 'mahe-executive',
-    tier: 'business',
+    id: 'business-executive-mahe',
+    tier: 'business-executive',
     title: 'Executive Cultural Brief - Mahe',
     duration: '4 hours',
     price: { min: 8000, max: 10000 },
-    description: 'Curated cultural experience designed for busy executives',
+    description: 'Curated cultural snapshot designed for busy executives - Mahe + Culture combination',
     highlights: ['VIP temple access', 'Executive networking', 'Cultural briefing', 'Premium dining'],
-    includes: ['Private transportation', 'Personal guide', 'Premium lunch', 'Cultural portfolio'],
+    includes: ['Private transportation', 'Personal guide', 'Premium lunch', 'Cultural portfolio', 'Business networking'],
     itinerary: [
       {
         day: 1,
         title: 'Executive Cultural Immersion',
-        activities: ['Private temple tour', 'Cultural briefing session', 'Traditional arts preview'],
+        activities: ['Private temple tour', 'Cultural briefing session', 'Traditional arts preview', 'Networking opportunity'],
         meals: ['Premium traditional lunch']
       }
     ],
@@ -205,187 +278,184 @@ export const packages: Package[] = [
     image: 'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=600',
     difficulty: 'easy',
     groupSize: '1-6 people',
-    bestFor: ['Business executives', 'Time-conscious travelers', 'Premium experience seekers'],
-    points: 25,
+    bestFor: ['Business executives', 'Time-conscious professionals', 'Premium experience seekers'],
     available: true
   },
 
-  // INTERMEDIATE TIER
+  // INTERMEDIATE PACKAGE (2-Day Plan)
   {
     id: 'udupi-mangalore-2day',
     tier: 'intermediate',
-    title: 'Udupi-Mangalore Discovery',
+    title: 'Udupi-Mangalore Cultural Journey',
     duration: '2 days',
     price: { min: 12000, max: 15000 },
-    description: 'Comprehensive exploration of two major cultural centers',
-    highlights: ['Both cities covered', 'Cultural workshops', 'Local family visit', 'Traditional performances'],
-    includes: ['Accommodation', 'All meals', 'Transportation', 'Workshops', 'Cultural shows'],
+    description: 'Two-day exploration with deeper cultural immersion than Basic packages',
+    highlights: ['Both cities covered', 'Cultural workshops', 'Local family interactions', 'Traditional performances'],
+    includes: ['Accommodation', 'All meals', 'Transportation', 'Workshops', 'Cultural shows', 'Local guide'],
     itinerary: [
       {
         day: 1,
         title: 'Udupi Deep Dive',
-        activities: ['Temple complex tour', 'Cooking workshop', 'Cultural center visit'],
+        activities: ['Temple complex exploration', 'Cooking workshop', 'Cultural center visit', 'Local family interaction'],
         meals: ['Traditional breakfast', 'Udupi lunch', 'Local dinner']
       },
       {
         day: 2,
-        title: 'Mangalore Exploration',
-        activities: ['Heritage walk', 'Spice plantation visit', 'Traditional craft workshop'],
+        title: 'Mangalore Extended Cultural Route',
+        activities: ['Heritage walk', 'Spice plantation visit', 'Traditional craft workshop', 'Cultural performance'],
         meals: ['Coastal breakfast', 'Seafood lunch', 'Cultural dinner']
       }
     ],
-    routes: ['temple-circuit', 'coastal-explorer'],
+    routes: ['temple-circuit', 'coastal-explorer', 'food-trail'],
     image: 'https://images.unsplash.com/photo-1469041797191-50ace28483c3?w=600',
     difficulty: 'moderate',
     groupSize: '2-10 people',
-    bestFor: ['Cultural enthusiasts', 'Weekend travelers', 'Learning seekers'],
-    points: 30,
+    bestFor: ['Cultural enthusiasts', 'Weekend travelers', 'Deep learning seekers'],
     available: true
   },
 
-  // SEMI-EMULSIVE
+  // SEMI-EMULSIVE PACKAGE (4-Day Plan)
   {
-    id: 'tulu-immersion-4day',
+    id: 'semi-emulsive-4day',
     tier: 'semi-emulsive',
-    title: 'Tulu Cultural Immersion',
+    title: 'Tulu Nadu Cultural Immersion',
     duration: '4 days',
     price: { min: 25000, max: 32000 },
-    description: 'Deep dive into Tulu culture with hands-on workshops and community integration',
-    highlights: ['Yakshagana workshop', 'Village homestay', 'Traditional crafts', 'Cultural mentorship'],
-    includes: ['Premium accommodation', 'All meals', 'Workshops', 'Cultural performances', 'Craft materials'],
+    description: 'Covers major Tulu Nadu elements - temples, local food, culture, rituals. Wide exposure ideal for short vacations',
+    highlights: ['Major temple complexes', 'Traditional food experiences', 'Cultural rituals participation', 'Local community interaction'],
+    includes: ['Premium accommodation', 'All meals', 'Cultural workshops', 'Ritual participation', 'Local transportation', 'Expert guides'],
     itinerary: [
       {
         day: 1,
-        title: 'Cultural Foundation',
-        activities: ['Welcome ceremony', 'Tulu language basics', 'Traditional dress fitting'],
-        meals: ['Welcome feast', 'Traditional lunch', 'Village dinner']
+        title: 'Spiritual Foundation',
+        activities: ['Major temple visits', 'Spiritual rituals', 'Cultural orientation', 'Traditional dress experience'],
+        meals: ['Temple breakfast', 'Traditional lunch', 'Community dinner']
       },
       {
         day: 2,
-        title: 'Art Forms Introduction',
-        activities: ['Yakshagana workshop', 'Traditional music lesson', 'Costume making'],
-        meals: ['Traditional breakfast', 'Community lunch', 'Performance dinner']
+        title: 'Culinary Heritage',
+        activities: ['Cooking workshops', 'Local food trails', 'Spice plantation tour', 'Family dining experience'],
+        meals: ['Traditional breakfast', 'Cooking class lunch', 'Local family dinner']
       },
       {
         day: 3,
-        title: 'Village Life Experience',
-        activities: ['Village homestay', 'Agricultural activities', 'Folk art workshop'],
-        meals: ['Village breakfast', 'Farm lunch', 'Community dinner']
+        title: 'Cultural Arts & Rituals',
+        activities: ['Traditional art forms', 'Cultural performances', 'Ritual ceremonies', 'Community festivals'],
+        meals: ['Cultural breakfast', 'Festival lunch', 'Celebration dinner']
       },
       {
         day: 4,
-        title: 'Cultural Synthesis',
-        activities: ['Personal performance', 'Cultural project presentation', 'Farewell ceremony'],
-        meals: ['Traditional breakfast', 'Celebration lunch']
+        title: 'Nature & Heritage Integration',
+        activities: ['Coastal exploration', 'Heritage sites', 'Cultural synthesis', 'Farewell ceremony'],
+        meals: ['Coastal breakfast', 'Heritage lunch']
       }
     ],
-    routes: ['temple-circuit', 'coastal-explorer'],
+    routes: ['temple-circuit', 'coastal-explorer', 'food-trail'],
     image: 'https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?w=600',
     difficulty: 'moderate',
     groupSize: '4-8 people',
-    bestFor: ['Cultural immersion seekers', 'Art enthusiasts', 'Adventure travelers'],
-    points: 50,
+    bestFor: ['Cultural immersion seekers', 'Short vacation travelers', 'Comprehensive explorers'],
     featured: true,
     available: true
   },
 
-  // FULLY EMULSIVE
+  // EMULSIVE PACKAGE (7-9 Day Premium)
   {
-    id: 'complete-tulu-7day',
-    tier: 'fully-emulsive',
-    title: 'Complete Tulu Nadu Experience',
+    id: 'emulsive-premium-7to9day',
+    tier: 'emulsive',
+    title: 'Complete Tulu Nadu Emulsive Experience',
     duration: '7-9 days',
-    price: { min: 45000, max: 60000 },
-    description: 'Comprehensive cultural immersion with master workshops and festival participation',
-    highlights: ['Master craftsman workshops', 'Festival participation', 'Documentation project', 'Cultural certification'],
-    includes: ['Premium accommodation', 'All meals', 'Master workshops', 'Festival access', 'Documentation kit'],
+    price: { min: 50000, max: 75000 },
+    description: 'Fully immersive, tailored experience with workshops, practitioner sessions, traditional food & rituals, and in-depth storytelling of Tulu Nadu',
+    highlights: ['Master craftsman workshops', 'Practitioner sessions', 'Complete cultural immersion', 'Personal storytelling', 'Custom itinerary'],
+    includes: ['Luxury accommodation', 'All meals & beverages', 'Master workshops', 'Practitioner sessions', 'Personal guide', 'Custom experiences', 'Documentation kit'],
     itinerary: [
       {
         day: 1,
-        title: 'Arrival & Orientation',
-        activities: ['Cultural orientation', 'Tulu history session', 'Traditional welcome'],
-        meals: ['Welcome dinner with cultural family']
+        title: 'Arrival & Cultural Orientation',
+        activities: ['Welcome ceremony', 'Cultural briefing', 'Personal mentor assignment', 'Traditional welcome ritual'],
+        meals: ['Welcome feast with cultural family']
       },
       {
         day: 2,
-        title: 'Temple Architecture Deep Dive',
-        activities: ['Architecture workshop', 'Stone carving lesson', 'Sacred geometry'],
-        meals: ['Temple breakfast', 'Traditional lunch', 'Scholar dinner']
+        title: 'Master Craftsman Workshop Day 1',
+        activities: ['Traditional art forms training', 'Master craftsman sessions', 'Hands-on workshops', 'Cultural documentation'],
+        meals: ['Artisan breakfast', 'Workshop lunch', 'Master dinner']
+      },
+      {
+        day: 3,
+        title: 'Spiritual & Ritual Deep Dive',
+        activities: ['Advanced temple practices', 'Ritual participation', 'Spiritual mentorship', 'Sacred geography'],
+        meals: ['Temple breakfast', 'Sacred lunch', 'Spiritual dinner']
+      },
+      {
+        day: 4,
+        title: 'Culinary Mastery & Food Culture',
+        activities: ['Advanced cooking workshops', 'Traditional food preparation', 'Local family integration', 'Culinary storytelling'],
+        meals: ['Cooking class breakfast', 'Family preparation lunch', 'Community feast']
+      },
+      {
+        day: 5,
+        title: 'Practitioner Sessions & Advanced Arts',
+        activities: ['Traditional medicine practices', 'Advanced cultural arts', 'Practitioner mentorship', 'Cultural healing'],
+        meals: ['Healing breakfast', 'Practitioner lunch', 'Wellness dinner']
+      },
+      {
+        day: 6,
+        title: 'Community Integration & Storytelling',
+        activities: ['Community living experience', 'In-depth storytelling sessions', 'Cultural preservation activities', 'Personal documentation'],
+        meals: ['Community breakfast', 'Storytelling lunch', 'Integration dinner']
+      },
+      {
+        day: 7,
+        title: 'Cultural Synthesis & Personal Journey',
+        activities: ['Personal cultural project', 'Synthesis workshops', 'Cultural mentorship', 'Preparation for departure'],
+        meals: ['Synthesis breakfast', 'Project lunch', 'Farewell ceremony dinner']
       }
-      // Additional days would be added here
     ],
-    routes: ['temple-circuit', 'coastal-explorer'],
+    routes: ['temple-circuit', 'coastal-explorer', 'food-trail'],
     image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600',
     difficulty: 'challenging',
     groupSize: '2-6 people',
-    bestFor: ['Serious cultural learners', 'Documentation enthusiasts', 'Transformation seekers'],
-    points: 100,
-    available: true
-  },
-
-  // SUPREME TIER
-  {
-    id: 'supreme-tailored',
-    tier: 'supreme',
-    title: 'Supreme Tailored Experience',
-    duration: 'Custom',
-    price: { min: 50000, max: 150000 },
-    description: 'Completely personalized cultural journey tailored to your specific interests and schedule',
-    highlights: ['Personal cultural mentor', 'Exclusive access', 'Custom workshops', 'Private collections'],
-    includes: ['Luxury accommodation', 'Private transportation', 'Personal mentor', 'Exclusive experiences'],
-    itinerary: [
-      {
-        day: 1,
-        title: 'Personalized Journey Begins',
-        activities: ['Custom activities based on preferences'],
-        meals: ['Tailored dining experiences']
-      }
-    ],
-    routes: ['temple-circuit', 'coastal-explorer'],
-    image: 'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=600',
-    difficulty: 'easy',
-    groupSize: '1-4 people',
-    bestFor: ['Luxury travelers', 'Specific interests', 'Ultimate experience seekers'],
-    points: 200,
+    bestFor: ['Deep cultural transformation seekers', 'Serious cultural learners', 'Personal growth enthusiasts'],
     available: true
   }
 ];
 
 export const packageTiers = {
   basic: {
-    name: 'Basic',
+    name: 'Basic Package',
     color: 'bg-green-100 text-green-800',
-    description: 'Perfect introduction to Tulu Nadu',
-    icon: '🌱'
+    description: 'Entry level - Easy accessibility',
+    icon: '🌱',
+    level: 'Entry Level'
   },
-  business: {
+  'business-executive': {
     name: 'Business Executive',
     color: 'bg-blue-100 text-blue-800',
     description: 'Curated for professionals',
-    icon: '💼'
+    icon: '💼',
+    level: 'Professional'
   },
   intermediate: {
-    name: 'Intermediate',
+    name: 'Intermediate Package',
     color: 'bg-yellow-100 text-yellow-800',
-    description: 'Deeper cultural exploration',
-    icon: '🎭'
+    description: '2-Day deeper cultural exploration',
+    icon: '🎭',
+    level: 'Intermediate'
   },
   'semi-emulsive': {
-    name: 'Semi-Emulsive',
+    name: 'Semi-Emulsive Package',
     color: 'bg-orange-100 text-orange-800',
-    description: 'Immersive cultural experience',
-    icon: '🎨'
+    description: '4-Day wide exposure experience',
+    icon: '🎨',
+    level: 'Semi-Immersive'
   },
-  'fully-emulsive': {
-    name: 'Fully Emulsive',
+  emulsive: {
+    name: 'Emulsive Package',
     color: 'bg-purple-100 text-purple-800',
-    description: 'Complete cultural transformation',
-    icon: '🏛️'
-  },
-  supreme: {
-    name: 'Supreme',
-    color: 'bg-red-100 text-red-800',
-    description: 'Ultimate personalized journey',
-    icon: '👑'
+    description: '7-9 Day premium immersive experience',
+    icon: '🏛️',
+    level: 'Fully Immersive'
   }
 };

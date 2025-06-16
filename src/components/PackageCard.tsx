@@ -13,7 +13,6 @@ interface PackageCardProps {
   features: string[];
   featured?: boolean;
   audioPreview?: boolean;
-  points?: number;
 }
 
 const PackageCard = ({
@@ -24,8 +23,7 @@ const PackageCard = ({
   image,
   features,
   featured = false,
-  audioPreview = false,
-  points = 10
+  audioPreview = false
 }: PackageCardProps) => {
   const [isFlipped, setIsFlipped] = useState(false);
   const [isInteracting, setIsInteracting] = useState(false);
@@ -35,7 +33,6 @@ const PackageCard = ({
     setIsFlipped(!isFlipped);
     if (!hasRevealed) {
       setHasRevealed(true);
-      addPoints(2, "Viewed package details");
     }
   };
   
@@ -45,18 +42,6 @@ const PackageCard = ({
   
   const endInteraction = () => {
     setIsInteracting(false);
-  };
-  
-  const addPoints = (amount: number, message: string) => {
-    // Create points indicator
-    const pointsIndicator = document.createElement('div');
-    pointsIndicator.className = 'fixed top-20 right-8 bg-tulu-gold text-white px-3 py-1 rounded-full animate-bounce z-50 flex items-center gap-2';
-    pointsIndicator.innerHTML = `<span>+${amount}</span><span>${message}</span>`;
-    document.body.appendChild(pointsIndicator);
-    
-    setTimeout(() => {
-      document.body.removeChild(pointsIndicator);
-    }, 2000);
   };
   
   return (
@@ -84,11 +69,6 @@ const PackageCard = ({
               Popular Choice
             </div>
           )}
-          
-          {/* Points indicator */}
-          <div className="absolute top-4 left-4 z-10 bg-tulu-gold text-white text-xs px-3 py-1 rounded-full">
-            +{points} points
-          </div>
           
           <div className="relative h-48 overflow-hidden image-shine">
             <img 
@@ -131,7 +111,6 @@ const PackageCard = ({
               )}
               onClick={(e) => {
                 e.stopPropagation();
-                addPoints(points, `Selected ${title} package`);
               }}
             >
               Enquire Now
@@ -167,7 +146,6 @@ const PackageCard = ({
                 )}
                 onClick={(e) => {
                   e.stopPropagation();
-                  addPoints(points, `Selected ${title} package`);
                 }}
               >
                 Book Now
@@ -181,7 +159,6 @@ const PackageCard = ({
                   title="Listen to audio preview"
                   onClick={(e) => {
                     e.stopPropagation();
-                    addPoints(3, "Listened to audio preview");
                   }}
                 >
                   <Headphones className="w-5 h-5" />
