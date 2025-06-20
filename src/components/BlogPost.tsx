@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
@@ -42,15 +41,28 @@ export const BlogPost = ({
   
   // Sample video URLs for demonstration
   const videoUrls = [
-    "https://sample-videos.com/zip/10/webm/mp4/SampleVideo_1280x720_1mb.mp4",
-    "https://www.w3schools.com/html/mov_bbb.mp4",
     "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
     "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
-    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
+    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4",
+    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4"
   ];
   
   // Select a random video for each post
   const randomVideo = videoUrls[Math.floor(Math.random() * videoUrls.length)];
+  
+  const handleVideoHover = (e: React.MouseEvent<HTMLVideoElement>, play: boolean) => {
+    const video = e.currentTarget;
+    if (play) {
+      video.currentTime = 0;
+      video.play().catch(() => {
+        // Silently handle autoplay restrictions
+        console.log('Autoplay prevented');
+      });
+    } else {
+      video.pause();
+    }
+  };
   
   return (
     <motion.div
@@ -69,8 +81,11 @@ export const BlogPost = ({
           muted
           loop
           playsInline
-          onMouseEnter={(e) => e.currentTarget.play()}
-          onMouseLeave={(e) => e.currentTarget.pause()}
+          preload="metadata"
+          onMouseEnter={(e) => handleVideoHover(e, true)}
+          onMouseLeave={(e) => handleVideoHover(e, false)}
+          onLoadStart={() => console.log('Video loading started')}
+          onCanPlay={() => console.log('Video can play')}
         >
           <source src={randomVideo} type="video/mp4" />
           Your browser does not support the video tag.

@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils';
 import { toast } from '@/hooks/use-toast';
 import { addPoints, getUserPoints, getUserLevel } from '@/lib/gamification';
 
-// Updated posts with reliable images
+// Updated posts with reliable video URLs
 const recentPosts = [
   {
     id: 1,
@@ -38,7 +38,7 @@ const recentPosts = [
 
 const RecentPosts = () => {
   const [hoveredPost, setHoveredPost] = useState<number | null>(null);
-  const [imagesLoaded, setImagesLoaded] = useState<Record<number, boolean>>({});
+  const [videosLoaded, setVideosLoaded] = useState<Record<number, boolean>>({});
   const [userPoints, setUserPoints] = useState(0);
   const [userLevel, setUserLevel] = useState(1);
   const [showLevelUp, setShowLevelUp] = useState(false);
@@ -69,7 +69,22 @@ const RecentPosts = () => {
   };
   
   const handleVideoLoad = (id: number) => {
-    setImagesLoaded(prev => ({ ...prev, [id]: true }));
+    setVideosLoaded(prev => ({ ...prev, [id]: true }));
+    console.log(`Recent post video ${id} loaded`);
+  };
+  
+  const handleVideoHover = async (e: React.MouseEvent<HTMLVideoElement>, play: boolean) => {
+    const video = e.currentTarget;
+    try {
+      if (play) {
+        video.currentTime = 0;
+        await video.play();
+      } else {
+        video.pause();
+      }
+    } catch (error) {
+      console.log('Video hover play failed:', error);
+    }
   };
   
   const handlePostClick = (post: typeof recentPosts[0]) => {
@@ -133,7 +148,7 @@ const RecentPosts = () => {
             >
               <div className="relative h-48 overflow-hidden">
                 {/* Loading placeholder */}
-                {!imagesLoaded[post.id] && (
+                {!videosLoaded[post.id] && (
                   <div className="absolute inset-0 bg-gray-200 animate-pulse flex items-center justify-center">
                     <span className="text-gray-400">Loading video...</span>
                   </div>
@@ -143,14 +158,16 @@ const RecentPosts = () => {
                   className={cn(
                     "w-full h-full object-cover transition-transform duration-500",
                     hoveredPost === post.id ? "scale-110" : "scale-100",
-                    imagesLoaded[post.id] ? "opacity-100" : "opacity-0"
+                    videosLoaded[post.id] ? "opacity-100" : "opacity-0"
                   )}
                   muted
                   loop
                   playsInline
+                  preload="metadata"
                   onLoadedData={() => handleVideoLoad(post.id)}
-                  onMouseEnter={(e) => e.currentTarget.play()}
-                  onMouseLeave={(e) => e.currentTarget.pause()}
+                  onMouseEnter={(e) => handleVideoHover(e, true)}
+                  onMouseLeave={(e) => handleVideoHover(e, false)}
+                  onCanPlay={() => console.log(`Recent post ${post.id} video ready`)}
                 >
                   <source src={post.video} type="video/mp4" />
                   Your browser does not support the video tag.

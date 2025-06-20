@@ -27,19 +27,24 @@ const BlogImage = ({ imageUrl, title }: BlogImageProps) => {
   
   const handleVideoLoad = () => {
     setVideoLoaded(true);
+    console.log('Blog video loaded successfully');
   };
   
-  const togglePlay = (e: React.MouseEvent) => {
+  const togglePlay = async (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     const video = e.currentTarget.parentElement?.querySelector('video') as HTMLVideoElement;
     if (video) {
-      if (isPlaying) {
-        video.pause();
-      } else {
-        video.play();
+      try {
+        if (isPlaying) {
+          video.pause();
+        } else {
+          await video.play();
+        }
+        setIsPlaying(!isPlaying);
+      } catch (error) {
+        console.log('Video play failed:', error);
       }
-      setIsPlaying(!isPlaying);
     }
   };
   
@@ -74,7 +79,9 @@ const BlogImage = ({ imageUrl, title }: BlogImageProps) => {
           muted
           loop
           playsInline
+          preload="metadata"
           onLoadedData={handleVideoLoad}
+          onCanPlay={() => console.log('Blog image video ready')}
           style={{ display: videoLoaded ? 'block' : 'none' }}
         >
           <source src={randomVideo} type="video/mp4" />
