@@ -39,28 +39,20 @@ export const BlogPost = ({
 }: BlogPostProps) => {
   const linkId = postId || id;
   
-  // Sample video URLs for demonstration
-  const videoUrls = [
-    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
-    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
-    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
-    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4",
-    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4"
-  ];
+  // Using a reliable video source
+  const videoSrc = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
   
-  // Select a random video for each post
-  const randomVideo = videoUrls[Math.floor(Math.random() * videoUrls.length)];
-  
-  const handleVideoHover = (e: React.MouseEvent<HTMLVideoElement>, play: boolean) => {
+  const handleVideoInteraction = (e: React.MouseEvent<HTMLVideoElement>, shouldPlay: boolean) => {
     const video = e.currentTarget;
-    if (play) {
-      video.currentTime = 0;
-      video.play().catch(() => {
-        // Silently handle autoplay restrictions
-        console.log('Autoplay prevented');
-      });
-    } else {
-      video.pause();
+    try {
+      if (shouldPlay) {
+        video.currentTime = 0;
+        video.play();
+      } else {
+        video.pause();
+      }
+    } catch (error) {
+      console.log('Video interaction failed:', error);
     }
   };
   
@@ -75,20 +67,24 @@ export const BlogPost = ({
         className
       )}
     >
-      <div className="relative aspect-video overflow-hidden">
+      <div className="relative aspect-video overflow-hidden bg-gray-900">
         <video
           className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
           muted
           loop
           playsInline
-          preload="metadata"
-          onMouseEnter={(e) => handleVideoHover(e, true)}
-          onMouseLeave={(e) => handleVideoHover(e, false)}
-          onLoadStart={() => console.log('Video loading started')}
-          onCanPlay={() => console.log('Video can play')}
+          controls={false}
+          poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect width='400' height='300' fill='%23374151'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.3em' fill='white' font-size='16'%3EVideo Loading...%3C/text%3E%3C/svg%3E"
+          onMouseEnter={(e) => handleVideoInteraction(e, true)}
+          onMouseLeave={(e) => handleVideoInteraction(e, false)}
+          onLoadStart={() => console.log('Blog post video loading')}
+          onCanPlay={() => console.log('Blog post video ready to play')}
+          onError={(e) => console.log('Blog post video error:', e)}
         >
-          <source src={randomVideo} type="video/mp4" />
-          Your browser does not support the video tag.
+          <source src={videoSrc} type="video/mp4" />
+          <div className="absolute inset-0 bg-gray-800 flex items-center justify-center text-white">
+            Video not supported
+          </div>
         </video>
         
         {/* Video overlay with play button */}
