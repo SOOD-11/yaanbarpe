@@ -1,7 +1,7 @@
 
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
-import { ZoomIn, Download } from 'lucide-react';
+import { Play, Pause, Download } from 'lucide-react';
 
 interface BlogImageProps {
   imageUrl: string;
@@ -9,18 +9,38 @@ interface BlogImageProps {
 }
 
 const BlogImage = ({ imageUrl, title }: BlogImageProps) => {
-  const [imageLoaded, setImageLoaded] = useState(false);
+  const [videoLoaded, setVideoLoaded] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
-  const [isZoomed, setIsZoomed] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
   
-  const handleImageLoad = () => {
-    setImageLoaded(true);
+  // Sample video URLs for demonstration
+  const videoUrls = [
+    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4",
+    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4"
+  ];
+  
+  // Select a random video
+  const randomVideo = videoUrls[Math.floor(Math.random() * videoUrls.length)];
+  
+  const handleVideoLoad = () => {
+    setVideoLoaded(true);
   };
   
-  const toggleZoom = (e: React.MouseEvent) => {
+  const togglePlay = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    setIsZoomed(!isZoomed);
+    const video = e.currentTarget.parentElement?.querySelector('video') as HTMLVideoElement;
+    if (video) {
+      if (isPlaying) {
+        video.pause();
+      } else {
+        video.play();
+      }
+      setIsPlaying(!isPlaying);
+    }
   };
   
   const handleDownload = (e: React.MouseEvent) => {
@@ -28,8 +48,8 @@ const BlogImage = ({ imageUrl, title }: BlogImageProps) => {
     e.stopPropagation();
     
     const link = document.createElement('a');
-    link.href = imageUrl;
-    link.download = `${title.replace(/[^a-zA-Z0-9]/g, '-')}.jpg`;
+    link.href = randomVideo;
+    link.download = `${title.replace(/[^a-zA-Z0-9]/g, '-')}.mp4`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -41,54 +61,53 @@ const BlogImage = ({ imageUrl, title }: BlogImageProps) => {
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
     >
-      {!imageLoaded && (
+      {!videoLoaded && (
         <div className="w-full h-96 bg-gray-200 animate-pulse flex items-center justify-center">
-          <span className="text-gray-400">Loading image...</span>
+          <span className="text-gray-400">Loading video...</span>
         </div>
       )}
       
-      {/* Main image - FIXED: Always visible, no opacity changes */}
+      {/* Main video */}
       <div className="overflow-hidden">
-        <img 
-          src={imageUrl}
-          alt={title}
-          className={cn(
-            "w-full h-auto object-cover transition-transform duration-300",
-            isZoomed ? "scale-105" : "scale-100",
-            "opacity-100" // Always visible
-          )}
-          onLoad={handleImageLoad}
-          onError={(e) => {
-            const target = e.target as HTMLImageElement;
-            target.src = "https://images.unsplash.com/photo-1472396961693-142e6e269027?w=1200&q=80";
-            handleImageLoad();
-          }}
-          style={{ display: imageLoaded ? 'block' : 'none' }}
-        />
+        <video 
+          className="w-full h-auto object-cover transition-transform duration-300 opacity-100"
+          muted
+          loop
+          playsInline
+          onLoadedData={handleVideoLoad}
+          style={{ display: videoLoaded ? 'block' : 'none' }}
+        >
+          <source src={randomVideo} type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
       </div>
       
-      {/* Image caption - always visible */}
+      {/* Video caption */}
       <div className="bg-[#00555A]/90 text-white text-sm py-3 px-4">
         <p className="font-medium">{title}</p>
       </div>
       
-      {/* Hover controls - only show overlay, not hide image */}
-      {imageLoaded && (
+      {/* Hover controls */}
+      {videoLoaded && (
         <div className={cn(
           "absolute top-4 right-4 flex gap-2 transition-opacity duration-300",
           isHovering ? "opacity-100" : "opacity-0"
         )}>
           <button 
             className="bg-white/90 hover:bg-white p-2 rounded-full shadow-md transition-all hover:scale-110"
-            onClick={toggleZoom}
-            title={isZoomed ? "Reset zoom" : "Zoom image"}
+            onClick={togglePlay}
+            title={isPlaying ? "Pause video" : "Play video"}
           >
-            <ZoomIn className="h-5 w-5 text-[#00555A]" />
+            {isPlaying ? (
+              <Pause className="h-5 w-5 text-[#00555A]" />
+            ) : (
+              <Play className="h-5 w-5 text-[#00555A]" />
+            )}
           </button>
           <button 
             className="bg-white/90 hover:bg-white p-2 rounded-full shadow-md transition-all hover:scale-110"
             onClick={handleDownload}
-            title="Download image"
+            title="Download video"
           >
             <Download className="h-5 w-5 text-[#00555A]" />
           </button>

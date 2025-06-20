@@ -1,9 +1,8 @@
-
 import { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { ArrowRight, Clock, User, Eye, Heart, Share2, BookOpen, Sparkles, TrendingUp } from 'lucide-react';
+import { ArrowRight, Clock, User, Eye, Heart, Share2, BookOpen, Sparkles, TrendingUp, Play } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const blogPosts = [
@@ -11,7 +10,7 @@ const blogPosts = [
     id: 1,
     title: 'The Sacred Art of Yakshagana: A Living Heritage',
     excerpt: 'Discover the intricate world of Yakshagana, where mythology meets performance art in spectacular fashion.',
-    image: 'https://images.pexels.com/photos/2417726/pexels-photo-2417726.jpeg?auto=compress&cs=tinysrgb&w=800',
+    video: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
     author: 'Dr. Priya Shetty',
     category: 'Cultural Arts',
     readTime: '8 min read',
@@ -26,7 +25,7 @@ const blogPosts = [
     id: 2,
     title: 'Temple Architecture: Stories in Stone',
     excerpt: 'Every carving tells a story. Explore the architectural marvels of Udupi\'s ancient temples.',
-    image: 'https://images.pexels.com/photos/2161467/pexels-photo-2161467.jpeg?auto=compress&cs=tinysrgb&w=800',
+    video: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
     author: 'Rajesh Kumar',
     category: 'Architecture',
     readTime: '12 min read',
@@ -41,7 +40,7 @@ const blogPosts = [
     id: 3,
     title: 'Coastal Cuisine: Flavors of the Sea',
     excerpt: 'From ghee roast to neer dosa, discover the culinary treasures of Tulu Nadu\'s coastal kitchen.',
-    image: 'https://images.pexels.com/photos/958545/pexels-photo-958545.jpeg?auto=compress&cs=tinysrgb&w=800',
+    video: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
     author: 'Meera Pai',
     category: 'Food & Culture',
     readTime: '6 min read',
@@ -56,7 +55,7 @@ const blogPosts = [
     id: 4,
     title: 'Festival Traditions: Celebrating Life',
     excerpt: 'Experience the vibrant festivals that bring Tulu communities together in joyous celebration.',
-    image: 'https://images.pexels.com/photos/3944154/pexels-photo-3944154.jpeg?auto=compress&cs=tinysrgb&w=800',
+    video: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4',
     author: 'Anil Bhat',
     category: 'Festivals',
     readTime: '10 min read',
@@ -150,14 +149,27 @@ const EnhancedBlogSection = () => {
             {filteredPosts.filter(post => post.isFeatured).slice(0, 1).map((post) => (
               <Card key={post.id} className="overflow-hidden border-none shadow-2xl group">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
-                  {/* Image */}
+                  {/* Video */}
                   <div className="relative h-80 lg:h-auto overflow-hidden">
-                    <img 
-                      src={post.image}
-                      alt={post.title}
+                    <video 
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                    />
+                      muted
+                      loop
+                      playsInline
+                      onMouseEnter={(e) => e.currentTarget.play()}
+                      onMouseLeave={(e) => e.currentTarget.pause()}
+                    >
+                      <source src={post.video} type="video/mp4" />
+                      Your browser does not support the video tag.
+                    </video>
                     <div className="absolute inset-0 bg-gradient-to-r from-black/50 to-transparent" />
+                    
+                    {/* Play button overlay */}
+                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                      <div className="bg-white/20 backdrop-blur-sm rounded-full p-4">
+                        <Play className="h-10 w-10 text-white" />
+                      </div>
+                    </div>
                     
                     {/* Badges */}
                     <div className="absolute top-6 left-6 flex flex-col gap-2">
@@ -252,12 +264,25 @@ const EnhancedBlogSection = () => {
           {filteredPosts.filter(post => !post.isFeatured).map((post) => (
             <Card key={post.id} className="group overflow-hidden border-none shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2">
               <div className="relative h-48 overflow-hidden">
-                <img 
-                  src={post.image}
-                  alt={post.title}
+                <video 
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                />
+                  muted
+                  loop
+                  playsInline
+                  onMouseEnter={(e) => e.currentTarget.play()}
+                  onMouseLeave={(e) => e.currentTarget.pause()}
+                >
+                  <source src={post.video} type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                
+                {/* Play button overlay */}
+                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div className="bg-white/20 backdrop-blur-sm rounded-full p-3">
+                    <Play className="h-6 w-6 text-white" />
+                  </div>
+                </div>
                 
                 {/* Badges */}
                 <div className="absolute top-4 left-4">

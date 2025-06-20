@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Calendar, Clock, MessageSquare, Share2, Headphones } from 'lucide-react';
+import { Calendar, Clock, MessageSquare, Share2, Headphones, Play } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface BlogPostProps {
@@ -40,6 +40,18 @@ export const BlogPost = ({
 }: BlogPostProps) => {
   const linkId = postId || id;
   
+  // Sample video URLs for demonstration
+  const videoUrls = [
+    "https://sample-videos.com/zip/10/webm/mp4/SampleVideo_1280x720_1mb.mp4",
+    "https://www.w3schools.com/html/mov_bbb.mp4",
+    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
+  ];
+  
+  // Select a random video for each post
+  const randomVideo = videoUrls[Math.floor(Math.random() * videoUrls.length)];
+  
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -52,16 +64,24 @@ export const BlogPost = ({
       )}
     >
       <div className="relative aspect-video overflow-hidden">
-        <img
-          src={image}
-          alt={title}
+        <video
           className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
-          onError={(e) => {
-            const target = e.target as HTMLImageElement;
-            target.src = "https://images.pexels.com/photos/2773927/pexels-photo-2773927.jpeg";
-          }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+          muted
+          loop
+          playsInline
+          onMouseEnter={(e) => e.currentTarget.play()}
+          onMouseLeave={(e) => e.currentTarget.pause()}
+        >
+          <source src={randomVideo} type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        
+        {/* Video overlay with play button */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+          <div className="bg-white/20 backdrop-blur-sm rounded-full p-3">
+            <Play className="h-8 w-8 text-white" />
+          </div>
+        </div>
       </div>
 
       <div className="p-6">

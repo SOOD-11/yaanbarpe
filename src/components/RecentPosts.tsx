@@ -1,4 +1,3 @@
-
 import { ArrowRight, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useState, useEffect } from 'react';
@@ -11,7 +10,7 @@ const recentPosts = [
   {
     id: 1,
     title: "The Lost Coins of Vijayanagara: Archaeological Discoveries in Tulu Nadu",
-    image: "https://images.pexels.com/photos/1193743/pexels-photo-1193743.jpeg",
+    video: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
     date: "May 5, 2025",
     category: "History",
     pointValue: 5,
@@ -20,7 +19,7 @@ const recentPosts = [
   {
     id: 2,
     title: "Preserving Tulu Language: Digital Initiatives for Cultural Conservation",
-    image: "https://images.pexels.com/photos/7096483/pexels-photo-7096483.jpeg",
+    video: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
     date: "May 2, 2025",
     category: "Language & Culture",
     pointValue: 7,
@@ -29,7 +28,7 @@ const recentPosts = [
   {
     id: 3,
     title: "Environmental Conservation Efforts Along the Netravati River Basin",
-    image: "https://images.pexels.com/photos/3225529/pexels-photo-3225529.jpeg",
+    video: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
     date: "April 28, 2025",
     category: "Environment",
     pointValue: 6,
@@ -69,7 +68,7 @@ const RecentPosts = () => {
     setHoveredPost(id);
   };
   
-  const handleImageLoad = (id: number) => {
+  const handleVideoLoad = (id: number) => {
     setImagesLoaded(prev => ({ ...prev, [id]: true }));
   };
   
@@ -136,26 +135,26 @@ const RecentPosts = () => {
                 {/* Loading placeholder */}
                 {!imagesLoaded[post.id] && (
                   <div className="absolute inset-0 bg-gray-200 animate-pulse flex items-center justify-center">
-                    <span className="text-gray-400">Loading image...</span>
+                    <span className="text-gray-400">Loading video...</span>
                   </div>
                 )}
                 
-                <img 
-                  src={post.image} 
-                  alt={post.title}
+                <video 
                   className={cn(
                     "w-full h-full object-cover transition-transform duration-500",
                     hoveredPost === post.id ? "scale-110" : "scale-100",
                     imagesLoaded[post.id] ? "opacity-100" : "opacity-0"
                   )}
-                  onLoad={() => handleImageLoad(post.id)}
-                  onError={(e) => {
-                    // Fallback image if the custom one fails to load
-                    const target = e.target as HTMLImageElement;
-                    target.src = "https://images.pexels.com/photos/3944154/pexels-photo-3944154.jpeg";
-                    handleImageLoad(post.id);
-                  }}
-                />
+                  muted
+                  loop
+                  playsInline
+                  onLoadedData={() => handleVideoLoad(post.id)}
+                  onMouseEnter={(e) => e.currentTarget.play()}
+                  onMouseLeave={(e) => e.currentTarget.pause()}
+                >
+                  <source src={post.video} type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                 <div className="absolute top-4 left-4">
                   <span className="bg-[#00555A]/90 text-white text-xs font-medium px-3 py-1 rounded-full backdrop-blur-sm">
