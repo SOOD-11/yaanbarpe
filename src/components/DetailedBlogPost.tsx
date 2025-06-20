@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useState, useEffect, useRef } from 'react';
 import { toast } from '@/hooks/use-toast';
@@ -5,7 +6,6 @@ import { addPoints, updateStreak } from '@/lib/gamification';
 import { FactCard } from '@/components/ui/fact-card';
 import { CommentSection } from '@/components/comments/CommentSection';
 import { Separator } from '@/components/ui/separator';
-import { Button } from '@/components/ui/button';
 
 // Import smaller components
 import BlogHeader from './blog-parts/BlogHeader';
@@ -16,8 +16,8 @@ import KnowledgeQuiz from './blog-parts/KnowledgeQuiz';
 import RelatedArticles from './blog-parts/RelatedArticles';
 import AuthorInfo from './blog-parts/AuthorInfo';
 import ReactionBar from './blog-parts/ReactionBar';
-import TextToSpeech from './blog-parts/TextToSpeech';
 import AdSpace from './blog-parts/AdSpace';
+import MusicStyleAudioPlayer from './blog-parts/MusicStyleAudioPlayer';
 
 interface DetailedBlogPostProps {
   title: string;
@@ -120,21 +120,13 @@ const DetailedBlogPost = ({
         
         utterance.onstart = () => {
           setIsPlaying(true);
-          toast({
-            title: "🎧 Audio Started",
-            description: "Now reading the article aloud",
-            duration: 3000,
-          });
+          addReadingPoints(5, "Started audio playback");
         };
         
         utterance.onend = () => {
           setIsPlaying(false);
           speechRef.current = null;
-          toast({
-            title: "✅ Reading Complete",
-            description: "Finished reading the article",
-            duration: 2000,
-          });
+          addReadingPoints(10, "Completed audio playback");
         };
         
         utterance.onerror = () => {
@@ -160,11 +152,6 @@ const DetailedBlogPost = ({
       window.speechSynthesis.cancel();
       setIsPlaying(false);
       speechRef.current = null;
-      toast({
-        title: "Audio Stopped",
-        description: "Reading has been stopped",
-        duration: 2000,
-      });
     }
   };
   
@@ -180,6 +167,9 @@ const DetailedBlogPost = ({
   } else {
     imageUrl = "https://images.unsplash.com/photo-1472396961693-142e6e269027?w=1200&q=80";
   }
+
+  // Clean text for audio player
+  const cleanTextForAudio = content.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
 
   return (
     <div className="max-w-4xl mx-auto space-y-8">
@@ -199,31 +189,19 @@ const DetailedBlogPost = ({
         readTime={readTime}
         author={author}
         authorImage={authorImage}
-        audioAvailable={audioAvailable}
-        isAudioPlaying={isPlaying}
-        onToggleAudio={handleTextToSpeech}
+        audioAvailable={false}
+        isAudioPlaying={false}
+        onToggleAudio={() => {}}
       />
       
-      {/* FIXED: Working audio controls */}
+      {/* Music-Style Audio Player - Single control for the entire article */}
       {audioAvailable && (
-        <div className="bg-white rounded-lg p-4 shadow-sm mb-8 flex items-center justify-between border">
-          <div className="flex items-center gap-3">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleTextToSpeech}
-              className={isPlaying ? "bg-[#00555A] text-white" : "border-[#00555A] text-[#00555A] hover:bg-[#00555A] hover:text-white"}
-            >
-              {isPlaying ? "Stop Reading" : "🎧 Listen to Article"}
-            </Button>
-            {isPlaying && <span className="text-sm text-muted-foreground animate-pulse">Playing audio...</span>}
-          </div>
-        </div>
-      )}
-      
-      {/* Text to Speech Component */}
-      {audioAvailable && (
-        <TextToSpeech text={content} title={title} />
+        <MusicStyleAudioPlayer 
+          text={cleanTextForAudio}
+          title={title}
+          isPlaying={isPlaying}
+          onTogglePlay={handleTextToSpeech}
+        />
       )}
       
       {/* Did You Know fact card */}

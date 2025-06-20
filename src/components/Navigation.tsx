@@ -36,10 +36,11 @@ const Navigation = () => {
       <div className="max-w-7xl mx-auto flex justify-between items-center">
         <Link to="/" className="flex items-center space-x-2 relative z-10">
           <div className="relative">
-            <span className="text-2xl font-display font-bold">
-              <span className="text-tulu-blue">Yaan</span>
-              <span className="text-tulu-red">Barpe</span>
-            </span>
+            <img 
+              src="/lovable-uploads/2c6a2473-1e7e-4b9a-a58a-dab0023328d3.png" 
+              alt="YBee YaanBarpe" 
+              className="h-12 w-auto"
+            />
           </div>
         </Link>
         
