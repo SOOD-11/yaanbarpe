@@ -10,28 +10,27 @@ interface BlogImageProps {
 
 const BlogImage = ({ imageUrl, title }: BlogImageProps) => {
   const [isHovering, setIsHovering] = useState(false);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(true);
   
-  // Using a reliable video source
-  const videoSrc = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
+  // Simple working video URLs
+  const videoSources = [
+    "https://www.w3schools.com/html/mov_bbb.mp4",
+    "https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4"
+  ];
   
-  const togglePlay = async (e: React.MouseEvent) => {
+  const videoSrc = videoSources[0]; // Use the most reliable one
+  
+  const togglePlay = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     const video = e.currentTarget.parentElement?.querySelector('video') as HTMLVideoElement;
     if (video) {
-      try {
-        if (isPlaying) {
-          video.pause();
-        } else {
-          video.currentTime = 0;
-          await video.play();
-        }
-        setIsPlaying(!isPlaying);
-      } catch (error) {
-        console.log('Video play failed:', error);
+      if (isPlaying) {
+        video.pause();
+      } else {
+        video.play();
       }
+      setIsPlaying(!isPlaying);
     }
   };
   
@@ -56,20 +55,19 @@ const BlogImage = ({ imageUrl, title }: BlogImageProps) => {
       <div className="overflow-hidden bg-gray-900 min-h-96">
         <video 
           className="w-full h-auto object-cover transition-transform duration-300"
+          autoPlay
           muted
           loop
           playsInline
           controls={false}
-          poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='450'%3E%3Crect width='800' height='450' fill='%23374151'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.3em' fill='white' font-size='24'%3EVideo Loading...%3C/text%3E%3C/svg%3E"
-          onLoadedData={() => setIsLoaded(true)}
+          style={{ minHeight: '384px' }}
+          onLoadStart={() => console.log('Blog image video loading')}
           onCanPlay={() => console.log('Blog image video ready')}
           onError={(e) => console.log('Blog image video error:', e)}
-          style={{ minHeight: '384px' }}
+          onPlay={() => console.log('Blog image video playing')}
         >
           <source src={videoSrc} type="video/mp4" />
-          <div className="absolute inset-0 bg-gray-800 flex items-center justify-center text-white">
-            Your browser does not support the video tag.
-          </div>
+          <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4" />
         </video>
       </div>
       

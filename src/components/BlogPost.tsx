@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
@@ -39,22 +40,14 @@ export const BlogPost = ({
 }: BlogPostProps) => {
   const linkId = postId || id;
   
-  // Using a reliable video source
-  const videoSrc = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
+  // Simple video URLs that should work
+  const videoSources = [
+    "https://www.w3schools.com/html/mov_bbb.mp4",
+    "https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4",
+    "https://filesamples.com/samples/video/mp4/SampleVideo_1280x720_1mb.mp4"
+  ];
   
-  const handleVideoInteraction = (e: React.MouseEvent<HTMLVideoElement>, shouldPlay: boolean) => {
-    const video = e.currentTarget;
-    try {
-      if (shouldPlay) {
-        video.currentTime = 0;
-        video.play();
-      } else {
-        video.pause();
-      }
-    } catch (error) {
-      console.log('Video interaction failed:', error);
-    }
-  };
+  const videoSrc = videoSources[Math.floor(Math.random() * videoSources.length)];
   
   return (
     <motion.div
@@ -70,18 +63,18 @@ export const BlogPost = ({
       <div className="relative aspect-video overflow-hidden bg-gray-900">
         <video
           className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
+          autoPlay
           muted
           loop
           playsInline
           controls={false}
-          poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect width='400' height='300' fill='%23374151'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.3em' fill='white' font-size='16'%3EVideo Loading...%3C/text%3E%3C/svg%3E"
-          onMouseEnter={(e) => handleVideoInteraction(e, true)}
-          onMouseLeave={(e) => handleVideoInteraction(e, false)}
-          onLoadStart={() => console.log('Blog post video loading')}
-          onCanPlay={() => console.log('Blog post video ready to play')}
+          onLoadStart={() => console.log('Blog post video starting to load')}
+          onCanPlay={() => console.log('Blog post video can play')}
           onError={(e) => console.log('Blog post video error:', e)}
+          onPlay={() => console.log('Blog post video playing')}
         >
           <source src={videoSrc} type="video/mp4" />
+          <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4" />
           <div className="absolute inset-0 bg-gray-800 flex items-center justify-center text-white">
             Video not supported
           </div>

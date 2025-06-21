@@ -5,12 +5,12 @@ import { cn } from '@/lib/utils';
 import { toast } from '@/hooks/use-toast';
 import { addPoints, getUserPoints, getUserLevel } from '@/lib/gamification';
 
-// Updated posts with reliable video URLs
+// Updated posts with working video URLs
 const recentPosts = [
   {
     id: 1,
     title: "The Lost Coins of Vijayanagara: Archaeological Discoveries in Tulu Nadu",
-    video: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+    video: "https://www.w3schools.com/html/mov_bbb.mp4",
     date: "May 5, 2025",
     category: "History",
     pointValue: 5,
@@ -19,7 +19,7 @@ const recentPosts = [
   {
     id: 2,
     title: "Preserving Tulu Language: Digital Initiatives for Cultural Conservation",
-    video: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+    video: "https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4",
     date: "May 2, 2025",
     category: "Language & Culture",
     pointValue: 7,
@@ -28,7 +28,7 @@ const recentPosts = [
   {
     id: 3,
     title: "Environmental Conservation Efforts Along the Netravati River Basin",
-    video: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+    video: "https://www.w3schools.com/html/mov_bbb.mp4",
     date: "April 28, 2025",
     category: "Environment",
     pointValue: 6,
@@ -146,20 +146,18 @@ const RecentPosts = () => {
                     "w-full h-full object-cover transition-transform duration-500",
                     hoveredPost === post.id ? "scale-110" : "scale-100"
                   )}
+                  autoPlay
                   muted
                   loop
                   playsInline
                   controls={false}
-                  poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='192'%3E%3Crect width='400' height='192' fill='%23374151'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.3em' fill='white' font-size='14'%3ELoading...%3C/text%3E%3C/svg%3E"
-                  onMouseEnter={(e) => handleVideoInteraction(e, true)}
-                  onMouseLeave={(e) => handleVideoInteraction(e, false)}
+                  onLoadStart={() => console.log(`Recent post ${post.id} video loading`)}
                   onCanPlay={() => console.log(`Recent post ${post.id} video ready`)}
                   onError={(e) => console.log(`Recent post ${post.id} video error:`, e)}
+                  onPlay={() => console.log(`Recent post ${post.id} video playing`)}
                 >
                   <source src={post.video} type="video/mp4" />
-                  <div className="absolute inset-0 bg-gray-800 flex items-center justify-center text-white text-sm">
-                    Video not supported
-                  </div>
+                  <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4" />
                 </video>
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                 <div className="absolute top-4 left-4">
