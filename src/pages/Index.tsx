@@ -14,6 +14,9 @@ import Footer from '@/components/Footer';
 
 const Index = () => {
   useEffect(() => {
+    // Scroll to top when the page loads
+    window.scrollTo(0, 0);
+    
     // Initialize scroll reveal animation
     const observer = new IntersectionObserver(
       (entries) => {

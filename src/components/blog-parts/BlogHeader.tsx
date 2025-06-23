@@ -1,6 +1,5 @@
 
-import { Calendar, Headphones } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Calendar } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import React from 'react';
 
@@ -51,26 +50,6 @@ const BlogHeader = ({
           </div>
           <span>{author}</span>
         </div>
-        
-        {audioAvailable && (
-          <>
-            <span>•</span>
-            <Button 
-              variant="ghost" 
-              size="sm"
-              className={cn(
-                "flex items-center gap-1 h-8 px-3",
-                isAudioPlaying 
-                  ? "bg-[#00555A] text-white" 
-                  : "text-[#00555A] hover:text-[#00555A]/80 hover:bg-[#00555A]/10"
-              )}
-              onClick={onToggleAudio}
-            >
-              <Headphones className="w-4 h-4" />
-              <span>{isAudioPlaying ? "Pause" : "Listen"}</span>
-            </Button>
-          </>
-        )}
       </div>
     </div>
   );

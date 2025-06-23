@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Package } from '@/lib/packageData';
 import Navigation from '@/components/Navigation';
@@ -47,7 +46,7 @@ const EnhancedPackages = () => {
     <div className="min-h-screen flex flex-col">
       <Navigation />
       
-      <div className="bg-gradient-to-b from-tulu-sand/20 to-background flex-1">
+      <div className="bg-gradient-to-b from-tulu-sand/20 to-background flex-1 pt-20">
         <div className="container mx-auto py-8 px-4 md:px-6 lg:px-8">
           {/* Header */}
           <div className="text-center max-w-4xl mx-auto mb-8">
@@ -145,7 +144,6 @@ const EnhancedPackages = () => {
               </div>
 
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                {/* Main Content */}
                 <div className="lg:col-span-2 space-y-6">
                   <Card>
                     <div className="relative h-64 md:h-96 overflow-hidden rounded-t-lg">
@@ -204,12 +202,12 @@ const EnhancedPackages = () => {
                         </div>
                       </div>
 
-                      {/* Highlights */}
+                      {/* Experience Highlights */}
                       <div className="mb-6">
                         <h3 className="font-semibold mb-3 text-xl">Experience Highlights</h3>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div className="space-y-2">
                           {selectedPackage.highlights.map((highlight, index) => (
-                            <div key={index} className="flex items-start gap-2 p-3 bg-tulu-sand/10 rounded-lg">
+                            <div key={index} className="flex items-start gap-3 p-3 bg-tulu-sand/10 rounded-lg">
                               <Star className="w-5 h-5 text-tulu-gold mt-0.5 flex-shrink-0" />
                               <span className="text-sm font-medium">{highlight}</span>
                             </div>
@@ -234,7 +232,7 @@ const EnhancedPackages = () => {
                               <CardContent className="space-y-4">
                                 <div>
                                   <h4 className="font-medium mb-3 text-tulu-green">🎯 Activities</h4>
-                                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                                  <div className="space-y-2">
                                     {day.activities.map((activity, actIndex) => (
                                       <div key={actIndex} className="flex items-start gap-2 p-2 bg-green-50 rounded">
                                         <span className="text-tulu-blue font-bold">•</span>
@@ -245,7 +243,7 @@ const EnhancedPackages = () => {
                                 </div>
                                 <div>
                                   <h4 className="font-medium mb-3 text-tulu-green">🍽️ Meals</h4>
-                                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                                  <div className="space-y-2">
                                     {day.meals.map((meal, mealIndex) => (
                                       <div key={mealIndex} className="flex items-start gap-2 p-2 bg-orange-50 rounded">
                                         <span className="text-tulu-green font-bold">•</span>

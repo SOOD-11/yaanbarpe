@@ -20,7 +20,6 @@ const MusicStyleAudioPlayer = ({
   const [currentTime, setCurrentTime] = useState(0);
   const [totalTime, setTotalTime] = useState(0);
   const [volume, setVolume] = useState(80);
-  const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   // Calculate estimated reading time in seconds
@@ -34,7 +33,6 @@ const MusicStyleAudioPlayer = ({
 
   useEffect(() => {
     if (isPlaying) {
-      // Start progress tracking
       intervalRef.current = setInterval(() => {
         setCurrentTime(prev => {
           const newTime = prev + 1;
@@ -70,7 +68,6 @@ const MusicStyleAudioPlayer = ({
     setProgress(newProgress);
     setCurrentTime(newTime);
     
-    // If playing, restart from new position
     if (isPlaying) {
       window.speechSynthesis.cancel();
       onTogglePlay();
@@ -79,15 +76,22 @@ const MusicStyleAudioPlayer = ({
   };
 
   const handleSkipBack = () => {
-    const newTime = Math.max(currentTime - 10, 0);
+    const newTime = Math.max(currentTime - 15, 0);
     setCurrentTime(newTime);
     setProgress((newTime / totalTime) * 100);
   };
 
   const handleSkipForward = () => {
-    const newTime = Math.min(currentTime + 10, totalTime);
+    const newTime = Math.min(currentTime + 15, totalTime);
     setCurrentTime(newTime);
     setProgress((newTime / totalTime) * 100);
+  };
+
+  const handleVolumeChange = (event: React.MouseEvent<HTMLDivElement>) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    const clickX = event.clientX - rect.left;
+    const newVolume = (clickX / rect.width) * 100;
+    setVolume(Math.max(0, Math.min(100, newVolume)));
   };
 
   const formatTime = (seconds: number) => {
@@ -97,36 +101,17 @@ const MusicStyleAudioPlayer = ({
   };
 
   return (
-    <div className="mb-8 p-6 bg-gradient-to-br from-[#00555A]/5 to-[#CC4E5C]/5 rounded-xl border border-[#00555A]/10 shadow-lg">
-      <div className="flex items-center gap-2 mb-4">
-        <div className="w-2 h-2 bg-[#00555A] rounded-full animate-pulse"></div>
-        <span className="text-sm font-medium text-[#00555A]">Audio Article</span>
+    <div className="sticky top-20 z-40 mb-8 p-6 bg-white/95 backdrop-blur-sm rounded-xl border border-[#00555A]/20 shadow-lg">
+      <div className="flex items-center gap-3 mb-4">
+        <div className="w-3 h-3 bg-[#00555A] rounded-full animate-pulse"></div>
+        <span className="text-sm font-medium text-[#00555A]">🎧 Audio Article</span>
       </div>
       
-      <h4 className="font-semibold text-lg text-[#00555A] mb-4 line-clamp-1">{title}</h4>
+      <h4 className="font-semibold text-lg text-[#00555A] mb-6 line-clamp-2">{title}</h4>
       
-      {/* Progress Bar */}
-      <div 
-        className="h-3 bg-gray-200 rounded-full mb-4 cursor-pointer overflow-hidden"
-        onClick={handleSeek}
-      >
-        <div 
-          className="h-full bg-gradient-to-r from-[#00555A] to-[#CC4E5C] rounded-full transition-all duration-300 relative"
-          style={{ width: `${progress}%` }}
-        >
-          <div className="absolute right-0 top-1/2 transform -translate-y-1/2 w-3 h-3 bg-white rounded-full shadow-md"></div>
-        </div>
-      </div>
-      
-      {/* Time Display */}
-      <div className="flex justify-between text-xs text-muted-foreground mb-4">
-        <span>{formatTime(currentTime)}</span>
-        <span>{formatTime(totalTime)}</span>
-      </div>
-      
-      {/* Controls */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
+      {/* Main Controls */}
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center gap-4">
           <Button 
             variant="ghost" 
             size="icon" 
@@ -139,10 +124,10 @@ const MusicStyleAudioPlayer = ({
           <Button 
             variant="default" 
             size="icon" 
-            className="bg-[#00555A] hover:bg-[#CC4E5C] text-white w-12 h-12 rounded-full shadow-lg"
+            className="bg-[#00555A] hover:bg-[#CC4E5C] text-white w-14 h-14 rounded-full shadow-lg"
             onClick={onTogglePlay}
           >
-            {isPlaying ? <Pause className="h-6 w-6" /> : <Play className="h-6 w-6 ml-0.5" />}
+            {isPlaying ? <Pause className="h-7 w-7" /> : <Play className="h-7 w-7 ml-0.5" />}
           </Button>
           
           <Button 
@@ -155,20 +140,47 @@ const MusicStyleAudioPlayer = ({
           </Button>
         </div>
         
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
           <Volume2 className="h-4 w-4 text-muted-foreground" />
-          <div className="w-20 h-2 bg-gray-200 rounded-full">
+          <div 
+            className="w-24 h-2 bg-gray-200 rounded-full cursor-pointer"
+            onClick={handleVolumeChange}
+          >
             <div 
-              className="h-full bg-[#00555A] rounded-full"
+              className="h-full bg-[#00555A] rounded-full transition-all"
               style={{ width: `${volume}%` }}
             ></div>
           </div>
         </div>
       </div>
       
+      {/* Progress Bar */}
+      <div 
+        className="h-2 bg-gray-200 rounded-full mb-3 cursor-pointer overflow-hidden"
+        onClick={handleSeek}
+      >
+        <div 
+          className="h-full bg-gradient-to-r from-[#00555A] to-[#CC4E5C] rounded-full transition-all duration-300 relative"
+          style={{ width: `${progress}%` }}
+        >
+          <div className="absolute right-0 top-1/2 transform -translate-y-1/2 w-4 h-4 bg-white rounded-full shadow-md border-2 border-[#00555A]"></div>
+        </div>
+      </div>
+      
+      {/* Time Display */}
+      <div className="flex justify-between text-xs text-muted-foreground">
+        <span>{formatTime(currentTime)}</span>
+        <span>{formatTime(totalTime)}</span>
+      </div>
+      
       {isPlaying && (
-        <div className="mt-3 text-center">
-          <span className="text-sm text-[#00555A] animate-pulse">♪ Now Playing ♪</span>
+        <div className="mt-4 text-center">
+          <div className="flex items-center justify-center gap-2">
+            <div className="w-2 h-2 bg-[#00555A] rounded-full animate-bounce"></div>
+            <div className="w-2 h-2 bg-[#CC4E5C] rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+            <div className="w-2 h-2 bg-[#00555A] rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+            <span className="text-sm text-[#00555A] ml-2">Now Playing</span>
+          </div>
         </div>
       )}
     </div>

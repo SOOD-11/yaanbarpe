@@ -96,19 +96,19 @@ const Navigation = () => {
             Packages
           </Link>
           
+          <Button className="ml-4 bg-tulu-red hover:bg-tulu-blue transition-colors text-white" asChild>
+            <Link to="/booking">Book Experience</Link>
+          </Button>
+          
           <Link 
             to="/contact"
             className={cn(
-              "group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors focus:outline-none",
+              "group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors focus:outline-none ml-2",
               isActive('/contact') ? "bg-tulu-blue/10 text-tulu-blue" : "text-foreground hover:bg-accent hover:text-accent-foreground"
             )}
           >
             Contact
           </Link>
-          
-          <Button className="ml-4 bg-tulu-red hover:bg-tulu-blue transition-colors text-white" asChild>
-            <Link to="/booking">Book Experience</Link>
-          </Button>
         </div>
         
         {/* Mobile Navigation Toggle */}
@@ -160,6 +160,11 @@ const Navigation = () => {
             >
               Packages
             </Link>
+            
+            <Button className="bg-tulu-red hover:bg-tulu-blue transition-colors text-white mt-4 py-6 text-lg" asChild>
+              <Link to="/booking" onClick={() => setMobileMenuOpen(false)}>Book Experience</Link>
+            </Button>
+            
             <Link 
               to="/contact"
               className="text-2xl font-display font-medium py-3 border-b border-border/30 hover:text-tulu-blue transition-colors"
@@ -167,10 +172,6 @@ const Navigation = () => {
             >
               Contact
             </Link>
-            
-            <Button className="bg-tulu-red hover:bg-tulu-blue transition-colors text-white mt-4 py-6 text-lg" asChild>
-              <Link to="/booking" onClick={() => setMobileMenuOpen(false)}>Book Experience</Link>
-            </Button>
           </div>
         </div>
       )}
