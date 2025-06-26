@@ -2,11 +2,12 @@ export interface BlogPost {
   id: string;
   title: string;
   excerpt: string;
-  content: string;
+  contentParts: string [];
+  video:string,
   author: string;
   date: string;
   readTime: string;
-  image: string;
+  image?: string[];
   tags: string[];
   category: string;
   audioAvailable?: boolean;
@@ -16,197 +17,365 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
-    id: 'tulu-coastal-heritage',
-    title: 'The Magnificent Coastal Heritage of Tulu Nadu',
+    id: 'Polali-RajaRajeshwari-Temple',
+    title: 'Polali RajaRajeshwari Temple',
     excerpt: 'Discover the pristine beaches, ancient temples, and rich maritime traditions that define the coastal beauty of Tulu Nadu.',
-    content: `
-      <h2>The Coastal Splendor of Tulu Nadu</h2>
-      <p>The coastline of Tulu Nadu stretches magnificently along the Arabian Sea, offering a unique blend of natural beauty and cultural heritage. From the pristine beaches of Malpe to the historic shores of Ullal, every stretch tells a story of maritime traditions, fishing communities, and ancient trade routes.</p>
-      
-      <h3>St. Mary's Islands - A Geological Wonder</h3>
-      <p>Located off the coast of Malpe, St. Mary's Islands are a geological marvel featuring unique hexagonal basalt rock formations. These islands, also known as Coconut Island, are believed to have been formed by volcanic activity millions of years ago. The crystal-clear waters and the distinctive rock formations make it a paradise for nature lovers and geology enthusiasts.</p>
-      
-      <h3>The Fishing Heritage</h3>
-      <p>The traditional fishing communities of Tulu Nadu have preserved their ancient practices for generations. The sight of colorful fishing boats returning with their catch at dawn, the rhythmic chants of fishermen pulling their nets, and the bustling fish markets create an authentic coastal experience that connects visitors to the region's maritime soul.</p>
-      
-      <h3>Temple Towns by the Sea</h3>
-      <p>The coastal region is dotted with ancient temples that have withstood the test of time and sea breeze. The Anantheshwara Temple in Udupi, with its unique architecture and spiritual significance, stands as a testament to the region's religious heritage. These temples serve as cultural anchors, hosting festivals that bring communities together in celebration of their shared traditions.</p>
-      
-      <h3>Culinary Treasures</h3>
-      <p>The coastal cuisine of Tulu Nadu is a delightful fusion of fresh seafood, coconut, and aromatic spices. From the famous Mangalore fish curry to the delicate Kane fish preparations, every dish tells a story of the sea. The traditional cooking methods, passed down through generations, create flavors that are both unique and deeply satisfying.</p>
-    `,
+ contentParts : [
+      `
+      <section class="space-y-4">
+        <h2 class="text-3xl font-bold text-[#00555A]">Introduction</h2>
+        <p class="text-gray-700 text-lg leading-relaxed">
+          <strong>Polali Rajarajeshwari Temple</strong> is located in <strong>Polali, Dakshina Kannada district</strong>, Karnataka.
+          The temple’s presiding deity is <strong>Shri Rajarajeshwari</strong>. Originally constructed by <strong>King Suratha</strong>,
+          it has since been developed by various dynasties. The temple dates back to the <strong>8th century</strong>,
+          with the <strong>clay idol</strong> believed to be even older.
+        </p>
+      </section>
+      `,
+    
+      `
+      <section class="space-y-4">
+        <h3 class="text-2xl font-semibold text-[#7A3E3E]">History of Polali Rajarajeshwari</h3>
+        <p class="text-gray-700 text-lg leading-relaxed">
+          The idol of <strong>Sri Rajarajeshwari</strong>—another form of the divine <strong>Goddess Sri Lalita Tripurasundari</strong>—is
+          entirely made from <strong>special medicinal clay</strong>.
+          <strong>Chinese Buddhist monk Fa-Hien</strong>, who visited India in the <strong>6th century</strong>,
+          wrote about this powerful idol, claiming he hadn’t seen such divine power elsewhere in Hindustan.
+          The temple boasts classic <strong>Hindu architecture</strong>, featuring <strong>intricately carved wooden roofs</strong> and <strong>copper plates</strong>.
+        </p>
+        <p class="text-gray-700 text-lg leading-relaxed">
+          The area was known as <em><strong>Pural</strong></em> in ancient times, which means <strong>“Flute”</strong> in the <strong>Tulu language</strong>.
+          In <strong>Mugera</strong> language, "Pural" or "Purel" can also imply <strong>“changing sides”</strong>—perhaps referencing how the nearby
+          river <strong>sharply turns near the temple</strong>.
+        </p>
+      </section>
+      `,
+    
+      `
+      <section class="space-y-4">
+        <h3 class="text-2xl font-semibold text-[#7A3E3E]">Cultural Festival: Chendu</h3>
+        <p class="text-gray-700 text-lg leading-relaxed">
+          The <strong>Polali Chendu</strong> festival—popularly known as the <em><strong>Football Festival</strong></em>—is a vibrant <strong>five-day event</strong>
+          held <strong>seven days before</strong> the temple’s <strong>Avabritha celebration</strong>.
+          A <strong>handmade leather ball</strong> is crafted by a <strong>cobbler family in Mijar</strong> and ceremonially delivered by an
+          <strong>oil miller family from Kadapu Karia</strong>.
+        </p>
+        <p class="text-gray-700 text-lg leading-relaxed">
+          On the first evening, the <strong>ball and a palm-leaf umbrella</strong> are offered at the <strong>gopuram</strong> of the temple.
+          After divine blessings, the ball is taken to the field to commence the game, symbolizing the <strong>eternal battle of good vs. evil</strong>.
+        </p>
+        <p class="text-gray-700 text-lg leading-relaxed">
+          Villages <strong>Ammunje</strong> and <strong>Manel</strong> compete as rivals, with <strong>Bollur</strong> and <strong>Mallur</strong> supporting them.
+          Up to <strong>500 participants</strong> may join, making this not just a sport but a <strong>cultural ritual</strong>.
+          The concluding <strong>car festival</strong> celebrates the <strong>triumph of good over evil</strong>.
+        </p>
+      </section>
+      `
+    ],
     author: 'Cultural Heritage Team',
     date: '2024-12-01',
     readTime: '8 min read',
-    image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800',
+    image: ['/blog-images/polaliBlog/5E870245-F792-43F9-97CE-577C38E9B14D.jpeg',
+     '/blog-images/polaliBlog/44C505A0-0235-481B-BF16-DC6160A1F23B_1_105_c.jpeg'
+    ],
+    video:"https://res.cloudinary.com/dxjszh5rz/video/upload/v1749818110/user_images/ekgagu3teloryil5l5lu.mp4",
     tags: ['Coastal Heritage', 'St. Mary\'s Islands', 'Fishing Culture', 'Temples'],
     category: 'Heritage',
     audioAvailable: true
   },
   {
-    id: 'yakshagana-art-form',
-    title: 'Yakshagana: The Mesmerizing Dance-Drama of Tulu Nadu',
+    id: 'Pilivesha',
+    title: 'Pilivesha',
     excerpt: 'Journey into the captivating world of Yakshagana, where ancient stories come alive through vibrant costumes, rhythmic music, and powerful performances.',
-    content: `
-      <h2>The Enchanting World of Yakshagana</h2>
-      <p>Under the starlit skies of coastal Karnataka, a magical transformation takes place. As the sun sets and darkness embraces the earth, the ancient art of Yakshagana awakens, bringing mythological tales to life through a spectacular fusion of dance, drama, music, and visual artistry. This is not merely a performance—it's a spiritual journey that connects the earthly realm with divine stories.</p>
-      
-      <h3>The Sacred Origins</h3>
-      <p>Born in the fertile cultural landscape of Tulu Nadu over eight centuries ago, Yakshagana emerged from the devotional fervor of temple rituals and folk traditions. The very name 'Yakshagana' translates to 'songs of the celestials,' reflecting its divine inspiration. Legend speaks of how this art form was blessed by the gods themselves, making every performance a sacred offering to the divine forces that govern human destiny.</p>
-      
-      <h3>The Transformation Ritual</h3>
-      <p>Witnessing a Yakshagana artist's transformation is like watching magic unfold. Hours before the performance, the process begins in humble green rooms where ordinary men become gods, demons, and heroes. The elaborate makeup, called 'Chutti,' is an art form in itself. Natural pigments create intricate patterns that transform faces into divine visages. Red symbolizes valor and passion, black represents evil and mystery, while white embodies purity and wisdom.</p>
-      
-      <h3>The Language of Movement</h3>
-      <p>Every gesture in Yakshagana tells a story. The 'Mudras' (hand gestures) speak a language older than words, where a slight movement of the fingers can convey love, anger, or divine blessing. The dancers' feet beat complex rhythms on the earth, creating a conversation between the performer and the cosmic forces. The swirling of elaborate costumes mimics the dance of celestial beings, while the ornate headgear catches moonlight and torchlight, creating an otherworldly spectacle.</p>
-      
-      <h3>The Musical Soul</h3>
-      <p>The heartbeat of Yakshagana lies in its music. The 'Chenda' drums thunder like divine announcement, while the 'Jagave' tambourines shimmer like stars in the night sky. The 'Harmonium' weaves melodies that can make stones weep, and the conch shell's call connects earth to heaven. Each musical phrase guides the dancers through emotional landscapes—from the gentle love songs of Radha and Krishna to the thunderous war cries of the Mahabharata.</p>
-      
-      <h3>Stories That Never Age</h3>
-      <p>Yakshagana breathes life into the great epics—the Ramayana, Mahabharata, and Puranas. But these are not mere retellings. Each performance becomes a fresh interpretation, where ancient wisdom meets contemporary understanding. The audience doesn't just watch; they participate, cheering heroes, booing villains, and sometimes even engaging in dialogue with the characters. This interactive element makes each performance unique and alive.</p>
-      
-      <h3>The Night-Long Journey</h3>
-      <p>Traditional Yakshagana performances are marathon spiritual journeys that begin at sunset and conclude at dawn. As the night deepens, the stories unfold layer by layer, taking the audience through a complete emotional and spiritual cycle. The performers, sustained by devotion and artistic passion, maintain their energy through the entire night, creating an experience that transcends ordinary entertainment.</p>
-      
-      <h3>Masters and Disciples</h3>
-      <p>The art of Yakshagana is passed down through generations in the sacred tradition of Guru-Shishya Parampara. Master artists, some now legendary figures, have dedicated their entire lives to preserving and refining this art form. Names like Keremane Shivarama Hegde, Sheni Gopalakrishna, and Patla Sathish Shetty are revered like deities in the Yakshagana world.</p>
-      
-      <h3>Modern Renaissance</h3>
-      <p>Today, Yakshagana stands at an exciting crossroads. While maintaining its traditional essence, the art form embraces innovation. Modern lighting enhances the visual spectacle, contemporary themes find expression through ancient techniques, and international stages welcome this coastal Karnataka treasure. Young artists bring fresh energy while respecting age-old traditions.</p>
-      
-      <h3>A Living Heritage</h3>
-      <p>Yakshagana is more than performance art—it's a living library of human emotions, spiritual wisdom, and cultural identity. In every village where it's performed, in every temple where it's celebrated, and in every heart it touches, Yakshagana continues its eternal dance, proving that some traditions are truly timeless.</p>
-    `,
+    image: ['/blog-images/PiliveshaBlog/DF61DBA2-3A60-43A9-84AC-3BC20A7C392C.jpeg',
+      '/blog-images/PiliveshaBlog/878BAE8C-7BC8-49E4-BA86-BE124688A892.jpeg'
+     ],
+ contentParts : [
+      `
+      <section class="space-y-4">
+        <h2 class="text-3xl font-bold text-[#00555A]">Introduction</h2>
+        <p class="text-gray-700 text-lg leading-relaxed">
+          <strong>Pilivesha</strong>, or <strong>Hulivesha</strong>, is a vibrant <strong>folk dance</strong> tradition from <strong>Tulunadu</strong>,
+          celebrated during <strong>religious and festive occasions</strong>. Performers, painted in vivid colors
+          and adorned like <strong>tigers</strong>, dance with intense energy to the beats of the <strong>Thase</strong> (a percussion instrument).
+          The tradition transcends <strong>age, gender, and religion</strong>, symbolizing <strong>life</strong>, <strong>cultural identity</strong>, and <strong>inclusivity</strong>.
+        </p>
+        <p class="text-gray-700 text-lg leading-relaxed">
+          The name <strong>'Pilivesha'</strong> is derived from the <strong>Tulu language</strong>—<strong>'Pili'</strong> means <em>Tiger</em> and <strong>'Vesha'</strong>
+          refers to <em>costume</em> or <em>makeup</em>. Thus, Pilivesha is the <strong>art of impersonating a tiger</strong> through costume and movement.
+          However, it is more than impersonation—it's a deeply expressive <strong>dance performance</strong>.
+        </p>
+      </section>
+      `,
+    
+      `
+      <section class="space-y-4">
+        <h3 class="text-2xl font-semibold text-[#7A3E3E]">History of Pilivesha</h3>
+        <p class="text-gray-700 text-lg leading-relaxed">
+          The exact <strong>historical origins</strong> of Pilivesha in <strong>Tulunadu</strong> are unclear, but its roots are tied to the
+          <strong>well-being</strong> of the community. It holds <strong>ritualistic significance</strong>, often beginning with a spiritual
+          initiation called <strong>Udu Pooje</strong>. Some dancers are believed to become <strong>possessed</strong> by the spirit of the tiger.
+        </p>
+        <p class="text-gray-700 text-lg leading-relaxed">
+          Participants follow strict <strong>ritual purity</strong> norms, refraining from <strong>meat and alcohol</strong>. Scholars suggest
+          that Pilivesha may have evolved from agrarian efforts to <strong>coexist with wild tigers</strong>, which once
+          posed real threats to livestock and villagers. These tigers, like other <strong>Bhutas</strong> (spirit deities),
+          were likely worshipped for <strong>protection</strong>.
+        </p>
+      </section>
+      `,
+    
+      `
+      <section class="space-y-4">
+        <h3 class="text-2xl font-semibold text-[#7A3E3E]">Variation in Udupi and Mangalore Style of Pilivesha</h3>
+        <p class="text-gray-700 text-lg leading-relaxed">
+          Pilivesha has diverged into two prominent styles across Tulunadu:
+          <strong>Udupi Style</strong> and <strong>Mangalore Style</strong>.
+        </p>
+        <ul class="list-disc list-inside text-gray-700 text-lg space-y-1">
+          <li><strong>Udupi Style</strong>: Performed during <strong>Krishna Janmashtami</strong> and <strong>Ganesh Chaturthi</strong>. Dancers are adorned with <strong>sheep wool</strong> before painting.</li>
+          <li><strong>Mangalore Style</strong>: Featured in <strong>Dasara/Navaratri</strong>. Performers <strong>shave all body hair</strong> before painting.</li>
+          <li>Both styles involve <strong>Ram Dhol</strong> and <strong>Thrase instruments</strong> and unique <strong>headgear variations</strong>.</li>
+        </ul>
+        <p class="text-gray-700 text-lg leading-relaxed">
+          While Udupi’s tradition is closely tied to the <strong>Krishna Matha</strong>, Mangalore's version is seen more in
+          <strong>Devi temples</strong> during Dasara.
+        </p>
+      </section>
+      `,
+    
+      `
+      <section class="space-y-4">
+        <h2 class="text-3xl font-bold text-[#00555A]">Key Features of Pilivesha</h2>
+        <ul class="list-disc list-inside text-gray-700 text-lg space-y-1">
+          <li><strong>Tiger-themed Performances</strong>: Dancers are painted as <strong>tigers</strong>, often with one portraying a <strong>hunter</strong>.</li>
+          <li><strong>Distinctive Dance Steps</strong>: Synchronized with <strong>percussion rhythms</strong>; a defining element of the performance.</li>
+          <li><strong>Inclusion of Hunter</strong>: A performer with a toy gun, <strong>paid separately</strong>, adds dramatic flair.</li>
+          <li><strong>Musical Accompaniment</strong>: Live music with <strong>traditional percussion instruments</strong>.</li>
+          <li><strong>Competitions and Innovation</strong>: New-age troupes include <strong>stunts</strong> and elements from other dance forms.</li>
+          <li><strong>Choreographed Performances</strong>: Requires <strong>rigorous practice</strong> and often judged in <strong>formal contests</strong>.</li>
+          <li><strong>Local Funding</strong>: Local committees sponsor performances by covering <strong>costumes, paint, travel, and food</strong>.</li>
+          <li><strong>Cultural Significance</strong>: Performed during <strong>Navratri</strong> and <strong>Krishna Janmashtami</strong> to honor <strong>Goddess Durga</strong>.</li>
+        </ul>
+        <p class="text-gray-700 text-lg leading-relaxed">
+          Pilivesha is not just a performance—it's a <strong>visceral experience</strong>. To witness its intensity and grace is
+          to truly understand the <strong>essence of Tulunadu's culture</strong>.
+        </p>
+      </section>
+      `
+    ],
+    video:"https://res.cloudinary.com/dxjszh5rz/video/upload/v1750919085/My_Movie_5_y9tumd.mp4",
     author: 'Dr. Prasanna Kumar, Yakshagana Scholar',
     date: '2024-11-28',
     readTime: '12 min read',
-    image: 'https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?w=800',
+  
     tags: ['Yakshagana', 'Traditional Arts', 'Cultural Heritage', 'Dance Drama', 'Coastal Karnataka'],
     category: 'Arts',
     audioAvailable: true
   },
   {
-    id: 'tulu-language-script',
+    id: 'Kambala',
     title: 'The Ancient Tulu Language and Its Rich Literary Heritage',
     excerpt: 'Delve into the fascinating world of the Tulu language, its unique script, and the literary treasures that have been preserved through centuries.',
-    content: `
-      <h2>Tulu: A Language of Ancient Wisdom</h2>
-      <p>The Tulu language, spoken by over 2 million people primarily in the coastal districts of Karnataka and northern Kerala, is one of the oldest Dravidian languages with a rich literary heritage spanning over a millennium. Despite being primarily oral for much of its history, Tulu has a sophisticated structure and a wealth of literature that reflects the wisdom and creativity of its speakers.</p>
-      
-      <h3>The Tigalari Script</h3>
-      <p>Tulu was traditionally written in the Tigalari script, which is closely related to the Malayalam script. This ancient script has been used to preserve numerous literary works, including the famous 'Siri Paddana' and other oral epics. The script's unique characteristics make it perfectly suited for capturing the nuances of Tulu pronunciation and rhythm.</p>
-      
-      <h3>Oral Traditions and Epics</h3>
-      <p>The oral tradition of Tulu is extraordinarily rich, with numerous paddanas (epic ballads) that narrate heroic tales, spiritual journeys, and community histories. The 'Siri Paddana,' considered one of the longest epic poems in any language, tells the story of Siri, a folk deity, and spans several volumes when transcribed. These oral epics are performed during religious festivals and community gatherings, keeping the tradition alive.</p>
-      
-      <h3>Modern Revival</h3>
-      <p>In recent decades, there has been a renewed interest in Tulu language and literature. Scholars, writers, and cultural activists are working to document oral traditions, create new literary works, and develop educational materials. The advent of digital technology has opened new possibilities for preserving and promoting Tulu culture.</p>
-      
-      <h3>Cultural Significance</h3>
-      <p>Tulu is not just a means of communication; it's a repository of cultural knowledge, traditional wisdom, and community values. Proverbs, folk songs, and storytelling traditions in Tulu carry deep insights into the philosophy and worldview of the Tulu people, making language preservation crucial for cultural continuity.</p>
-    `,
+  contentParts : [
+      `
+      <section class="space-y-4">
+        <h2 class="text-3xl font-bold text-[#00555A]">Introduction</h2>
+        <p class="text-gray-700 text-lg leading-relaxed">
+          <strong>Tulunadu</strong> is renowned for its <strong>rich culture and spirituality</strong>, and one of its most iconic traditions is <strong>Kambala</strong>.
+          This <strong>mud-track buffalo race</strong> is held annually from <strong>November to March</strong>, where pairs of buffaloes are raced across
+          a muddy paddy field.
+        </p>
+        <p class="text-gray-700 text-lg leading-relaxed">
+          The word <strong>Kambala</strong> is believed to be derived from <strong>"Kampa"</strong> (mud) and <strong>"Kala"</strong> (large area), essentially meaning
+          a <strong>large muddy agricultural field</strong>. Originating in the <strong>15th century</strong>, Kambala began as a <strong>ritualistic tradition</strong>
+          among <strong>feudal agricultural communities</strong> of Tulunadu. It was historically organized by <strong>feudal lords</strong>, particularly
+          from the <strong>Bunt</strong> and <strong>Jain</strong> communities.
+        </p>
+      </section>
+      `,
+    
+      `
+      <section class="space-y-4">
+        <h3 class="text-2xl font-semibold text-[#7A3E3E]">Categories in Kambala</h3>
+        <p class="text-gray-700 text-lg leading-relaxed">
+          Kambala races are classified not only by <strong>traditional vs competitive</strong> types, but also by the <strong>gear used</strong> to
+          tie the buffaloes. Here are the key categories:
+        </p>
+        <ul class="list-disc list-inside text-gray-700 text-lg space-y-1">
+          <li><strong>Noda Kambala</strong>: A casual, less competitive form of Kambala.</li>
+          <li><strong>Negilu Ota (Plough)</strong>: A <strong>light plough</strong> is tied to the buffaloes; the jockey must control the plough while running.</li>
+          <li><strong>Hagga Ota (Rope Race)</strong>: Buffaloes are tied with a <strong>rope</strong> and the rider follows behind. Typically used with experienced buffaloes.</li>
+          <li><strong>Adda Halage (Wooden Plank)</strong>: The jockey stands on a <strong>wooden plank</strong> dragged by the buffaloes. This is generally for <strong>senior buffaloes</strong>.</li>
+          <li><strong>Kene Halage (Slippery Track)</strong>: A variant held on a <strong>particularly slippery mud track</strong>.</li>
+        </ul>
+      </section>
+      `,
+    
+      `
+      <section class="space-y-4">
+        <h3 class="text-2xl font-semibold text-[#7A3E3E]">Human Relationship with the Buffaloes</h3>
+        <p class="text-gray-700 text-lg leading-relaxed">
+          As <strong>Kambala</strong> expanded beyond its traditional months into <strong>March and April</strong>, more attention was paid to <strong>buffalo well-being</strong>,
+          including <strong>hydration</strong> and <strong>cooling</strong>. The racing buffaloes—usually <strong>uncastrated males</strong>—can grow aggressive with age,
+          especially toward <strong>strangers</strong>. However, they recognize and remain <strong>gentle</strong> with their caretakers.
+        </p>
+        <p class="text-gray-700 text-lg leading-relaxed">
+          Some buffaloes are exceptionally <strong>friendly and sociable</strong>, reflecting a <strong>diverse range of temperaments</strong>. This
+          powerful bond between humans and animals goes beyond physical care—it's shaped by <strong>emotional and psychological understanding</strong>,
+          essential for both <strong>health</strong> and <strong>performance</strong> in the <strong>competitive arena</strong> of Kambala.
+        </p>
+      </section>
+      `,
+    
+      `
+      <section class="space-y-4">
+        <h3 class="text-2xl font-semibold text-[#7A3E3E]">Conclusion</h3>
+        <p class="text-gray-700 text-lg leading-relaxed">
+          <strong>Kambala</strong>, though once <strong>banned in 2014</strong> due to animal welfare concerns, was <strong>legalized again in 2017</strong>.
+          In <strong>May 2023</strong>, the <strong>Supreme Court</strong> upheld its legality, recognizing it as a <strong>traditional folk sport</strong>
+          akin to <strong>Jallikattu</strong> and <strong>Bull Cart Races</strong>.
+        </p>
+        <p class="text-gray-700 text-lg leading-relaxed">
+          Kambala is more than a sport—it is the <strong>heartbeat of Tulunadu</strong>. It unites <strong>people, heritage, and buffaloes</strong>
+          in a spectacular celebration of <strong>resilience</strong>, <strong>unity</strong>, and <strong>tradition</strong>. It mirrors a cultural pride that cannot
+          be fully understood without experiencing the passion and community spirit that drive this ancient ritual.
+        </p>
+      </section>
+      `
+    ],
+    video:"https://res.cloudinary.com/dxjszh5rz/video/upload/v1750919955/My_Movie_5_y9fmzl.mp4",
     author: 'Linguistics Research Team',
     date: '2024-11-25',
     readTime: '7 min read',
-    image: 'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=800',
+    image: ['/blog-images/KambalaBlog/74AEE4DD-DB08-4C91-A15A-7951EF144B6F.jpeg','/blog-images/KambalaBlog/09D2B9C5-6FDD-44FB-B32B-21973E66E93C.jpeg','/blog-images/KambalaBlog/6FBE17E1-2092-431F-AAC9-454DD1BFCF4F.jpeg'
+     ],
     tags: ['Tulu Language', 'Tigalari Script', 'Literature', 'Oral Traditions'],
     category: 'Language',
     audioAvailable: false
   },
   {
     id: 'udupi-krishna-temple',
-    title: 'Sri Krishna Matha Udupi: The Spiritual Heart of Tulu Nadu',
+    title: 'Kadri & the Nath Panth',
+video:"https://res.cloudinary.com/dxjszh5rz/video/upload/v1750919529/My_Movie_5_em2pdc.mp4",
     excerpt: 'Journey through the sacred halls of the Sri Krishna Matha in Udupi, a temple that has been the center of devotion and learning for over 700 years.',
-    content: `
-      <h2>The Divine Legacy of Sri Krishna Matha</h2>
-      <p>Founded by the great philosopher-saint Madhvacharya in the 13th century, the Sri Krishna Matha in Udupi stands as one of the most significant spiritual and cultural centers of South India. This ancient temple complex is not just a place of worship but a living institution that has preserved and propagated the Dvaita philosophy and Udupi traditions for over seven centuries.</p>
-      
-      <h3>The Sacred Architecture</h3>
-      <p>The temple's unique architecture reflects the traditional South Indian style with distinct local influences. The silver-plated entrance door, the intricately carved pillars, and the sacred pond create an atmosphere of divine serenity. The temple's layout follows ancient Vastu principles, creating a harmonious space that facilitates spiritual contemplation and community gathering.</p>
-      
-      <h3>The Paryaya Tradition</h3>
-      <p>One of the most unique aspects of Sri Krishna Matha is the Paryaya system, where the administration of the temple rotates among eight different Mathas (monasteries) every two years. This ancient democratic system ensures that the temple's spiritual and administrative responsibilities are shared, maintaining a balance of power and preserving diverse traditions within the Madhva sampradaya.</p>
-      
-      <h3>Center of Learning</h3>
-      <p>Throughout its history, the Matha has been a center of learning, attracting scholars and students from across India. The temple complex houses libraries containing rare manuscripts, philosophical treatises, and religious texts. The tradition of scholarly debates and spiritual discourses continues to this day, making it a living university of ancient wisdom.</p>
-      
-      <h3>Cultural Festivals</h3>
-      <p>The temple hosts numerous festivals throughout the year, each with its own significance and traditions. The Krishna Janmashtami celebrations, the Paryaya festival, and the daily rituals create a continuous cycle of spiritual activities that bind the community together in devotion and celebration.</p>
-      
-      <h3>The Divine Cuisine</h3>
-      <p>The temple is also famous for its prasadam (sacred food offerings) and the traditional Udupi cuisine that originated in the temple kitchens. The pure vegetarian cooking style, the use of traditional recipes, and the emphasis on sattvic (pure) ingredients have made Udupi cuisine famous worldwide.</p>
-    `,
+  contentParts :[
+      `
+      <section class="space-y-4">
+        <h2 class="text-3xl font-bold text-[#5B3C88]">The Nath Panth</h2>
+        <p class="text-gray-700 text-lg leading-relaxed">
+          The <strong>Natha cult</strong> represents a unique fusion of <strong>Buddhist Avalokiteshvara</strong> and <strong>Shaivaite tantric</strong> traditions,
+          particularly the <strong>Kapalika</strong> and <strong>Kaula</strong> sects. 
+          <strong>Macchendra Nath</strong> and his disciple <strong>Gorakh Nath</strong> were key figures who propagated the Nath philosophy.
+        </p>
+        <p class="text-gray-700 text-lg leading-relaxed">
+          During the <strong>8th to 10th centuries</strong>, the Nath cult spread across <strong>India</strong> and <strong>Sri Lanka</strong>. Over time, it evolved into 
+          <strong>twelve distinct sub-sects</strong>, known as the <strong>“Bara-pantha”</strong>. 
+          <strong>Natha Yogis</strong> were known for their long-distance spiritual pilgrimages by foot.
+        </p>
+        <p class="text-gray-700 text-lg leading-relaxed">
+          The influence of the Nath cult is visible in major <strong>Shaiva centres</strong> like <strong>Srishaila</strong>. The term <strong>“Natha”</strong> is a shortened form of 
+          <strong>“Lokeswara Natha”</strong>, as per <strong>Buddhist literature from Sri Lanka</strong>, showing its syncretic nature.
+        </p>
+      </section>
+      `,
+    
+      `
+      <section class="space-y-4">
+        <h3 class="text-2xl font-semibold text-[#3A6B70]">Kadri</h3>
+        <p class="text-gray-700 text-lg leading-relaxed">
+          It is believed that <strong>Matsyendranath</strong> stayed and worshipped at <strong>Kadri</strong>, the location of the famous <strong>Kadri Manjunatha Temple</strong>.
+          There, he established a <strong>Lingam</strong> (symbol of Lord Shiva) and began worship in the name of <strong>“Manjunatha”</strong>.
+        </p>
+        <p class="text-gray-700 text-lg leading-relaxed">
+          <strong>Macchendra Natha</strong> gained the <strong>patronage of local rulers</strong>, who granted him <strong>administrative authority</strong> over the lands
+          surrounding the temple and honored him with the title <strong>“Kadri Arasaru”</strong>.
+        </p>
+        <p class="text-gray-700 text-lg leading-relaxed">
+          In a spiritually significant event, <strong>Gorakshnath</strong> is believed to have <strong>merged with the lingam</strong> of <strong>Lord Manjunatha</strong> at Kadri,
+          symbolizing his union with the divine. This transformed <strong>Kadri</strong> into a revered pilgrimage site for followers of the 
+          <strong>Nath Sampradaya</strong>.
+        </p>
+      </section>
+      `
+    ],
     author: 'Temple Heritage Documentation',
     date: '2024-11-22',
     readTime: '9 min read',
-    image: 'https://images.unsplash.com/photo-1466442929976-97f336a657be?w=800',
+    image: ['blog-images/kadriBlog/D7FB2855-3E57-4AF4-9578-3CA02246CA30.jpeg',
+      '/blog-images/kadriBlog/4521FDE7-786D-4FF2-8961-8818C04D55F8.jpeg',
+      '/blog-images/kadriBlog/4F076B9F-1EF8-4C18-8404-76250C9ADD73_4_5005_c.jpeg'
+     ],
     tags: ['Udupi Temple', 'Madhvacharya', 'Spiritual Heritage', 'Architecture'],
     category: 'Spirituality',
     audioAvailable: true
   },
   {
     id: 'mangalore-spice-gardens',
-    title: 'The Aromatic Spice Gardens of Mangalore: A Sensory Journey',
+    title: 'Neer Dosa',
     excerpt: 'Explore the fragrant spice plantations around Mangalore that have made this region the spice capital of the western coast.',
-    content: `
-      <h2>Mangalore: The Spice Capital of the Coast</h2>
-      <p>The hills surrounding Mangalore are home to some of India's most productive spice plantations, where cardamom, pepper, cinnamon, and nutmeg grow in abundance. These aromatic gardens have been the source of prosperity for the region for centuries, attracting traders from around the world and establishing Mangalore as a major spice trading hub.</p>
-      
-      <h3>The Geography of Flavor</h3>
-      <p>The Western Ghats' unique climate, with its heavy monsoons and tropical temperatures, creates the perfect conditions for spice cultivation. The well-drained slopes, rich soil, and consistent rainfall patterns allow for the cultivation of premium quality spices that are sought after in international markets.</p>
-      
-      <h3>Traditional Cultivation Methods</h3>
-      <p>Local farmers have perfected traditional cultivation techniques passed down through generations. The intercropping system, where different spices are grown together, not only maximizes land use but also creates natural pest control systems. The shade-grown methods used for cardamom and the careful processing techniques for pepper ensure the highest quality produce.</p>
-      
-      <h3>The Spice Market Heritage</h3>
-      <p>Mangalore's spice markets are vibrant centers of commerce where the air is thick with aromatic fragrances. The traditional weighing methods, the art of spice blending, and the expertise of local traders create an authentic market experience that connects visitors to centuries-old trading traditions.</p>
-      
-      <h3>Culinary Impact</h3>
-      <p>The abundance of fresh spices has profoundly influenced the local cuisine. Mangalorean dishes are known for their complex spice blends, creating flavors that are both bold and balanced. The traditional methods of roasting and grinding spices just before cooking ensure maximum flavor and aroma in every dish.</p>
-      
-      <h3>Modern Sustainability</h3>
-      <p>Today's spice farmers are embracing sustainable practices, organic cultivation methods, and fair trade principles. These initiatives ensure that the spice gardens continue to thrive while preserving the environment and supporting local communities.</p>
-    `,
+     contentParts : [
+      `
+      <section class="space-y-4">
+        <h2 class="text-3xl font-bold text-[#2F4F4F]">Introduction</h2>
+        <p class="text-gray-800 text-lg leading-relaxed">
+          The birthplace of <strong>Neer Dosa</strong> lies in the heart of the <strong>Tulu-speaking community</strong>. 
+          The word <strong>"Neer"</strong> translates to <strong>“water”</strong> in Tulu, indicating the dosa’s unique <strong>thin and translucent</strong> nature.
+        </p>
+        <p class="text-gray-800 text-lg leading-relaxed">
+          Originally a <strong>local delicacy</strong>, Neer Dosa has grown in popularity due to its <strong>simplicity, versatility, and quick preparation</strong>. 
+          Its batter—a simple mix of <strong>rice</strong> and sometimes <strong>grated coconut</strong>—requires <strong>no fermentation</strong>, making it a <strong>convenient and fast</strong> choice.
+        </p>
+        <p class="text-gray-800 text-lg leading-relaxed">
+          When poured thinly over a hot griddle, it forms a <strong>lacy, soft crepe</strong> that is both <strong>light and flavorful</strong>. 
+          The use of <strong>coconut</strong> imparts healthy fats and a distinct coastal aroma, while the <strong>minimal use of oil</strong> makes it gentle on the stomach.
+        </p>
+      </section>
+      `,
+    
+      `
+      <section class="space-y-4">
+        <h3 class="text-2xl font-semibold text-[#3B7C71]">Preparation of Neer Dosa</h3>
+        <p class="text-gray-800 text-lg leading-relaxed">
+          Neer Dosa is primarily made from <strong>soaked rice, water</strong>, and a <strong>pinch of salt</strong>. 
+          Some recipes also include <strong>grated coconut</strong> for extra richness.
+        </p>
+        <ul class="list-disc list-inside text-gray-800 text-lg space-y-2">
+          <li><strong>Rice:</strong> Typically short-grain rice like <em>Tukda</em> or <em>Kolam</em>, though other varieties are also used.</li>
+          <li><strong>Water:</strong> Added generously to achieve the <strong>thin, watery consistency</strong> of the batter.</li>
+          <li><strong>Salt:</strong> A small amount for taste.</li>
+          <li><strong>Grated Coconut (Optional):</strong> Enhances flavor and provides coastal richness.</li>
+        </ul>
+        <p class="text-gray-800 text-lg leading-relaxed">
+          The rice is <strong>soaked overnight</strong> or for several hours, then ground into a <strong>smooth, buttermilk-like batter</strong>. 
+          It’s poured onto a <strong>hot griddle</strong> and cooked <strong>without flipping</strong>, resulting in a <strong>soft and delicate dosa</strong>.
+        </p>
+        <p class="text-gray-800 text-lg leading-relaxed">
+          Neer Dosa is not just a dish—it’s a celebration of <strong>coastal culinary wisdom</strong> and <strong>generations of Tulu tradition</strong>.
+        </p>
+      </section>
+      `,
+    
+      `
+      <section class="space-y-4">
+        <h3 class="text-2xl font-semibold text-[#3B7C71]">Benefits</h3>
+        <p class="text-gray-800 text-lg leading-relaxed">
+          <strong>Neer Dosa</strong> is widely recognized as a <strong>healthy choice</strong> among dosa varieties. 
+          It is <strong>gluten-free</strong>, <strong>low in fat</strong>, and <strong>easy to digest</strong> due to its <strong>non-fermented, oil-free</strong> preparation.
+        </p>
+      </section>
+      `
+    ],
+    video:"",
     author: 'Agricultural Heritage Team',
     date: '2024-11-20',
     readTime: '6 min read',
-    image: 'https://images.unsplash.com/photo-1596797038530-2c107229654b?w=800',
+    image: ['/blog-images/NeerBlog/69B8133F-95C1-4B16-B115-77B9C2BBC6EC.jpeg'],
     tags: ['Spice Gardens', 'Agriculture', 'Trade Heritage', 'Mangalore'],
     category: 'Agriculture',
     audioAvailable: false
   },
-  {
-    id: 'karkala-gomateshwara',
-    title: 'The Majestic Gomateshwara of Karkala: A Monument to Peace',
-    excerpt: 'Witness the serene grandeur of the 42-foot tall Gomateshwara statue in Karkala, a masterpiece of Jain art and devotion.',
-    content: `
-      <h2>Gomateshwara: The Peaceful Giant of Karkala</h2>
-      <p>Standing majestically atop a granite hill in Karkala, the 42-foot tall monolithic statue of Gomateshwara Bahubali is a testament to the artistic brilliance and spiritual devotion of the Jain community. Carved from a single block of granite in 1432 CE, this magnificent sculpture represents the pinnacle of medieval Indian stone carving artistry.</p>
-      
-      <h3>The Legend of Bahubali</h3>
-      <p>Gomateshwara, also known as Bahubali, was the son of Adinatha, the first Tirthankara of Jainism. According to Jain tradition, after winning a fierce battle with his brother Bharata, Bahubali realized the futility of worldly conquest and renounced his kingdom to pursue spiritual enlightenment. The statue depicts him in the kayotsarga posture, standing in deep meditation.</p>
-      
-      <h3>Architectural Marvel</h3>
-      <p>The statue's proportions and details showcase the sophisticated understanding of human anatomy and artistic principles possessed by medieval Indian sculptors. The serene facial expression, the perfectly balanced posture, and the intricate details of the body create a powerful visual representation of inner peace and spiritual transcendence.</p>
-      
-      <h3>The Mastakabhisheka Ceremony</h3>
-      <p>Every 12 years, the statue is anointed in a grand ceremony called Mastakabhisheka, where devotees pour milk, coconut water, turmeric, and other sacred substances over the statue. This ceremony attracts thousands of pilgrims and visitors, creating a spectacular display of devotion and community participation.</p>
-      
-      <h3>Cultural Significance</h3>
-      <p>The Gomateshwara statue is not just a religious monument but a symbol of peace, non-violence, and spiritual aspiration. It represents the Jain principles of ahimsa (non-violence) and spiritual liberation, inspiring visitors regardless of their religious background to contemplate the deeper meanings of existence.</p>
-      
-      <h3>The Surrounding Complex</h3>
-      <p>The hill complex includes several other Jain temples and monuments, creating a spiritual landscape that has been a center of pilgrimage for centuries. The climb to the summit offers panoramic views of the surrounding countryside, adding to the spiritual experience of visiting this sacred site.</p>
-    `,
-    author: 'Monument Conservation Society',
-    date: '2024-11-18',
-    readTime: '7 min read',
-    image: 'https://images.unsplash.com/photo-1582562124811-c09040d0a901?w=800',
-    tags: ['Gomateshwara', 'Jain Heritage', 'Sculpture', 'Karkala'],
-    category: 'Heritage',
-    audioAvailable: true
-  }
+  
 ];
 
 export const categories = [

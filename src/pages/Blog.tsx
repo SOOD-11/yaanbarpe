@@ -215,7 +215,8 @@ const Blog = () => {
                   featured={true}
                   title={featuredPosts[0].title}
                   excerpt={featuredPosts[0].excerpt}
-                  image={featuredPosts[0].image}
+           video={featuredPosts[0].video}
+           
                   date={featuredPosts[0].date}
                   readTime={featuredPosts[0].readTime}
                   author={featuredPosts[0].author}
@@ -234,7 +235,7 @@ const Blog = () => {
                   featured={true}
                   title={allPosts[1].title}
                   excerpt={allPosts[1].excerpt}
-                  image={allPosts[1].image}
+                  video={allPosts[1].video}
                   date={allPosts[1].date}
                   readTime={allPosts[1].readTime}
                   author={allPosts[1].author}
@@ -253,7 +254,7 @@ const Blog = () => {
                   featured={true}
                   title={allPosts[2].title}
                   excerpt={allPosts[2].excerpt}
-                  image={allPosts[2].image}
+                  video={allPosts[2].video}
                   date={allPosts[2].date}
                   readTime={allPosts[2].readTime}
                   author={allPosts[2].author}
@@ -280,7 +281,7 @@ const Blog = () => {
                   featured={true}
                   title={allPosts[3].title}
                   excerpt={allPosts[3].excerpt}
-                  image={allPosts[3].image}
+                  video={allPosts[3].video}
                   date={allPosts[3].date}
                   readTime={allPosts[3].readTime}
                   author={allPosts[3].author}
@@ -300,7 +301,7 @@ const Blog = () => {
               <BlogPost 
                 title={post.title}
                 excerpt={post.excerpt}
-                image={post.image}
+                video={post.video}
                 date={post.date}
                 readTime={post.readTime}
                 author={post.author}

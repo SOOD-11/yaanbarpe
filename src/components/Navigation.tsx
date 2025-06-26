@@ -34,15 +34,15 @@ const Navigation = () => {
       )}
     >
       <div className="max-w-7xl mx-auto flex justify-between items-center">
-        <Link to="/" className="flex items-center space-x-2 relative z-10">
-          <div className="relative">
-            <img 
-              src="/lovable-uploads/2c6a2473-1e7e-4b9a-a58a-dab0023328d3.png" 
-              alt="YBee YaanBarpe" 
-              className="h-12 w-auto"
-            />
-          </div>
-        </Link>
+      <Link to="/" className="flex items-center justify-center space-x-2 relative z-10">
+  <div className="relative top-0">
+    <img 
+      src="/lovable-uploads/_logo1.png" 
+      alt="YaanBarpe" 
+      className="h-32 sm:h-16 md:h-20 lg:h-24 xl:h-28 2xl:h-32 w-auto transition-all duration-300 ease-in-out"
+    />
+  </div>
+</Link>
         
         {/* Desktop Navigation */}
         <div className="hidden lg:flex space-x-1 items-center">
@@ -96,9 +96,7 @@ const Navigation = () => {
             Packages
           </Link>
           
-          <Button className="ml-4 bg-tulu-red hover:bg-tulu-blue transition-colors text-white" asChild>
-            <Link to="/booking">Book Experience</Link>
-          </Button>
+         
           
           <Link 
             to="/contact"

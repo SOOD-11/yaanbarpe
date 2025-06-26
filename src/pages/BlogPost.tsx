@@ -58,7 +58,7 @@ const BlogPostPage = () => {
   const currentPost = getBlogPostById(postId || 'yakshagana-legacy') || {
     id: 'default',
     title: 'Welcome to Tulu Nadu Heritage',
-    content: '<p>Explore the rich cultural heritage of Tulu Nadu...</p>',
+    contentParts: ['<p>Explore the rich cultural heritage of Tulu Nadu...</p>'],
     image: 'https://images.pexels.com/photos/2773927/pexels-photo-2773927.jpeg',
     date: 'May 25, 2025',
     readTime: '5 min read',
@@ -89,7 +89,7 @@ const BlogPostPage = () => {
           
           <DetailedBlogPost 
             title={currentPost.title}
-            content={currentPost.content}
+            contentParts={currentPost.contentParts}
             image={currentPost.image}
             date={currentPost.date}
             readTime={currentPost.readTime}

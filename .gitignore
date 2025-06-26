@@ -23,3 +23,9 @@ dist-ssr
 *.sln
 *.sw?
 .env
+.next/
+out/
+.vercel
+.netlify
+coverage/
+*.lcov

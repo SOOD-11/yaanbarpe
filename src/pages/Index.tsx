@@ -44,14 +44,14 @@ const Index = () => {
       <main className="w-full">
         <EnhancedHero />
         <div className="relative">
-          <ModernFeaturedExperiences />
+        { /* <ModernFeaturedExperiences /> */}
           <CulturalShowcase />
           <InteractiveTeamValues />
           <EnhancedBlogSection />
-          <InteractiveQuizSection />
+        { /* <InteractiveQuizSection /> */}
           <Stats />
-          <Testimonials />
-          <CallToAction />
+         { /*<Testimonials /> */}
+       { /*  <CallToAction /> */}
         </div>
       </main>
       <Footer />

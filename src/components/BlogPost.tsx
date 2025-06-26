@@ -1,25 +1,21 @@
-
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Calendar, Clock, MessageSquare, Share2, Headphones, Play } from 'lucide-react';
+import { Play, Calendar, Clock, Headphones } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
 
 interface BlogPostProps {
   id?: string;
   postId?: string;
   title: string;
   excerpt: string;
-  image: string;
-  date: string;
-  readTime: string;
-  author: string;
+  image?: string;
+  video?: string; // ✅ New prop
   category: string;
-  commentCount?: number;
-  featured?: boolean;
-  className?: string;
+  author: string;
+  readTime: string;
+  date: string;
   audioAvailable?: boolean;
 }
 
@@ -29,103 +25,93 @@ export const BlogPost = ({
   title,
   excerpt,
   image,
-  date,
-  readTime,
-  author,
+  video, // ✅ Use this
   category,
-  commentCount = 0,
-  featured = false,
-  className,
-  audioAvailable = false
+  author,
+  readTime,
+  date,
+  audioAvailable = false,
 }: BlogPostProps) => {
   const linkId = postId || id;
-  
-  // Simple video URLs that should work
-  const videoSources = [
-    "https://www.w3schools.com/html/mov_bbb.mp4",
-    "https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4",
-    "https://filesamples.com/samples/video/mp4/SampleVideo_1280x720_1mb.mp4"
-  ];
-  
-  const videoSrc = videoSources[Math.floor(Math.random() * videoSources.length)];
-  
+
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -20 }}
+      exit={{ opacity: 0, y: -30 }}
       className={cn(
-        "group relative overflow-hidden rounded-xl border bg-card text-card-foreground shadow transition-all hover:shadow-lg",
-        featured ? "md:col-span-2" : "",
-        className
+        "group relative overflow-hidden rounded-2xl border bg-black text-white shadow-md max-w-sm mx-auto aspect-[9/16]"
       )}
     >
-      <div className="relative aspect-video overflow-hidden bg-gray-900">
-        <video
-          className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
-          autoPlay
-          muted
-          loop
-          playsInline
-          controls={false}
-          onLoadStart={() => console.log('Blog post video starting to load')}
-          onCanPlay={() => console.log('Blog post video can play')}
-          onError={(e) => console.log('Blog post video error:', e)}
-          onPlay={() => console.log('Blog post video playing')}
-        >
-          <source src={videoSrc} type="video/mp4" />
-          <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4" />
-          <div className="absolute inset-0 bg-gray-800 flex items-center justify-center text-white">
-            Video not supported
-          </div>
-        </video>
-        
-        {/* Video overlay with play button */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+      <div className="relative w-full h-full overflow-hidden">
+
+        {/* ✅ Show video if available, otherwise fallback to image */}
+        {video ? (
+          <video
+            className="object-cover w-full h-full"
+            src={video}
+            autoPlay
+            muted
+            loop
+            playsInline
+            poster={image}
+          >
+            <source src={video} type="video/mp4" />
+          </video>
+        ) : (
+          image && (
+            <img
+              src={image}
+              alt={title}
+              className="object-cover w-full h-full"
+            />
+          )
+        )}
+
+        {/* Gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80" />
+
+        {/* Play button */}
+        <div className="absolute inset-0 flex items-center justify-center">
           <div className="bg-white/20 backdrop-blur-sm rounded-full p-3">
             <Play className="h-8 w-8 text-white" />
           </div>
         </div>
-      </div>
 
-      <div className="p-6">
-        <div className="flex items-center gap-4 text-sm text-muted-foreground mb-3">
-          <Badge variant="secondary">{category}</Badge>
-          <div className="flex items-center">
-            <Calendar className="mr-1 h-4 w-4" />
-            {date}
+        {/* Metadata */}
+        <div className="absolute bottom-4 left-4 right-4 text-white z-10">
+          <p className="text-sm bg-pink-600 px-2 py-0.5 inline-block rounded-full mb-2">
+            {category}
+          </p>
+          <h3 className="text-lg font-bold leading-tight line-clamp-2">{title}</h3>
+          <p className="text-xs text-white/80 mt-1 line-clamp-2">{excerpt}</p>
+
+          <div className="flex flex-wrap items-center gap-2 mt-2 text-xs text-white/70">
+            <span>{author}</span>
+            <span className="flex items-center gap-1">
+              <Calendar className="h-3 w-3" />
+              {date}
+            </span>
+            <span className="flex items-center gap-1">
+              <Clock className="h-3 w-3" />
+              {readTime}
+            </span>
+            {audioAvailable && (
+              <span className="flex items-center gap-1">
+                <Headphones className="h-3 w-3" />
+                Audio
+              </span>
+            )}
           </div>
-          <div className="flex items-center">
-            <Clock className="mr-1 h-4 w-4" />
-            {readTime}
+
+          {/* Read More button */}
+          <div className="mt-3">
+            <Link to={`/blog/${linkId}`}>
+              <Button size="sm" variant="secondary" className="text-white bg-white/10 hover:bg-white/20">
+                Read More
+              </Button>
+            </Link>
           </div>
-          {audioAvailable && (
-            <div className="flex items-center">
-              <Headphones className="mr-1 h-4 w-4" />
-              <span>Audio</span>
-            </div>
-          )}
-        </div>
-
-        <h3 className="text-2xl font-bold leading-tight mb-2 group-hover:text-primary transition-colors">
-          <Link to={`/blog/${linkId}`}>{title}</Link>
-        </h3>
-
-        <p className="text-muted-foreground mb-4 line-clamp-2">{excerpt}</p>
-
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Button variant="ghost" size="sm" className="gap-1">
-              <MessageSquare className="h-4 w-4" />
-              {commentCount}
-            </Button>
-            <Button variant="ghost" size="sm">
-              <Share2 className="h-4 w-4" />
-            </Button>
-          </div>
-          <Button asChild>
-            <Link to={`/blog/${linkId}`}>Read More</Link>
-          </Button>
         </div>
       </div>
     </motion.div>
