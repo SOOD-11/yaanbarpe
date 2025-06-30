@@ -19,7 +19,7 @@ import { Button } from '@/components/ui/button';
 interface DetailedBlogPostProps {
   title: string;
   contentParts: string[];
-  image?: string | string[]; // accept both
+  image?: string | string[];
   date: string;
   readTime: string;
   author: string;
@@ -50,22 +50,26 @@ const DetailedBlogPost = ({
   const [slideshowIndex, setSlideshowIndex] = useState(0);
   const speechRef = useRef<SpeechSynthesisUtterance | null>(null);
 
-  // Normalize image input to always be an array
   const images = Array.isArray(image) ? image : (image ? [image] : []);
 
   useEffect(() => {
+    // Always scroll to top when component mounts
+    window.scrollTo({ top: 0, behavior: 'auto' });
+  
     const handleScroll = () => {
       const windowHeight = window.innerHeight;
       const fullHeight = document.body.scrollHeight - windowHeight;
       const scrolled = window.scrollY / fullHeight;
       const progressPercent = Math.min(scrolled * 100, 100);
       setScrollProgress(progressPercent);
+  
       if (scrolled > 0.9 && !hasReachedEnd) {
         setHasReachedEnd(true);
-        addReadingPoints(20, "Completed article reading", true);
       }
     };
+  
     window.addEventListener('scroll', handleScroll);
+  
     return () => window.removeEventListener('scroll', handleScroll);
   }, [hasReachedEnd]);
 
@@ -82,7 +86,7 @@ const DetailedBlogPost = ({
     return () => clearInterval(interval);
   }, [images]);
 
-  const addReadingPoints = (points: number, message: string, showLevelUp: boolean = false) => {
+  {/*const addReadingPoints = (points: number, message: string, showLevelUp: boolean = false) => {
     setReadingPoints(prev => prev + points);
     const levelUp = addPoints(points, message);
     window.dispatchEvent(new Event('pointsUpdated'));
@@ -99,7 +103,7 @@ const DetailedBlogPost = ({
         duration: 2000,
       });
     }
-  };
+  }; */}
 
   const handleTextToSpeech = () => {
     const text = contentParts[currentPartIndex].replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
@@ -113,12 +117,12 @@ const DetailedBlogPost = ({
       if (englishVoice) utterance.voice = englishVoice;
       utterance.onstart = () => {
         setIsPlaying(true);
-        addReadingPoints(5, "Started audio playback");
+    
       };
       utterance.onend = () => {
         setIsPlaying(false);
         speechRef.current = null;
-        addReadingPoints(10, "Completed audio playback");
+  
       };
       utterance.onerror = () => {
         setIsPlaying(false);
@@ -135,109 +139,87 @@ const DetailedBlogPost = ({
   const handleNext = () => {
     if (currentPartIndex < contentParts.length - 1) {
       setCurrentPartIndex(currentPartIndex + 1);
-      addReadingPoints(1, "Next slide");
+
     }
   };
-
+  const handleShare = () => {
+    const shareData = {
+      title,
+      text: `Check out this article: ${title}`,
+      url: window.location.href,
+    };
+  
+    if (navigator.share) {
+      navigator
+        .share(shareData)
+        .then(() => {
+          toast({ title: "Shared successfully!" });
+        })
+        .catch((error) => {
+          toast({ title: "Share canceled", description: error.message });
+        });
+    } else {
+      navigator.clipboard.writeText(shareData.url);
+      toast({
+        title: "🔗 Link copied!",
+        description: "You can now paste it anywhere to share the blog.",
+      });
+    }
+  };
   const handlePrev = () => {
     if (currentPartIndex > 0) {
       setCurrentPartIndex(currentPartIndex - 1);
-      addReadingPoints(1, "Previous slide");
+
     }
-  };
+  }
 
   return (
-    <div className="max-w-4xl mx-auto space-y-8">
-      <ReadingProgress progress={scrollProgress} />
-      <BlogStats readingPoints={readingPoints} streakDays={streakDays} />
+    <div className="max-w-4xl mx-auto space-y-8 px-4 sm:px-6 lg:px-8">
       <AdSpace position="top" size="large" />
-
-      <BlogHeader
-        category={category}
-        title={title}
-        date={date}
-        readTime={readTime}
-        author={author}
-        authorImage={authorImage}
-        audioAvailable={audioAvailable}
-        isAudioPlaying={isPlaying}
-        onToggleAudio={handleTextToSpeech}
-      />
-
-      {images.length > 0 && (
-        <div className="relative w-full h-[400px] overflow-hidden rounded-xl shadow-md">
+      <BlogHeader category={category} title={title} date={date} readTime={readTime} author={author} authorImage={authorImage} audioAvailable={audioAvailable} isAudioPlaying={isPlaying} onToggleAudio={handleTextToSpeech} />
+      {images.length >= 0 && (
+        <div className="relative w-full h-[200px] sm:h-[300px] md:h-[400px] overflow-hidden rounded-xl shadow-md">
           <AnimatePresence mode="wait">
-            <motion.img
-              key={images[slideshowIndex]}
-              src={images[slideshowIndex].trim()}
-              alt={title}
-              className="object-cover w-full h-full"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.6 }}
-            />
+            <motion.img key={images[slideshowIndex]} src={images[slideshowIndex].trim()} alt={title} className="object-cover w-full h-full" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.6 }} />
           </AnimatePresence>
         </div>
       )}
-
       {audioAvailable && contentParts?.length > 0 && contentParts[currentPartIndex] && (
-        <MusicStyleAudioPlayer
-          text={contentParts[currentPartIndex]}
-          title={title}
-          isPlaying={isPlaying}
-          onTogglePlay={handleTextToSpeech}
-        />
+        <MusicStyleAudioPlayer text={contentParts[currentPartIndex]} title={title} isPlaying={isPlaying} onTogglePlay={handleTextToSpeech} />
       )}
-
       <FactCard />
-
       <div className="bg-white rounded-lg p-6 shadow-sm border relative">
         <AnimatePresence mode="wait">
-          <motion.div
-            key={currentPartIndex}
-            initial={{ opacity: 0, x: 30 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -30 }}
-            transition={{ duration: 0.3 }}
-            className="prose prose-lg max-w-none leading-relaxed text-gray-700 space-y-6"
-          >
+          <motion.div key={currentPartIndex} initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -30 }} transition={{ duration: 0.3 }} className="prose prose-base sm:prose-lg max-w-none leading-relaxed text-gray-700 space-y-6">
             <div dangerouslySetInnerHTML={{ __html: contentParts[currentPartIndex] }} />
           </motion.div>
         </AnimatePresence>
-        <div className="mt-6 flex items-center justify-between">
+        <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <Button onClick={handlePrev} disabled={currentPartIndex === 0} variant="outline">Previous</Button>
           <span className="text-sm text-muted-foreground">Slide {currentPartIndex + 1} of {contentParts.length}</span>
           <Button onClick={handleNext} disabled={currentPartIndex === contentParts.length - 1}>Next</Button>
         </div>
       </div>
-
-      <AdSpace position="middle" size="medium" />
-      <KnowledgeQuiz blogTitle={title} onQuizComplete={(score) => addReadingPoints(score * 2, `Quiz completed! +${score * 2} points`)} />
-      <ReactionBar onInteraction={(points, message) => addReadingPoints(points, message)} />
-
+  { /*   <AdSpace position="middle" size="medium" />*/}
+      <KnowledgeQuiz blogTitle={title} onQuizComplete={() =>{} } />
+      <ReactionBar onInteraction={() => {}} />
       <div className="bg-[#EDE8D0]/20 p-6 rounded-lg">
         <h5 className="text-sm font-medium mb-4 text-[#00555A]">Related Topics:</h5>
         <div className="flex flex-wrap gap-3">
           {tags.map((tag, index) => (
-            <span key={index} className="bg-[#EDE8D0] hover:bg-[#00555A] hover:text-white px-4 py-2 rounded-full text-sm cursor-pointer transition-all duration-300 hover:scale-105" onClick={() => addReadingPoints(1, `Clicked ${tag} tag`)}>
-              {tag}
-            </span>
+            <span key={index} className="bg-[#EDE8D0] hover:bg-[#00555A] hover:text-white px-4 py-2 rounded-full text-sm cursor-pointer transition-all duration-300 hover:scale-105" onClick={() => addReadingPoints(1, `Clicked ${tag} tag`)}>{tag}</span>
           ))}
         </div>
       </div>
-
-      <AdSpace position="bottom" size="medium" />
+      { /*  <AdSpace position="bottom" size="medium" /> */}
       <div className="py-8">
-        <CommentSection postTitle={title} />
+       {/* <CommentSection postTitle={title} /> */}
       </div>
       <Separator className="my-12" />
       <div className="bg-white p-8 rounded-xl shadow-sm border">
-        <AuthorInfo author={author} authorImage={authorImage} onViewProfile={() => addReadingPoints(2, "Viewed author profile")} />
+        <AuthorInfo author={author} authorImage={authorImage} onViewProfile={() =>{} } />
       </div>
-      <div className="py-8">
-        <RelatedArticles onArticleClick={() => addReadingPoints(3, "Clicked related article")} />
-      </div>
+      
     </div>
   );
 };

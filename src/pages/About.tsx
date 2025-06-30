@@ -29,23 +29,66 @@ const About = () => {
 
   const team = [
     {
-      name: "Priya Shetty",
-      role: "Founder & Cultural Guide",
-      image: "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=400",
-      bio: "Born and raised in Udupi, Priya has dedicated her life to preserving Tulu culture."
+      name: "Sakshath Shetty",
+      role: "Founder & CE0",
+      image: "/Team/IMG_7062.JPG",
+      bio: ""
     },
     {
-      name: "Rajesh Bhat",
-      role: "Heritage Expert",
-      image: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=400",
-      bio: "A scholar of Tulu history with 20+ years of research experience."
+      name: "Jeevan Shetty",
+      role: "Research head",
+      image: "",
+      
     },
     {
-      name: "Meera Rao",
-      role: "Experience Designer",
-      image: "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=400",
-      bio: "Crafts immersive cultural experiences that connect visitors with authentic traditions."
-    }
+      name: "Anamay Tripathi",
+      role: "Tech head",
+      image: "/Team/DSC_0129.jpg",
+    
+    },
+    {
+      name: "Sanchit Sood",
+      role: "Tech head",
+      image: "/Team/Screenshot 2025-07-01 at 4.18.13 AM.png",
+     
+    },
+    {
+      name: "Mehak Khandelwal",
+      role: "Marketing head",
+      image: "/Team/C013026B-9CF1-48D9-8419-0193D4D1703E_4_5005_c.jpeg",
+      
+    },
+    {
+      name: "Ashika Mittal",
+      role: " Marketing head",
+      image: "/Team/ashika.png",
+
+    },
+    
+    {
+      name: "Polumi Burman",
+      role: "Marketing head",
+      image: "public/Team/Screenshot 2025-07-01 at 3.54.00 AM.png",
+
+    },
+    {
+      name: "Ananya Tayal",
+      role: "Head of Data Management",
+      image: "Team/2E99C400-7651-44CB-ABB9-FEFC57B4324A_4_5005_c.jpeg",
+      
+    },
+    {
+      name: "Adarsh Aggarwal",
+      role: "Head of Data Management",
+      image: "/Team/3805712B-EBD3-4154-921F-29BE36007C8D.jpeg",
+      
+    },
+    {
+      name: "Shivam Raj",
+      role: "Head of Design",
+      image: "/Team/Shivam.jpg",
+      
+    },
   ];
 
   return (

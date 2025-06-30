@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
@@ -67,20 +66,26 @@ const Contact = () => {
 
   const teamMembers = [
     {
-      name: "Priya",
-      role: "Cultural Guide",
-      avatar: "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=100",
-      status: "online"
-    },
-    {
-      name: "Rajesh",
-      role: "Heritage Expert",
+      name: "Sakshath Shetty",
+      role: "CEO & Founder",
       avatar: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=100",
       status: "online"
     },
     {
-      name: "Meera",
-      role: "Experience Designer",
+      name: "Anamay Tripathy",
+      role: "Tech Head",
+      avatar: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=100",
+      status: "online"
+    },
+    {
+      name: "Jeevan Shetty",
+      role: "Cultural Heritage Specialist",
+      avatar: "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=100",
+      status: "online"
+    },
+    {
+      name: "Ashika Mittal",
+      role: "Operations Head",
       avatar: "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=100",
       status: "away"
     }
@@ -111,7 +116,7 @@ const Contact = () => {
             {/* Live Support Indicator */}
             <div className="mt-8 flex items-center justify-center gap-2 text-sm">
               <div className="w-2 h-2 bg-tulu-green rounded-full animate-pulse"></div>
-              <span className="text-tulu-green font-medium">3 team members online</span>
+              <span className="text-tulu-green font-medium">4 team members online</span>
               <span className="text-muted-foreground">• Avg response: 2 hours</span>
             </div>
           </div>
@@ -233,14 +238,7 @@ const Contact = () => {
 
                 {/* Quick Contact Cards */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <Card className="backdrop-blur-sm bg-gradient-to-br from-tulu-blue/10 to-tulu-teal/10 border-white/20 hover:shadow-lg transition-all duration-300 cursor-pointer group">
-                    <CardContent className="p-4 text-center">
-                      <Phone className="w-8 h-8 text-tulu-blue mx-auto mb-2 group-hover:scale-110 transition-transform" />
-                      <h3 className="font-semibold mb-1">Call Now</h3>
-                      <p className="text-sm text-muted-foreground">+91 9876543210</p>
-                      <Badge className="mt-2 bg-tulu-green/20 text-tulu-green">Available 24/7</Badge>
-                    </CardContent>
-                  </Card>
+                  
                   
                   <Card className="backdrop-blur-sm bg-gradient-to-br from-tulu-green/10 to-tulu-gold/10 border-white/20 hover:shadow-lg transition-all duration-300 cursor-pointer group">
                     <CardContent className="p-4 text-center">
@@ -294,8 +292,8 @@ const Contact = () => {
                         <div>
                           <h3 className="font-semibold mb-1">Email Us</h3>
                           <p className="text-muted-foreground text-sm">
-                            info@yaanbarpe.com<br />
-                            bookings@yaanbarpe.com
+                           <br />
+                           yaanbarpe@gmail.com
                           </p>
                           <Badge className="mt-2 bg-tulu-gold/20 text-tulu-gold">Fast replies</Badge>
                         </div>
@@ -311,7 +309,7 @@ const Contact = () => {
                       <Users className="w-5 h-5" />
                       Meet Our Team
                     </CardTitle>
-                    <p className="text-sm text-muted-foreground">The awesome humans behind YaanBarpe</p>
+                    <p className="text-sm text-muted-foreground">The passionate team behind YaanBarpe's cultural experiences</p>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-3">
@@ -391,8 +389,9 @@ const Contact = () => {
               <Button 
                 size="lg"
                 className="bg-gradient-to-r from-tulu-red to-tulu-blue hover:from-tulu-blue hover:to-tulu-teal text-white px-8 py-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                onClick={() => window.open('https://forms.google.com/your-form-link', '_blank')}
               >
-                🎯 Book Your Experience Now
+                🎯 Fill Google Form
               </Button>
               <Button 
                 size="lg"

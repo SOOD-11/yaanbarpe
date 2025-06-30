@@ -19,7 +19,8 @@ export const blogPosts: BlogPost[] = [
   {
     id: 'Polali-RajaRajeshwari-Temple',
     title: 'Polali RajaRajeshwari Temple',
-    excerpt: 'Discover the pristine beaches, ancient temples, and rich maritime traditions that define the coastal beauty of Tulu Nadu.',
+    excerpt: '“A sacred shrine dedicated to the fierce yet graceful Goddess Rajarajeshwari, steeped in centuries of devotion.”',
+    category:'Temple',
  contentParts : [
       `
       <section class="space-y-4">
@@ -72,23 +73,23 @@ export const blogPosts: BlogPost[] = [
       </section>
       `
     ],
-    author: 'Cultural Heritage Team',
+    author: 'Jeevan Shetty',
     date: '2024-12-01',
     readTime: '8 min read',
-    image: ['/blog-images/polaliBlog/5E870245-F792-43F9-97CE-577C38E9B14D.jpeg',
-     '/blog-images/polaliBlog/44C505A0-0235-481B-BF16-DC6160A1F23B_1_105_c.jpeg'
+    image: [
+   "/blog-images/polaliBlog/44C505A0-0235-481B-BF16-DC6160A1F23B_1_105_c.jpeg"
     ],
-    video:"https://res.cloudinary.com/dxjszh5rz/video/upload/v1749818110/user_images/ekgagu3teloryil5l5lu.mp4",
+    video:"",
     tags: ['Coastal Heritage', 'St. Mary\'s Islands', 'Fishing Culture', 'Temples'],
-    category: 'Heritage',
+   
     audioAvailable: true
   },
   {
     id: 'Pilivesha',
     title: 'Pilivesha',
-    excerpt: 'Journey into the captivating world of Yakshagana, where ancient stories come alive through vibrant costumes, rhythmic music, and powerful performances.',
+    excerpt: 'A fierce and vibrant folk dance where performers embody tigers to invoke divine power and thrill the crowds.',
     image: ['/blog-images/PiliveshaBlog/DF61DBA2-3A60-43A9-84AC-3BC20A7C392C.jpeg',
-      '/blog-images/PiliveshaBlog/878BAE8C-7BC8-49E4-BA86-BE124688A892.jpeg'
+   
      ],
  contentParts : [
       `
@@ -164,19 +165,19 @@ export const blogPosts: BlogPost[] = [
       </section>
       `
     ],
-    video:"https://res.cloudinary.com/dxjszh5rz/video/upload/v1750919085/My_Movie_5_y9tumd.mp4",
-    author: 'Dr. Prasanna Kumar, Yakshagana Scholar',
+    video:"",
+    author: 'Jeevan Shetty',
     date: '2024-11-28',
     readTime: '12 min read',
   
     tags: ['Yakshagana', 'Traditional Arts', 'Cultural Heritage', 'Dance Drama', 'Coastal Karnataka'],
-    category: 'Arts',
+    category: 'Art Forms',
     audioAvailable: true
   },
   {
     id: 'Kambala',
-    title: 'The Ancient Tulu Language and Its Rich Literary Heritage',
-    excerpt: 'Delve into the fascinating world of the Tulu language, its unique script, and the literary treasures that have been preserved through centuries.',
+    title: 'Kambala',
+    excerpt: "Experience the thunderous energy of Tulunadu’s traditional buffalo race through slushy paddy fields",
   contentParts : [
       `
       <section class="space-y-4">
@@ -244,21 +245,22 @@ export const blogPosts: BlogPost[] = [
       </section>
       `
     ],
-    video:"https://res.cloudinary.com/dxjszh5rz/video/upload/v1750919955/My_Movie_5_y9fmzl.mp4",
-    author: 'Linguistics Research Team',
+    video:"",
+    author: 'Jeevan Shetty',
     date: '2024-11-25',
     readTime: '7 min read',
-    image: ['/blog-images/KambalaBlog/74AEE4DD-DB08-4C91-A15A-7951EF144B6F.jpeg','/blog-images/KambalaBlog/09D2B9C5-6FDD-44FB-B32B-21973E66E93C.jpeg','/blog-images/KambalaBlog/6FBE17E1-2092-431F-AAC9-454DD1BFCF4F.jpeg'
+    image: ['/blog-images/KambalaBlog/Screenshot 2025-06-30 at 11.02.23 PM.png',
      ],
     tags: ['Tulu Language', 'Tigalari Script', 'Literature', 'Oral Traditions'],
-    category: 'Language',
+    category: 'Festivals',
     audioAvailable: false
+
   },
   {
-    id: 'udupi-krishna-temple',
+    id: 'Kadri-Nath-Panth',
     title: 'Kadri & the Nath Panth',
-video:"https://res.cloudinary.com/dxjszh5rz/video/upload/v1750919529/My_Movie_5_em2pdc.mp4",
-    excerpt: 'Journey through the sacred halls of the Sri Krishna Matha in Udupi, a temple that has been the center of devotion and learning for over 700 years.',
+video:"",
+    excerpt: 'A mystic sanctuary tracing the spiritual lineage of Nath yogis and their esoteric traditions.',
   contentParts :[
       `
       <section class="space-y-4">
@@ -302,18 +304,17 @@ video:"https://res.cloudinary.com/dxjszh5rz/video/upload/v1750919529/My_Movie_5_
     author: 'Temple Heritage Documentation',
     date: '2024-11-22',
     readTime: '9 min read',
-    image: ['blog-images/kadriBlog/D7FB2855-3E57-4AF4-9578-3CA02246CA30.jpeg',
-      '/blog-images/kadriBlog/4521FDE7-786D-4FF2-8961-8818C04D55F8.jpeg',
-      '/blog-images/kadriBlog/4F076B9F-1EF8-4C18-8404-76250C9ADD73_4_5005_c.jpeg'
+    image: ['/blog-images/kadriBlog/D7FB2855-3E57-4AF4-9578-3CA02246CA30.jpeg'
+   
      ],
     tags: ['Udupi Temple', 'Madhvacharya', 'Spiritual Heritage', 'Architecture'],
-    category: 'Spirituality',
+    category: 'Temple',
     audioAvailable: true
   },
   {
-    id: 'mangalore-spice-gardens',
+    id: 'Neer-Dosa',
     title: 'Neer Dosa',
-    excerpt: 'Explore the fragrant spice plantations around Mangalore that have made this region the spice capital of the western coast.',
+    excerpt: 'Delicately thin and soft rice crepes that melt in your mouth—Tulunadu’s signature breakfast delight.',
      contentParts : [
       `
       <section class="space-y-4">
@@ -372,7 +373,7 @@ video:"https://res.cloudinary.com/dxjszh5rz/video/upload/v1750919529/My_Movie_5_
     readTime: '6 min read',
     image: ['/blog-images/NeerBlog/69B8133F-95C1-4B16-B115-77B9C2BBC6EC.jpeg'],
     tags: ['Spice Gardens', 'Agriculture', 'Trade Heritage', 'Mangalore'],
-    category: 'Agriculture',
+    category: 'Food & Cuisine',
     audioAvailable: false
   },
   
@@ -380,11 +381,10 @@ video:"https://res.cloudinary.com/dxjszh5rz/video/upload/v1750919529/My_Movie_5_
 
 export const categories = [
   'All',
-  'Heritage',
-  'Arts',
-  'Language',
-  'Spirituality',
-  'Agriculture'
+  'Temple',
+  'Art Forms',
+  'Festivals',
+  'History',
 ];
 
 export const featuredPosts = blogPosts.slice(0, 3);

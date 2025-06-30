@@ -101,7 +101,7 @@ const MusicStyleAudioPlayer = ({
   };
 
   return (
-    <div className="sticky top-20 z-40 mb-8 p-6 bg-white/95 backdrop-blur-sm rounded-xl border border-[#00555A]/20 shadow-lg">
+    <div className=" top-20 z-40 mb-8 p-6 bg-white/95 backdrop-blur-sm rounded-xl border border-[#00555A]/20 shadow-lg">
       <div className="flex items-center gap-3 mb-4">
         <div className="w-3 h-3 bg-[#00555A] rounded-full animate-pulse"></div>
         <span className="text-sm font-medium text-[#00555A]">🎧 Audio Article</span>

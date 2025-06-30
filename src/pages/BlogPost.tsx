@@ -81,7 +81,7 @@ const BlogPostPage = () => {
             className="mb-6 text-[#00555A] hover:text-[#00555A] hover:bg-[#00555A]/10 group"
             asChild
           >
-            <Link to="/blog">
+            <Link to="/culturalheritage">
               <ArrowLeft className="mr-2 h-4 w-4 group-hover:-translate-x-1 transition-transform duration-300" />
               Back to all articles
             </Link>
@@ -105,40 +105,6 @@ const BlogPostPage = () => {
             <div className="flex flex-col md:flex-row justify-between items-center gap-6 bg-white p-6 rounded-lg shadow-sm">
               <div className="flex items-center gap-2">
                 <span className="text-sm text-muted-foreground">Last updated: {currentPost.date}</span>
-              </div>
-              <div className="flex items-center gap-4">
-                <span className="text-sm text-muted-foreground">Was this article helpful?</span>
-                <div className="flex gap-2">
-                  <Button 
-                    variant="outline" 
-                    size="sm" 
-                    className="h-8 hover:bg-green-50 hover:text-green-600 hover:border-green-200"
-                    onClick={() => {
-                      addPoints(2, "Provided feedback on article");
-                      toast({
-                        title: "Thank you!",
-                        description: "We appreciate your feedback. +2 points!",
-                        duration: 2000
-                      });
-                    }}
-                  >
-                    👍 Yes
-                  </Button>
-                  <Button 
-                    variant="outline" 
-                    size="sm" 
-                    className="h-8 hover:bg-red-50 hover:text-red-600 hover:border-red-200"
-                    onClick={() => {
-                      toast({
-                        title: "Thank you for your feedback",
-                        description: "We'll work to improve our content",
-                        duration: 2000
-                      });
-                    }}
-                  >
-                    👎 No
-                  </Button>
-                </div>
               </div>
             </div>
           </div>

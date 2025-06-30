@@ -18,6 +18,7 @@ const Hero = () => {
       setCurrentImage((prev) => (prev + 1) % heroImages.length);
     }, 4000);
     
+    
     return () => clearInterval(interval);
   }, []);
 

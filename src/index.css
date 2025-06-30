@@ -4,6 +4,7 @@
 @tailwind utilities;
 
 @layer base {
+ 
   :root {
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
@@ -215,6 +216,14 @@
   backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.03);
   box-shadow: 0 25px 45px rgba(0, 0, 0, 0.25);
+}
+/* Add to your global styles or Tailwind config */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 /* Professional hover effects */

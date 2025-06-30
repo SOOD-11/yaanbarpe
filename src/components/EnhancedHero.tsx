@@ -1,25 +1,45 @@
+
+
 import React, { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import { ArrowRight, VolumeX, Volume2, Sparkles } from 'lucide-react';
 
-const driveVideo = "https://res.cloudinary.com/dxjszh5rz/video/upload/v1749888061/user_images/jerehlxflhj3cofrswfo.mp4";
+const driveVideo = "https://res.cloudinary.com/dtsd5sgcy/video/upload/v1751287909/Tulu_reel_g2orrj.mp4";
 
 const heroSlides = [
   {
     title: "Discover the Soul of Tulu Nadu",
     subtitle: "with Yaanbarpe",
-    description: "where every athiti finds a home, and  every journey calls you back",
+    description: "where every athiti finds a home, and every journey calls you back",
     video: driveVideo,
     image: "https://images.pexels.com/photos/2161467/pexels-photo-2161467.jpeg?auto=compress&cs=tinysrgb&w=1200",
+  },
+  {
+    title: "Live Yakshagana Performances",
+    subtitle: "Traditional Theatre Comes Alive",
+    description:" where every athiti finds a home, and every journey calls you back",
+    video: driveVideo,
+    image: "https://images.pexels.com/photos/2417726/pexels-photo-2417726.jpeg?auto=compress&cs=tinysrgb&w=1200",
+   
+  },
+  {
+    title: "Sacred Temple Journeys",
+    subtitle: "Spiritual Heritage & Architecture",
+    description: " where every athiti finds a home, and every journey calls you back",
+    video: driveVideo,
+    image: "https://images.pexels.com/photos/3944154/pexels-photo-3944154.jpeg?auto=compress&cs=tinysrgb&w=1200",
+   
   },
 ];
 
 const EnhancedHero = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [isMuted, setIsMuted] = useState(false);
+  const [isMuted, setIsMuted] = useState(true); // Default to true to support autoplay
   const [videoError, setVideoError] = useState(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
+
+  const currentHero = heroSlides[currentSlide];
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -28,7 +48,19 @@ const EnhancedHero = () => {
     return () => clearInterval(timer);
   }, []);
 
-  const currentHero = heroSlides[currentSlide];
+  useEffect(() => {
+    // Try to play video when it's ready
+    const playVideo = async () => {
+      if (videoRef.current) {
+        try {
+          await videoRef.current.play();
+        } catch (err) {
+          console.warn("Autoplay blocked:", err);
+        }
+      }
+    };
+    playVideo();
+  }, [currentSlide, isMuted]);
 
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-black">
@@ -36,6 +68,7 @@ const EnhancedHero = () => {
       <div className="absolute inset-0 z-0">
         {!videoError ? (
           <video
+            key={currentHero.video} // forces re-render if video src changes
             ref={videoRef}
             src={currentHero.video}
             className="absolute inset-0 w-full h-full object-cover"
@@ -43,7 +76,8 @@ const EnhancedHero = () => {
             loop
             muted={isMuted}
             playsInline
-            preload="metadata"
+            preload="auto"
+            onCanPlay={() => videoRef.current?.play()}
             onError={() => setVideoError(true)}
           />
         ) : (
@@ -55,13 +89,13 @@ const EnhancedHero = () => {
         )}
         {/* Gradient overlays */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-transparent z-10" />
-        <div className="absolute inset-0 bg-black/30  z-10" />
+        <div className="absolute inset-0 bg-black/30 z-10" />
       </div>
 
       {/* Mute toggle */}
       <div
         className="absolute bottom-6 left-6 z-30 bg-black/60 text-white px-3 py-1 rounded-full flex items-center gap-2 cursor-pointer hover:bg-black/80 transition"
-        onClick={() => setIsMuted(!isMuted)}
+        onClick={() => setIsMuted((prev) => !prev)}
       >
         {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
         <span className="text-xs">{isMuted ? 'Muted' : 'Unmuted'}</span>
@@ -76,31 +110,30 @@ const EnhancedHero = () => {
           </span>
         </div>
 
-        {/* Heading */}
         <h1 className="text-6xl md:text-8xl lg:text-9xl font-extrabold leading-tight tracking-tight mb-6 drop-shadow-xl">
-          <span className="text-tulu-red drop-shadow-sm">
+          <span className="text-white drop-shadow-sm">
             {currentHero.title.split(' ').slice(0, -2).join(' ')}
           </span>{' '}
-          <span className="text-tulu-blue">{currentHero.title.split(' ').slice(-2).join(' ')}</span>
+          <span className="text-white">{currentHero.title.split(' ').slice(-2).join(' ')}</span>
         </h1>
 
-        {/* Subtitle */}
         <p className="text-lg md:text-xl lg:text-2xl text-white/90 font-medium mb-4 tracking-wide">
           <span className="inline-block border-l-4 border-[#00555A] pl-4">
             {currentHero.subtitle}
           </span>
         </p>
 
-        {/* Description */}
         <p className="text-base md:text-lg text-white font-bold italic max-w-2xl mx-auto leading-relaxed tracking-wide">
-          <span className="text-[#00555A] font-semibold">YaanBarpe:</span> {currentHero.description}
-        </p>
+  <span className="font-extrabold">
+    <span className="text-tulu-blue">Yaan</span>
+    <span className="text-tulu-red">Barpe</span>
+  </span>: {currentHero.description}
+</p>
 
-        {/* Buttons */}
         <div className="flex flex-wrap justify-center gap-4 mt-8">
           <Button
             asChild
-            className="bg-[#B31312] text-white hover:bg-[#B31312]/90 text-base px-10 py-4 rounded-full font-semibold shadow-lg transition-transform hover:scale-105"
+            className="bg-green-400 text-white hover:bg-green-400 text-base px-10 py-4 rounded-full font-semibold shadow-lg transition-transform hover:scale-105"
           >
             <Link to="/packages">
               Explore Experiences <ArrowRight className="ml-2 w-4 h-4" />
@@ -113,7 +146,7 @@ const EnhancedHero = () => {
             className="border-2 border-[#00555A] text-[#00555A] hover:bg-[#00555A] hover:text-white text-base px-10 py-4 rounded-full font-semibold transition-transform hover:scale-105"
           >
             <Link to="/blog">
-              Learn More About Tulunadu
+             Learn About Our Culture
             </Link>
           </Button>
         </div>
@@ -136,3 +169,6 @@ const EnhancedHero = () => {
 };
 
 export default EnhancedHero;
+
+
+

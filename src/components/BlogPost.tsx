@@ -71,12 +71,8 @@ export const BlogPost = ({
         {/* Gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80" />
 
-        {/* Play button */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="bg-white/20 backdrop-blur-sm rounded-full p-3">
-            <Play className="h-8 w-8 text-white" />
-          </div>
-        </div>
+        
+     
 
         {/* Metadata */}
         <div className="absolute bottom-4 left-4 right-4 text-white z-10">

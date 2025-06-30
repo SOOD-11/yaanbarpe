@@ -31,7 +31,7 @@ const App = () => (
           <Route path="/blog/:postId" element={<BlogPost />} />
           <Route path="/packages" element={<Packages />} />
           <Route path="/enhanced-packages" element={<EnhancedPackages />} />
-          <Route path="/heritage" element={<Heritage />} />
+          <Route path="/culturalheritage" element={<Blog/>} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/booking" element={<Booking />} />

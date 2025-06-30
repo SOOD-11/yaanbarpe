@@ -11,6 +11,8 @@ import Testimonials from '@/components/Testimonials';
 import Stats from '@/components/Stats';
 import CallToAction from '@/components/CallToAction';
 import Footer from '@/components/Footer';
+import InterestFormCTA from '@/components/blog-parts/InterestFormCTA';
+import InstagramCTA from './InstagramCTA';
 
 const Index = () => {
   useEffect(() => {
@@ -44,12 +46,14 @@ const Index = () => {
       <main className="w-full">
         <EnhancedHero />
         <div className="relative">
+          <InterestFormCTA/>
         { /* <ModernFeaturedExperiences /> */}
           <CulturalShowcase />
-          <InteractiveTeamValues />
-          <EnhancedBlogSection />
+          <InstagramCTA></InstagramCTA>
+          {   /* <InteractiveTeamValues /> */}
+     {   /* <EnhancedBlogSection />  */}
         { /* <InteractiveQuizSection /> */}
-          <Stats />
+       
          { /*<Testimonials /> */}
        { /*  <CallToAction /> */}
         </div>

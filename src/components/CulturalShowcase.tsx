@@ -1,118 +1,184 @@
-
-import { useRef, useEffect, useState } from 'react';
-import CulturalElementMedia from './CulturalElementMedia';
-import CulturalElementDetails from './CulturalElementDetails';
-import { Users, ArrowRight } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-
-// Organized cultural elements by categories
-const culturalCategories = {
-  culture: [
-    {
-      id: 1,
-      title: 'Yakshagana',
-      description: 'A traditional theatre form that combines dance, music, dialogue, costume, and stage techniques with a unique style and form. This ancient art form tells stories from Hindu epics through elaborate costumes, face paintings, and energetic performances.',
-      image: 'https://images.pexels.com/photos/2417726/pexels-photo-2417726.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      video: 'https://player.vimeo.com/external/253067087.sd.mp4?s=1b7b1b14eb51345f77fc80c843f0e1ebeacb2a6a&profile_id=165',
-      fact: '78 active troupes contribute ₹42 crore yearly through performances',
-      details: [
-        'Over 500 years old tradition',
-        'Performed throughout the night',
-        'Elaborate face paintings and costumes',
-        'Stories from Ramayana and Mahabharata'
-      ],
-      location: 'Udupi, Mangalore',
-      bestTime: 'October to March',
-      experience: 'Join live performance workshops'
-    },
-    {
-      id: 4,
-      title: 'Bhuta Kola',
-      description: 'A ritualistic folk dance and religious ceremony where performers embody spirits (Bhutas) and Daivas. This ancient tradition involves elaborate costumes, face paintings, and fire dancing, creating a mystical atmosphere that connects the community with their ancestral spirits.',
-      image: 'https://images.pexels.com/photos/3944154/pexels-photo-3944154.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      video: 'https://player.vimeo.com/external/185045350.sd.mp4?s=befd13df95da561cd1e8d375e768bdfae8da50e1&profile_id=165',
-      fact: 'Over 400 different spirit forms documented across 200+ villages',
-      details: [
-        'Ancient spirit worship tradition',
-        'Fire dancing performances',
-        'Community blessing ceremonies',
-        'Elaborate spirit costumes'
-      ],
-      location: 'Coastal Karnataka villages',
-      bestTime: 'December to March',
-      experience: 'Witness authentic village ceremonies'
-    }
-  ],
-  temples: [
-    {
-      id: 2,
-      title: 'Sri Krishna Matha',
-      description: 'One of the most sacred temples in Karnataka, established by the philosopher and theologian Madhvacharya in the 13th century. The temple is famous for its unique window (Kanakana Kindi) through which devotees can view the deity.',
-      image: 'https://images.pexels.com/photos/2161467/pexels-photo-2161467.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      video: 'https://player.vimeo.com/external/455577390.sd.mp4?s=11cc9a5c33b8d3af33c093ea3a2acac9779cc1bb&profile_id=165',
-      fact: 'Attracts 6.8 million pilgrims annually, generating ₹1,450 crore in revenue',
-      details: [
-        '700+ years of continuous worship',
-        'Unique Kanakana Kindi viewing window',
-        'Daily cultural programs',
-        'Traditional prasadam distribution'
-      ],
-      location: 'Udupi',
-      bestTime: 'Year round',
-      experience: 'Temple architecture tours available'
-    }
-  ],
-  beaches: [
-    {
-      id: 3,
-      title: "St. Mary's Islands",
-      description: "A geological monument featuring unique hexagonal basalt rock formations created by volcanic activity millions of years ago. These pristine islands offer crystal clear waters and stunning natural beauty that attracts geologists and nature lovers alike.",
-      image: 'https://images.pexels.com/photos/1450353/pexels-photo-1450353.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      video: 'https://player.vimeo.com/external/403504372.sd.mp4?s=82ecbeedb08663a20ef7e9f1f21da433d0f1353f&profile_id=165',
-      fact: 'Recorded 1.1 million visitors in 2024, with 18% being international tourists',
-      details: [
-        '88 million years old rock formations',
-        'Boat rides from Malpe beach',
-        'Crystal clear turquoise waters',
-        'Protected geological site'
-      ],
-      location: 'Malpe, Udupi',
-      bestTime: 'November to February',
-      experience: 'Geological tours and photography sessions'
-    }
-  ],
-  food: [
-    {
-      id: 5,
-      title: 'Udupi Cuisine',
-      description: 'Traditional vegetarian cuisine known for its unique flavors, fresh ingredients, and innovative cooking techniques. Udupi cuisine has influenced South Indian cooking worldwide through its emphasis on coconut, curry leaves, and diverse preparations.',
-      image: 'https://images.pexels.com/photos/1640770/pexels-photo-1640770.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      video: 'https://player.vimeo.com/external/253067087.sd.mp4?s=1b7b1b14eb51345f77fc80c843f0e1ebeacb2a6a&profile_id=165',
-      fact: 'Over 2,000 Udupi restaurants worldwide serving authentic cuisine',
-      details: [
-        'Pure vegetarian tradition',
-        'Unique cooking methods',
-        'Fresh local ingredients',
-        'Famous for dosas and sambar'
-      ],
-      location: 'Udupi region',
-      bestTime: 'Year round',
-      experience: 'Cooking workshops and food tours'
-    }
-  ]
-};
-
-const categoryNames = {
-  culture: 'Cultural Arts',
-  temples: 'Sacred Temples',
-  beaches: 'Coastal Beauty',
-  food: 'Culinary Heritage'
-};
+import {
+  BookOpen,
+  Clock,
+  ChevronLeft,
+  ChevronRight,
+  ArrowRight,
+} from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+ // assuming you export the given array
 
 const CulturalShowcase = () => {
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const [activeCategory, setActiveCategory] = useState('culture');
+  const [activeCategory, setActiveCategory] = useState<string>('All');
+   const heritageHighlights = [
+    {
+      id: 'top-5-sacred-temples',
+      title: "Top 5 Sacred Temples",
+      description: "Discover the most revered temples showcasing centuries of spiritual heritage",
+      image: "/blog-images/polaliBlog/3B09D212-26E0-4FCF-A70C-6CFABDED2FED_4_5005_c.jpeg",
+      category: "Tulu Temples",
+      readTime: "8 min read",
+      details: [
+        {
+          title: "1. Sri Krishna Matha, Udupi",
+          description: "The crown jewel of Tulu Nadu's spiritual landscape, founded by the great philosopher Madhvacharya in the 13th century. Famous for its unique Kanakana Kindi - a silver-plated window through which devotees can view the deity. The temple's daily rituals, traditional Udupi cuisine, and the famous Paryaya festival make it a living center of culture and spirituality.",
+          highlights: ["700+ years of continuous worship", "Unique viewing window", "6.8 million annual pilgrims", "Traditional Udupi cuisine origin"]
+        },
+        {
+          title: "2. Polali Rajarajeshwari Temple",
+          description: "Dating back to the 8th century, this temple houses a unique clay idol of Goddess Sri Lalita Tripurasundari. Famous for its Chendu festival - a traditional football game symbolizing good vs evil. The temple's architecture features intricate wooden carvings and copper plates, representing the finest examples of traditional Tulu craftsmanship.",
+          highlights: ["8th century origins", "Clay idol tradition", "Chendu football festival", "Intricate wooden architecture"]
+        },
+        {
+          title: "3. Kadri Manjunatha Temple",
+          description: "Perched atop Kadri Hills, this ancient temple is associated with the Nath Panth tradition. Legend says Matsyendranath established the lingam here, making it significant for Nath Sampradaya followers. The temple offers panoramic views of Mangalore city and houses ancient bronze statues dating back to the 10th century.",
+          highlights: ["Hilltop location", "Nath Panth connection", "10th century bronze statues", "Panoramic city views"]
+        },
+        {
+          title: "4. Kollur Mookambika Temple",
+          description: "Nestled in the Western Ghats, this temple is dedicated to Goddess Mookambika, a form of Parvati. Unique as it houses both Shiva and Shakti in a single deity form, representing the perfect union of masculine and feminine energies. Surrounded by lush forests and the Souparnika River, offering a mystical experience.",
+          highlights: ["Western Ghats location", "Shiva-Shakti unity", "Forest surroundings", "Annual Navaratri celebrations"]
+        },
+        {
+          title: "5. Anantheshwara Temple, Udupi",
+          description: "The oldest temple in Udupi, predating even the famous Krishna Matha. Dedicated to Lord Shiva, showcasing the evolution of Dravidian architecture over centuries. Features a unique Chandramouleshwara shrine and hosts the magnificent annual Rathotsava (chariot festival) where ornately decorated chariots are pulled through streets by thousands of devotees.",
+          highlights: ["Oldest temple in Udupi", "Dravidian architecture", "Chandramouleshwara shrine", "Annual chariot festival"]
+        }
+      ]
+    },
+    {
+      id: 'top-10-cultural-festivals',
+      title: "Top 10 Cultural Festivals",
+      description: "Experience vibrant festivals from Yakshagana to traditional buffalo races",
+      image: "/blog-images/KambalaBlog/Screenshot 2025-06-30 at 11.02.23 PM.png",
+      category: "Tulu Festivals",
+      readTime: "12 min read",
+      details: [
+        {
+          title: "1. Yakshagana Performances",
+          description: "The crown jewel of Tulu Nadu's performing arts. These all-night theatrical performances combine dance, music, dialogue, and elaborate costumes to bring ancient epics to life. Performed from November to May, these shows transform village squares into magical theaters. The art form features over 78 active troupes across the region, contributing ₹42 crore annually to the local economy.",
+          highlights: ["78 active troupes", "₹42 crore annual contribution", "November to May season", "Stories from Hindu epics"]
+        },
+        {
+          title: "2. Kambala - Buffalo Race",
+          description: "Tulu Nadu's most iconic sporting festival, where pairs of buffaloes race through muddy paddy fields. Held from November to March, these races celebrate the bond between farmers and their animals while showcasing the region's agricultural heritage. Features multiple categories including Negilu Ota (plough race) and Hagga Ota (rope race).",
+          highlights: ["November to March season", "Multiple race categories", "Supreme Court legalized", "Agricultural heritage celebration"]
+        },
+        {
+          title: "3. Pilivesha - Tiger Dance",
+          description: "During Navratri and Krishna Janmashtami, streets come alive with Pilivesha. Performers painted as tigers dance to rhythmic beats in a mesmerizing spectacle that transcends age, gender, and religious boundaries. The dance has two distinct styles: Udupi style (performed during Krishna Janmashtami) and Mangalore style (featured during Dasara).",
+          highlights: ["Two distinct styles", "Transcends religious boundaries", "Community participation", "Ancient spirit worship roots"]
+        },
+        {
+          title: "4. Bhuta Kola - Spirit Worship",
+          description: "A ritualistic folk dance where performers embody spirits and deities. These ceremonies, held throughout the year but especially during December to March, feature elaborate costumes, fire dancing, and community blessings. Over 400 different spirit forms are documented across 200+ villages, each ceremony reflecting local beliefs and traditions.",
+          highlights: ["400+ spirit forms", "200+ villages", "Fire dancing performances", "Community blessing ceremonies"]
+        },
+        {
+          title: "5. Udupi Paryaya Festival",
+          description: "The Paryaya festival occurs every two years when the management of Sri Krishna Matha rotates between eight different mathas. This grand celebration features processions, cultural programs, and the ceremonial handover of temple administration. The festival attracts over 500,000 devotees and showcases the democratic tradition of temple management that has continued for over 700 years.",
+          highlights: ["Biennial celebration", "Eight matha rotation", "500,000+ devotees", "700+ year tradition"]
+        },
+        {
+          title: "6. Polali Chendu Festival",
+          description: "A unique five-day football festival held at Polali Rajarajeshwari Temple, seven days before the Avabritha celebration. Villages Ammunje and Manel compete as rivals, with Bollur and Mallur supporting them. Up to 500 participants may join, making this not just a sport but a cultural ritual symbolizing the eternal battle of good vs. evil.",
+          highlights: ["Five-day duration", "Village rivalries", "500+ participants", "Good vs evil symbolism"]
+        }
+      ]
+    },
+    {
+      id: 'hidden-cultural-gems',
+      title: "Hidden Cultural Gems",
+      description: "Venture beyond popular destinations to discover secret temples and ancient art forms",
+      image: "/blog-images/AC71E7A2-90DD-44B8-9B69-B22583029AE9_4_5005_c.jpeg",
+      category: "Hidden Gems",
+      readTime: "6 min read",
+      details: [
+        {
+          title: "1. Barkur - The Forgotten Capital",
+          description: "Once the capital of the Alupa dynasty, Barkur is now a sleepy town hiding incredible archaeological treasures. The Panchalingeshwara Temple complex features some of the finest stone carvings in coastal Karnataka, dating back to the 14th century. The town's narrow lanes are lined with traditional Tulu houses featuring distinctive red-tiled roofs and wooden pillars. Local artisans still practice ancient crafts like palm leaf manuscript writing and traditional pottery.",
+          highlights: ["Former Alupa capital", "14th century stone carvings", "Traditional Tulu houses", "Ancient craft traditions"]
+        },
+        {
+          title: "2. Mudabidri - Jain Heritage Center",
+          description: "Known as the 'Jain Kashi', Mudabidri houses 18 ancient Jain temples, including the magnificent Saavira Kambada Basadi (Thousand Pillar Temple) with uniquely carved pillars. The town preserves rare Jain manuscripts and traditional art forms. The annual Rathotsava here is a spectacular event where ornate chariots are pulled through streets lined with centuries-old temples.",
+          highlights: ["18 ancient Jain temples", "Thousand Pillar Temple", "Rare Jain manuscripts", "Medieval architecture pinnacle"]
+        },
+        {
+          title: "3. Belur Math Ashram, Malpe",
+          description: "This serene ashram, connected to the Ramakrishna Mission, sits quietly near Malpe beach. The ashram maintains a library of ancient texts and conducts traditional Vedic studies that attract scholars from across India. The ashram's meditation halls and peaceful gardens provide a perfect retreat for spiritual seekers, with regular discourses on Advaita Vedanta and traditional music concerts.",
+          highlights: ["Ramakrishna Mission connection", "Ancient text library", "Vedic studies center", "Meditation retreats"]
+        },
+        {
+          title: "4. Karkala Gomateshwara",
+          description: "The 57-foot monolithic statue of Gomateshwara carved from a single granite block in 1432 CE stands as a testament to Hoysala period artistic excellence. The surrounding hills hide numerous Jain temples and meditation caves. The annual Mahamastakabhisheka ceremony, held every 12 years, transforms the entire region into a pilgrimage destination.",
+          highlights: ["57-foot monolithic statue", "1432 CE creation", "Hoysala craftsmanship", "12-year Mahamastakabhisheka ceremony"]
+        },
+        {
+          title: "5. Horanadu Annapoorneshwari Temple",
+          description: "Deep in the Western Ghats, this temple dedicated to Goddess Annapoorneshwari offers free meals to all visitors. The temple's unique tradition of 'Akshaya Patra' ensures no one leaves hungry, embodying the spirit of Tulu hospitality. Surrounded by coffee plantations and pristine forests, the temple provides a perfect blend of spirituality and natural beauty.",
+          highlights: ["Free meal tradition", "Western Ghats location", "Coffee plantation surroundings", "Akshaya Patra concept"]
+        },
+        {
+          title: "6. Kateel Durgaparameshwari Temple",
+          description: "Located on a small island in the Nandini River, this ancient temple is dedicated to Goddess Durga. The temple's unique location requires crossing a bridge to reach, adding to its mystical appeal. Known for its powerful deity and miraculous healing powers, the temple attracts devotees seeking blessings for health and prosperity.",
+          highlights: ["River island location", "Bridge crossing required", "Healing powers reputation", "Goddess Durga worship"]
+        }
+      ]
+    },
+    {
+      id: 'traditional-arts-crafts',
+      title: "Traditional Arts & Crafts",
+      description: "Meet master craftsmen keeping ancient traditions alive through exceptional skills",
+      image: "/blog-images/PiliveshaBlog/DF61DBA2-3A60-43A9-84AC-3BC20A7C392C.jpeg",
+      category: "Arts & Crafts",
+      readTime: "10 min read",
+      details: [
+        {
+          title: "Yakshagana Costume Making",
+          description: "The elaborate costumes are masterpieces of traditional craftsmanship. Master artisans spend months creating each costume using techniques passed down through generations. The Kirita (crown) alone requires over 100 hours of intricate work. These costumes use natural materials like bamboo, cloth, and natural dyes. Each character has specific color codes and designs that help audiences identify them instantly.",
+          highlights: ["100+ hours per crown", "Natural materials only", "Character-specific designs", "Supports 200+ families"]
+        },
+        {
+          title: "Traditional Pottery",
+          description: "Tulu pottery is renowned for its distinctive red clay vessels used in temples and homes. The potters of Manipal and surrounding villages create everything from massive temple urns to delicate oil lamps using techniques unchanged for centuries. The clay is sourced from specific riverbanks and mixed with natural materials to achieve the characteristic strength and color.",
+          highlights: ["Distinctive red clay", "Traditional kiln firing", "Temple and home use", "Centuries-old techniques"]
+        },
+        {
+          title: "Palm Leaf Manuscript Art",
+          description: "The ancient art of writing on palm leaves continues, preserving religious texts, medical treatises, and literary works using traditional iron styluses. These manuscripts can last for centuries when properly maintained. The Udupi libraries house thousands of such manuscripts, including rare texts on Ayurveda, astronomy, and philosophy that are found nowhere else in the world.",
+          highlights: ["Iron stylus technique", "Centuries-lasting manuscripts", "Rare Ayurvedic texts", "Udupi library collections"]
+        },
+        {
+          title: "Traditional Weaving",
+          description: "Tulu handloom weaving produces distinctive cotton and silk fabrics used in traditional clothing and temple decorations. The weavers of Kundapura are particularly famous for their intricate border designs and natural dyeing techniques. Traditional motifs include temple designs, floral patterns, and geometric shapes that have symbolic meanings in Tulu culture.",
+          highlights: ["Kundapura weaving center", "Natural dyeing techniques", "Symbolic motifs", "Temple decorations"]
+        },
+        {
+          title: "Wood Carving Traditions",
+          description: "The intricate wood carvings found in Tulu temples and traditional homes represent centuries of artistic evolution. Master carvers use jackfruit wood and teak to create elaborate pillars, door frames, and decorative panels. Each carving tells a story, often depicting scenes from Hindu epics or local folklore. The Anantheshwara Temple in Udupi showcases some of the finest examples of this art.",
+          highlights: ["Jackfruit wood and teak", "Epic story depictions", "800+ year examples", "Temple architecture integration"]
+        },
+        {
+          title: "Traditional Mask Making",
+          description: "The art of creating masks for Bhuta Kola and other ritual performances involves intricate craftsmanship passed down through generations. Each mask represents a specific deity or spirit, with unique colors, expressions, and decorative elements. The process involves wood carving, painting with natural pigments, and adding decorative elements like metal work and fabric.",
+          highlights: ["Deity-specific designs", "Natural pigment painting", "Metal work integration", "Generational knowledge transfer"]
+        }
+      ]
+    }
+  ];
+  const categories = ['All', ...Array.from(new Set(heritageHighlights.map((item) => item.category)))];
+
+  const filteredHighlights =
+    activeCategory === 'All'
+      ? heritageHighlights
+      : heritageHighlights.filter((item) => item.category === activeCategory);
+
+  const currentHighlight = filteredHighlights[0];
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -126,9 +192,9 @@ const CulturalShowcase = () => {
       { threshold: 0.1 }
     );
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
+    document.querySelectorAll('.scroll-reveal').forEach((el) => {
+      observer.observe(el);
+    });
 
     return () => {
       observer.disconnect();
@@ -136,100 +202,139 @@ const CulturalShowcase = () => {
   }, []);
 
   return (
-    <div
-      ref={sectionRef}
-      className="py-24 px-4 md:px-8 bg-gradient-to-b from-background via-tulu-beige/5 to-tulu-sand/10"
-    >
-      <div className="max-w-7xl mx-auto">
-        {/* Header Section */}
-        <div className="text-center mb-20 scroll-reveal">
-          <div className="flex items-center justify-center gap-3 mb-6">
-            <div className="w-12 h-1 bg-tulu-red rounded-full"></div>
-            <span className="text-tulu-red font-medium uppercase tracking-wider text-sm">
-              Cultural Heritage
-            </span>
-            <div className="w-12 h-1 bg-tulu-red rounded-full"></div>
-          </div>
-          
-          <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold mb-8">
-            <span className="text-tulu-teal">Living</span> Heritage of{' '}
-            <span className="text-tulu-red">Tulu Nadu</span>
-          </h2>
-          
-          <p className="text-muted-foreground max-w-4xl mx-auto text-lg leading-relaxed mb-12">
-            Explore Tulu Nadu's rich cultural heritage through four distinct categories that showcase 
-            the region's traditions, spirituality, natural beauty, and culinary excellence.
-          </p>
+    <div className="py-16 sm:py-20 lg:py-24 px-4 md:px-8 bg-gradient-to-b from-tulu-sand/20 to-background">
+      <div className="max-w-6xl mx-auto text-center scroll-reveal">
+        <Badge className="mb-4 sm:mb-6 bg-gradient-to-r from-tulu-green to-tulu-blue text-white px-4 sm:px-6 py-2">
+          <BookOpen className="w-4 h-4 mr-2" />
+          Cultural Heritage
+        </Badge>
 
-          {/* Category Navigation */}
-          <div className="flex flex-wrap justify-center gap-4 mb-16">
-            {Object.entries(categoryNames).map(([key, name]) => (
-              <button
-                key={key}
-                onClick={() => setActiveCategory(key)}
-                className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
-                  activeCategory === key
-                    ? 'bg-tulu-red text-white shadow-lg'
-                    : 'bg-white/10 backdrop-blur-sm border border-tulu-sand/30 text-tulu-blue hover:bg-tulu-red/10 hover:border-tulu-red/30'
+        <h1 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6">
+          <span className="bg-gradient-to-r from-tulu-blue via-tulu-teal to-tulu-green bg-clip-text text-transparent">
+            Living Heritage
+          </span>{' '}
+          <span className="text-tulu-red">of Tulu Nadu</span>
+        </h1>
+
+        <p className="text-muted-foreground text-base sm:text-lg lg:text-xl max-w-4xl mx-auto leading-relaxed mb-8 sm:mb-12">
+          Explore the rich cultural tapestry of Tulu Nadu through sacred temples, vibrant festivals,
+          ancient art forms, and hidden gems that showcase centuries of living heritage.
+        </p>
+
+        {/* Category Filter */}
+        <div className="flex justify-center flex-wrap gap-3 mb-8 sm:mb-12">
+          {categories.map((category) => (
+            <button
+              key={category}
+              onClick={() => setActiveCategory(category)}
+              className={`px-4 py-2 rounded-full text-sm sm:text-base font-medium border transition-all
+                ${activeCategory === category
+                  ? 'bg-tulu-blue text-white border-tulu-blue'
+                  : 'bg-white text-tulu-blue border-tulu-blue hover:bg-tulu-blue/10'
                 }`}
-              >
-                {name}
-              </button>
-            ))}
-          </div>
-        </div>
-        
-        {/* Cultural Elements for Active Category */}
-        <div className="space-y-32">
-          {culturalCategories[activeCategory as keyof typeof culturalCategories].map((element, index) => (
-            <div
-              key={element.id}
-              className={`scroll-reveal ${index % 2 === 0 ? '' : 'lg:flex-row-reverse'} flex flex-col lg:flex-row gap-12 items-center`}
             >
-              <div className="lg:w-1/2">
-                <CulturalElementMedia
-                  image={element.image}
-                  video={element.video}
-                  title={element.title}
-                  fact={element.fact}
-                />
-              </div>
-              <CulturalElementDetails
-                id={element.id}
-                title={element.title}
-                description={element.description}
-                details={element.details}
-                location={element.location}
-                bestTime={element.bestTime}
-                experience={element.experience}
-              />
-            </div>
+              {category}
+            </button>
           ))}
         </div>
-        
-        {/* Call to Action Section */}
-        <div className="mt-32 text-center scroll-reveal">
-          <div className="bg-gradient-to-r from-tulu-teal/10 via-tulu-blue/5 to-tulu-red/10 rounded-3xl p-12 border border-tulu-sand/20">
-            <h3 className="font-display text-3xl font-bold mb-6 text-tulu-blue">
-              Ready to Experience Tulu Nadu's Heritage?
-            </h3>
-            <p className="text-muted-foreground mb-8 max-w-2xl mx-auto">
-              Join our guided cultural tours and immerse yourself in the authentic traditions, 
-              stories, and experiences that make Tulu Nadu truly special.
-            </p>
-            <Button 
-              className="bg-tulu-red hover:bg-tulu-blue text-white group"
-              size="lg"
-              asChild
-            >
-              <Link to="/booking">
-                <Users className="mr-2" size={20} />
-                Book Cultural Heritage Tour
-                <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={18} />
-              </Link>
-            </Button>
-          </div>
+
+        {/* Stats Cards */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 mb-8 sm:mb-12 max-w-4xl mx-auto">
+          <Card className="border border-slate-200 shadow-sm bg-white/80 backdrop-blur-sm">
+            <CardContent className="p-3 sm:p-4 text-center">
+              <div className="text-xl sm:text-2xl font-bold text-tulu-blue mb-1">50+</div>
+              <div className="text-xs sm:text-sm text-muted-foreground">Tulu Temples</div>
+            </CardContent>
+          </Card>
+          <Card className="border border-slate-200 shadow-sm bg-white/80 backdrop-blur-sm">
+            <CardContent className="p-3 sm:p-4 text-center">
+              <div className="text-xl sm:text-2xl font-bold text-tulu-green mb-1">25+</div>
+              <div className="text-xs sm:text-sm text-muted-foreground"> Tulu Festivals</div>
+            </CardContent>
+          </Card>
+          <Card className="border border-slate-200 shadow-sm bg-white/80 backdrop-blur-sm">
+            <CardContent className="p-3 sm:p-4 text-center">
+              <div className="text-xl sm:text-2xl font-bold text-tulu-red mb-1">15+</div>
+              <div className="text-xs sm:text-sm text-muted-foreground">Art Forms</div>
+            </CardContent>
+          </Card>
+          <Card className="border border-slate-200 shadow-sm bg-white/80 backdrop-blur-sm">
+            <CardContent className="p-3 sm:p-4 text-center">
+              <div className="text-xl sm:text-2xl font-bold text-tulu-gold mb-1">800+</div>
+              <div className="text-xs sm:text-sm text-muted-foreground">Years History</div>
+            </CardContent>
+          </Card>
         </div>
+
+        {/* Highlight Card */}
+        {currentHighlight && (
+          <Card className="overflow-hidden border-none shadow-2xl">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
+            <div className="relative w-full aspect-[4/3] sm:aspect-[5/3] lg:aspect-[16/7] overflow-hidden rounded-xl">
+                <img
+                  src={currentHighlight.image}
+                  alt={currentHighlight.title}
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-r from-black/50 to-transparent" />
+
+                <div className="absolute top-4 left-4">
+                  <Badge className="bg-tulu-teal/90 text-white text-xs sm:text-sm backdrop-blur-sm">
+                    {currentHighlight.category}
+                  </Badge>
+                </div>
+
+                <div className="absolute bottom-4 left-4">
+                  <Badge className="bg-black/50 text-white backdrop-blur-sm text-xs sm:text-sm">
+                    <Clock className="w-3 h-3 mr-1" />
+                    {currentHighlight.readTime}
+                  </Badge>
+                </div>
+              </div>
+
+              <CardContent className="p-6 sm:p-8 lg:p-12">
+                <h3 className="font-display text-xl sm:text-2xl lg:text-3xl font-bold mb-4 text-tulu-blue">
+                  {currentHighlight.title}
+                </h3>
+                <p className="text-muted-foreground text-sm sm:text-base mb-6 leading-relaxed">
+                  {currentHighlight.description}
+                </p>
+
+                <div className="space-y-6 max-h-64 overflow-y-auto">
+                  {currentHighlight.details.map((detail, index) => (
+                    <div key={index} className="border-l-4 border-tulu-teal pl-4">
+                      <h4 className="font-semibold text-base sm:text-lg mb-2 text-tulu-blue">
+                        {detail.title}
+                      </h4>
+                      <p className="text-muted-foreground text-xs sm:text-sm mb-3 leading-relaxed">
+                        {detail.description}
+                      </p>
+                      <div className="flex flex-wrap gap-2">
+                        {detail.highlights.map((highlight, idx) => (
+                          <Badge key={idx} variant="secondary" className="text-xs">
+                            {highlight}
+                          </Badge>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="mt-8">
+                  <Button
+                    className="bg-gradient-to-r from-tulu-blue to-tulu-teal hover:from-tulu-teal hover:to-tulu-green text-white group w-full sm:w-auto"
+                    asChild
+                  >
+                    <Link to="/culturalheritage">
+                      Read Full Article
+                      <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                    </Link>
+                  </Button>
+                </div>
+              </CardContent>
+            </div>
+          </Card>
+        )}
       </div>
     </div>
   );

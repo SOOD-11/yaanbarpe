@@ -1,9 +1,9 @@
-
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
-import { Button } from "@/components/ui/button";
 import { cn } from '@/lib/utils';
+
+const GOOGLE_FORM_LINK = "https://forms.gle/6HxmgaacowCPBFJt6"; // Replace with your actual form link
 
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -14,103 +14,68 @@ const Navigation = () => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
-    
+
     window.addEventListener('scroll', handleScroll);
-    
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const isActive = (path: string) => {
-    return location.pathname === path;
-  };
+  const isActive = (path: string) => location.pathname === path;
 
   return (
-    <nav 
+    <nav
       className={cn(
         'fixed w-full top-0 z-50 transition-all duration-300 px-4 md:px-8 py-4',
-        isScrolled ? 'bg-background/90 backdrop-blur-md shadow-md' : 'bg-transparent'
+        isScrolled ? 'bg-background/90 backdrop-blur-md shadow-lg' : 'bg-transparent'
       )}
     >
       <div className="max-w-7xl mx-auto flex justify-between items-center">
       <Link to="/" className="flex items-center justify-center space-x-2 relative z-10">
   <div className="relative top-0">
-    <img 
-      src="/lovable-uploads/_logo1.png" 
-      alt="YaanBarpe" 
-      className="h-32 sm:h-16 md:h-20 lg:h-24 xl:h-28 2xl:h-32 w-auto transition-all duration-300 ease-in-out"
+    <img
+      src="/lovable-uploads/_logo1.png"
+      alt="YaanBarpe"
+      className="h-32 sm:h-20 md:h-24 lg:h-28 xl:h-32 w-auto object-contain transition-all duration-300"
     />
   </div>
 </Link>
-        
+
         {/* Desktop Navigation */}
         <div className="hidden lg:flex space-x-1 items-center">
-          <Link 
-            to="/"
-            className={cn(
-              "group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors focus:outline-none",
-              isActive('/') ? "bg-tulu-blue/10 text-tulu-blue" : "text-foreground hover:bg-accent hover:text-accent-foreground"
-            )}
+          {[
+            { to: "/", label: "Home" },
+            { to: "/about", label: "About" },
+            { to: "/culturalheritage", label: "Cultural Heritage" },
+            { to: "/packages", label: "Packages" },
+            { to: "/contact", label: "Contact" },
+          ].map(({ to, label }) => (
+            <Link
+              key={to}
+              to={to}
+              className={cn(
+                "group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors focus:outline-none",
+                isActive(to)
+                  ? "bg-tulu-blue/10 text-tulu-blue"
+                  : "text-foreground hover:bg-accent hover:text-accent-foreground",
+                to === "/contact" && "ml-2"
+              )}
+            >
+              {label}
+            </Link>
+          ))}
+
+          {/* Google Form Button for Desktop */}
+          <a
+            href={GOOGLE_FORM_LINK}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="ml-4 bg-tulu-red hover:bg-tulu-blue transition-colors text-white px-4 py-2 rounded-md text-sm font-medium"
           >
-            Home
-          </Link>
-          
-          <Link 
-            to="/about"
-            className={cn(
-              "group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors focus:outline-none",
-              isActive('/about') ? "bg-tulu-blue/10 text-tulu-blue" : "text-foreground hover:bg-accent hover:text-accent-foreground"
-            )}
-          >
-            About
-          </Link>
-          
-          <Link 
-            to="/heritage"
-            className={cn(
-              "group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors focus:outline-none",
-              isActive('/heritage') ? "bg-tulu-blue/10 text-tulu-blue" : "text-foreground hover:bg-accent hover:text-accent-foreground"
-            )}
-          >
-            Cultural Heritage
-          </Link>
-          
-          <Link 
-            to="/blog"
-            className={cn(
-              "group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors focus:outline-none",
-              isActive('/blog') ? "bg-tulu-blue/10 text-tulu-blue" : "text-foreground hover:bg-accent hover:text-accent-foreground"
-            )}
-          >
-            Blog
-          </Link>
-          
-          <Link 
-            to="/packages"
-            className={cn(
-              "group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors focus:outline-none",
-              isActive('/packages') ? "bg-tulu-blue/10 text-tulu-blue" : "text-foreground hover:bg-accent hover:text-accent-foreground"
-            )}
-          >
-            Packages
-          </Link>
-          
-         
-          
-          <Link 
-            to="/contact"
-            className={cn(
-              "group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors focus:outline-none ml-2",
-              isActive('/contact') ? "bg-tulu-blue/10 text-tulu-blue" : "text-foreground hover:bg-accent hover:text-accent-foreground"
-            )}
-          >
-            Contact
-          </Link>
+            Fill Google Form
+          </a>
         </div>
-        
+
         {/* Mobile Navigation Toggle */}
-        <button 
+        <button
           className="lg:hidden text-foreground p-2 z-50"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           aria-label="Toggle menu"
@@ -121,55 +86,36 @@ const Navigation = () => {
 
       {/* Mobile Navigation Menu */}
       {mobileMenuOpen && (
-        <div className="lg:hidden fixed inset-0 z-40 bg-background/95 backdrop-blur-md pt-20">
-          <div className="flex flex-col h-full overflow-y-auto space-y-6 p-8">
-            <Link 
-              to="/"
-              className="text-2xl font-display font-medium py-3 border-b border-border/30 hover:text-tulu-blue transition-colors"
+        <div className="lg:hidden fixed inset-0 z-40 bg-background/95 backdrop-blur-md w-screen h-screen pt-20 overflow-y-auto">
+          <div className="flex flex-col space-y-6 px-6 pb-10">
+            {[
+              { to: "/", label: "Home" },
+              { to: "/about", label: "About" },
+              { to: "/culturalheritage", label: "Cultural Heritage" },
+             
+              { to: "/packages", label: "Packages" },
+             
+            ].map(({ to, label }) => (
+              <Link
+                key={to}
+                to={to}
+                className="text-2xl font-display font-medium py-3 border-b border-border/30 hover:text-tulu-blue transition-colors"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {label}
+              </Link>
+            ))}
+
+            {/* Google Form Button for Mobile */}
+            <a
+              href={GOOGLE_FORM_LINK}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-tulu-red hover:bg-tulu-blue transition-colors text-white mt-4 py-6 text-lg text-center rounded-md px-4"
               onClick={() => setMobileMenuOpen(false)}
             >
-              Home
-            </Link>
-            <Link 
-              to="/about"
-              className="text-2xl font-display font-medium py-3 border-b border-border/30 hover:text-tulu-blue transition-colors"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              About
-            </Link>
-            <Link 
-              to="/heritage"
-              className="text-2xl font-display font-medium py-3 border-b border-border/30 hover:text-tulu-blue transition-colors"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Cultural Heritage
-            </Link>
-            <Link 
-              to="/blog"
-              className="text-2xl font-display font-medium py-3 border-b border-border/30 hover:text-tulu-blue transition-colors"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Blog
-            </Link>
-            <Link 
-              to="/packages"
-              className="text-2xl font-display font-medium py-3 border-b border-border/30 hover:text-tulu-blue transition-colors"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Packages
-            </Link>
-            
-            <Button className="bg-tulu-red hover:bg-tulu-blue transition-colors text-white mt-4 py-6 text-lg" asChild>
-              <Link to="/booking" onClick={() => setMobileMenuOpen(false)}>Book Experience</Link>
-            </Button>
-            
-            <Link 
-              to="/contact"
-              className="text-2xl font-display font-medium py-3 border-b border-border/30 hover:text-tulu-blue transition-colors"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Contact
-            </Link>
+              Share My Voice
+            </a>
           </div>
         </div>
       )}
