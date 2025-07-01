@@ -2,6 +2,7 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { ExternalLink } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 interface AdSpaceProps {
   position: 'top' | 'middle' | 'bottom' | 'sidebar';
@@ -65,14 +66,15 @@ const AdSpace: React.FC<AdSpaceProps> = ({ position, size = 'medium' }) => {
         <p className="text-sm md:text-base text-white/90 mb-4 max-w-sm">
           {adContent.description}
         </p>
-        <Button 
-          variant="secondary" 
-          size="sm"
-          className="bg-white text-[#00555A] hover:bg-white/90 group-hover:scale-105 transition-all"
+        <Link
+          
+     to={"/packages"}
+          className="bg-white p-2 text-[#00555A] hover:bg-white/90 group-hover:scale-105 transition-all"
         >
+            
           {adContent.cta}
-          <ExternalLink className="ml-2 h-4 w-4" />
-        </Button>
+       
+        </Link>
       </div>
       
       {/* Sponsored label */}

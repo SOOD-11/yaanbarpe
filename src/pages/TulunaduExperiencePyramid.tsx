@@ -69,7 +69,7 @@ export default function PyramidLayout() {
             rel="noopener noreferrer"
             className="inline-block mt-4 px-6 py-3 bg-rose-600 text-white font-medium rounded-full hover:bg-rose-700 transition"
           >
-            🌟 Fill the Form & Join  Yibee
+           Join Survey
           </a>
         </div>
       </div>

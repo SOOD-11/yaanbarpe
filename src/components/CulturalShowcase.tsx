@@ -270,7 +270,7 @@ const CulturalShowcase = () => {
         {currentHighlight && (
           <Card className="overflow-hidden border-none shadow-2xl">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
-            <div className="relative w-full aspect-[4/3] sm:aspect-[5/3] lg:aspect-[16/7] overflow-hidden rounded-xl">
+            <div className="relative w-full aspect-[4/3] sm:aspect-[5/3] lg:aspect-auto lg:h-full overflow-hidden rounded-xl">
                 <img
                   src={currentHighlight.image}
                   alt={currentHighlight.title}

@@ -103,7 +103,7 @@ export const BlogPost = ({
           {/* Read More button */}
           <div className="mt-3">
             <Link to={`/blog/${linkId}`}>
-              <Button size="sm" variant="secondary" className="text-white bg-white/10 hover:bg-white/20">
+              <Button size="sm" variant="secondary" className="text-white bg-red-500 hover:bg-white/20">
                 Read More
               </Button>
             </Link>

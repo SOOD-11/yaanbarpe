@@ -37,11 +37,11 @@ const About = () => {
     {
       name: "Jeevan Shetty",
       role: "Research head",
-      image: "",
+      image: "/Team/15DBC155-629C-4968-962E-D922A580F9F5.png",
       
     },
     {
-      name: "Anamay Tripathi",
+      name: "Anamay Tripathy",
       role: "Tech head",
       image: "/Team/DSC_0129.jpg",
     
@@ -49,7 +49,7 @@ const About = () => {
     {
       name: "Sanchit Sood",
       role: "Tech head",
-      image: "/Team/Screenshot 2025-07-01 at 4.18.13 AM.png",
+      image: "/Team/Screenshot 2025-07-02 at 1.18.27 AM.png",
      
     },
     {
@@ -68,13 +68,13 @@ const About = () => {
     {
       name: "Polumi Burman",
       role: "Marketing head",
-      image: "public/Team/Screenshot 2025-07-01 at 3.54.00 AM.png",
+      image: "/Team/Screenshot 2025-07-01 at 3.54.00 AM.png",
 
     },
     {
       name: "Ananya Tayal",
       role: "Head of Data Management",
-      image: "Team/2E99C400-7651-44CB-ABB9-FEFC57B4324A_4_5005_c.jpeg",
+      image: "/Team/2E99C400-7651-44CB-ABB9-FEFC57B4324A_4_5005_c.jpeg",
       
     },
     {
@@ -87,6 +87,12 @@ const About = () => {
       name: "Shivam Raj",
       role: "Head of Design",
       image: "/Team/Shivam.jpg",
+      
+    },
+    {
+      name: "Ayush",
+      role:"Video Editor",
+      image: "/Team/EC9BAC89-81EB-443E-8E5B-3D7409D7CFF5.png",
       
     },
   ];

@@ -11,12 +11,12 @@ const heroSlides = [
   {
     title: "Discover the Soul of Tulu Nadu",
     subtitle: "with Yaanbarpe",
-    description: "where every athiti finds a home, and every journey calls you back",
+    description: "where every athiti finds a home,and every journey calls you back",
     video: driveVideo,
     image: "https://images.pexels.com/photos/2161467/pexels-photo-2161467.jpeg?auto=compress&cs=tinysrgb&w=1200",
   },
   {
-    title: "Live Yakshagana Performances",
+    title: "Live Yakshagana Performance",
     subtitle: "Traditional Theatre Comes Alive",
     description:" where every athiti finds a home, and every journey calls you back",
     video: driveVideo,
@@ -94,7 +94,7 @@ const EnhancedHero = () => {
 
       {/* Mute toggle */}
       <div
-        className="absolute bottom-6 left-6 z-30 bg-black/60 text-white px-3 py-1 rounded-full flex items-center gap-2 cursor-pointer hover:bg-black/80 transition"
+        className="absolute bottom-36 left-0 z-30 bg-black/60 text-white px-1 py-0 rounded-full flex items-center gap-2 cursor-pointer hover:bg-black/80 transition"
         onClick={() => setIsMuted((prev) => !prev)}
       >
         {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}

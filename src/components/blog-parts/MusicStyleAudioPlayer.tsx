@@ -140,18 +140,7 @@ const MusicStyleAudioPlayer = ({
           </Button>
         </div>
         
-        <div className="flex items-center gap-3">
-          <Volume2 className="h-4 w-4 text-muted-foreground" />
-          <div 
-            className="w-24 h-2 bg-gray-200 rounded-full cursor-pointer"
-            onClick={handleVolumeChange}
-          >
-            <div 
-              className="h-full bg-[#00555A] rounded-full transition-all"
-              style={{ width: `${volume}%` }}
-            ></div>
-          </div>
-        </div>
+        
       </div>
       
       {/* Progress Bar */}

@@ -174,7 +174,7 @@ const DetailedBlogPost = ({
   }
 
   return (
-    <div className="max-w-4xl mx-auto space-y-8 px-4 sm:px-6 lg:px-8">
+    <div className="max-w-4xl  space-y-4 w-full">
       <AdSpace position="top" size="large" />
       <BlogHeader category={category} title={title} date={date} readTime={readTime} author={author} authorImage={authorImage} audioAvailable={audioAvailable} isAudioPlaying={isPlaying} onToggleAudio={handleTextToSpeech} />
       {images.length >= 0 && (
@@ -188,37 +188,54 @@ const DetailedBlogPost = ({
         <MusicStyleAudioPlayer text={contentParts[currentPartIndex]} title={title} isPlaying={isPlaying} onTogglePlay={handleTextToSpeech} />
       )}
       <FactCard />
-      <div className="bg-white rounded-lg p-6 shadow-sm border relative">
-        <AnimatePresence mode="wait">
-          <motion.div key={currentPartIndex} initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -30 }} transition={{ duration: 0.3 }} className="prose prose-base sm:prose-lg max-w-none leading-relaxed text-gray-700 space-y-6">
-            <div dangerouslySetInnerHTML={{ __html: contentParts[currentPartIndex] }} />
-          </motion.div>
-        </AnimatePresence>
-        <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <Button onClick={handlePrev} disabled={currentPartIndex === 0} variant="outline">Previous</Button>
-          <span className="text-sm text-muted-foreground">Slide {currentPartIndex + 1} of {contentParts.length}</span>
-          <Button onClick={handleNext} disabled={currentPartIndex === contentParts.length - 1}>Next</Button>
-        </div>
-      </div>
+      <div className="bg-white rounded-lg p-2 w-full h-auto shadow-sm border relative">
+  <AnimatePresence mode="wait">
+    <motion.div
+      key={currentPartIndex}
+      initial={{ opacity: 0, x: 30 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: -30 }}
+      transition={{ duration: 0.3 }}
+      className="prose prose-base sm:prose-lg max-w-none leading-relaxed text-gray-700 space-y-6 pb-24"
+    >
+      <div dangerouslySetInnerHTML={{ __html: contentParts[currentPartIndex] }} />
+    </motion.div>
+  </AnimatePresence>
+
+  {/* Sticky Slide Navigation (inside card only) */}
+  <div className="sticky bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-4 py-3 flex items-center justify-between z-10">
+    <Button
+      onClick={handlePrev}
+      disabled={currentPartIndex === 0}
+      variant="outline"
+      className="w-1/3 sm:w-auto"
+    >
+      Previous
+    </Button>
+
+    <span className="text-sm text-muted-foreground mx-2 whitespace-nowrap">
+      Slide {currentPartIndex + 1} of {contentParts.length}
+    </span>
+
+    <Button
+      onClick={handleNext}
+      disabled={currentPartIndex === contentParts.length - 1}
+      className="w-1/3 sm:w-auto"
+    >
+      Next
+    </Button>
+  </div>
+</div>
   { /*   <AdSpace position="middle" size="medium" />*/}
       <KnowledgeQuiz blogTitle={title} onQuizComplete={() =>{} } />
       <ReactionBar onInteraction={() => {}} />
-      <div className="bg-[#EDE8D0]/20 p-6 rounded-lg">
-        <h5 className="text-sm font-medium mb-4 text-[#00555A]">Related Topics:</h5>
-        <div className="flex flex-wrap gap-3">
-          {tags.map((tag, index) => (
-            <span key={index} className="bg-[#EDE8D0] hover:bg-[#00555A] hover:text-white px-4 py-2 rounded-full text-sm cursor-pointer transition-all duration-300 hover:scale-105" onClick={() => addReadingPoints(1, `Clicked ${tag} tag`)}>{tag}</span>
-          ))}
-        </div>
-      </div>
+      
       { /*  <AdSpace position="bottom" size="medium" /> */}
       <div className="py-8">
        {/* <CommentSection postTitle={title} /> */}
       </div>
-      <Separator className="my-12" />
-      <div className="bg-white p-8 rounded-xl shadow-sm border">
-        <AuthorInfo author={author} authorImage={authorImage} onViewProfile={() =>{} } />
-      </div>
+
+     
       
     </div>
   );
