@@ -1,4 +1,7 @@
 import React from 'react';
+import ReactGA from 'react-ga4';
+
+
 
 const GOOGLE_FORM_LINK = "https://docs.google.com/forms/d/e/1FAIpQLScQQHmsWq1TLg0ccUu8FggRR1qZh6y0Ep7Iwdk-WadZWGa3dw/viewform"; // Replace this
 
@@ -19,6 +22,7 @@ const InterestFormCTA = () => {
           target="_blank"
           rel="noopener noreferrer"
           className="inline-block bg-tulu-red hover:bg-tulu-blue text-white text-lg font-semibold px-8 py-4 rounded-md transition-colors"
+        
         >
   Join Survey
         </a>

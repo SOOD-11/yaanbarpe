@@ -74,18 +74,13 @@ const BlogPostPage = () => {
     <div className="min-h-screen flex flex-col">
       <Navigation />
       <div className="py-12 px-4 md:px-8 flex-grow bg-gray-50/30">
-        <div className="container mx-auto max-w-4xl">
-          <Button
-            variant="ghost"
-            size="sm"
-            className="mb-6 text-[#00555A] hover:text-[#00555A] hover:bg-[#00555A]/10 group"
-            asChild
-          >
-            <Link to="/culturalheritage">
+        <div className=" container px-9 mx-auto max-w-4xl">
+       
+            <Link to='/culturalheritage' className='flex flex-row'>
               <ArrowLeft className="mr-2 h-4 w-4 group-hover:-translate-x-1 transition-transform duration-300" />
-              Back to all articles
+           <h3>Back to articles</h3>
             </Link>
-          </Button>
+     
           
           <DetailedBlogPost 
             title={currentPost.title}
@@ -104,7 +99,7 @@ const BlogPostPage = () => {
           <div className="mt-12 border-t border-gray-200 pt-8">
             <div className="flex flex-col md:flex-row justify-between items-center gap-6 bg-white p-6 rounded-lg shadow-sm">
               <div className="flex items-center gap-2">
-                <span className="text-sm text-muted-foreground">Last updated: {currentPost.date}</span>
+                
               </div>
             </div>
           </div>

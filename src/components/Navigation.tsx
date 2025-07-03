@@ -114,7 +114,7 @@ const Navigation = () => {
               className="bg-tulu-red hover:bg-tulu-blue transition-colors text-white mt-4 py-6 text-lg text-center rounded-md px-4"
               onClick={() => setMobileMenuOpen(false)}
             >
-          join survey
+          Join Survey
             </a>
           </div>
         </div>

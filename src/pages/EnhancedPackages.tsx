@@ -20,7 +20,7 @@ const EnhancedPackages = () => {
               <span className="text-tulu-green">YaanBarpe</span>: Shaping a New Cultural Travel Movement
             </h1>
             <p className="text-muted-foreground text-lg mb-8">
-              We're not launching trips just yet. Instead, we're designing the future of immersive Indian travel—from semi-emulsive getaways to deeply cultural experiences.
+              We're not launching trips just yet. Instead, we're designing the future of immersive Indian travel—from semi-immersive getaways to deeply cultural experiences.
               <br />
               Your insights will help us build India's most meaningful cultural platform.
             </p>

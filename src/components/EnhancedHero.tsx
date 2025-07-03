@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import { ArrowRight, VolumeX, Volume2, Sparkles } from 'lucide-react';
+import ReactGA from 'react-ga4';
 
 const driveVideo = "https://res.cloudinary.com/dtsd5sgcy/video/upload/v1751287909/Tulu_reel_g2orrj.mp4";
 
@@ -135,7 +136,13 @@ const EnhancedHero = () => {
             asChild
             className="bg-green-400 text-white hover:bg-green-400 text-base px-10 py-4 rounded-full font-semibold shadow-lg transition-transform hover:scale-105"
           >
-            <Link to="/packages">
+            <Link to="/packages"  
+            onClick={() =>
+    ReactGA.event({
+      category: 'Navigation',
+      action: 'Click',
+      label: 'package enquiry',
+    })}>
               Explore Experiences <ArrowRight className="ml-2 w-4 h-4" />
             </Link>
           </Button>
@@ -145,7 +152,15 @@ const EnhancedHero = () => {
             variant="outline"
             className="border-2 border-[#00555A] text-[#00555A] hover:bg-[#00555A] hover:text-white text-base px-10 py-4 rounded-full font-semibold transition-transform hover:scale-105"
           >
-            <Link to="/blog">
+            <Link to="/culturalheritage"
+            onClick={() =>
+    ReactGA.event({
+      category: 'Navigation',
+      action: 'Click',
+      label: 'cultural blogs',
+    })
+  }
+   >
              Learn About Our Culture
             </Link>
           </Button>

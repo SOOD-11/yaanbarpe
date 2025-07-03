@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { Play, Calendar, Clock, Headphones } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
+import ReactGA from 'react-ga4';
 
 interface BlogPostProps {
   id?: string;
@@ -25,7 +26,7 @@ export const BlogPost = ({
   title,
   excerpt,
   image,
-  video, // ✅ Use this
+  video, 
   category,
   author,
   readTime,
@@ -102,7 +103,12 @@ export const BlogPost = ({
 
           {/* Read More button */}
           <div className="mt-3">
-            <Link to={`/blog/${linkId}`}>
+            <Link to={`/culturalheritage/${linkId}`} onClick={() =>
+    ReactGA.event({
+      category: 'Navigation',
+      action: 'Click',
+      label: 'blog read link',
+    })}>
               <Button size="sm" variant="secondary" className="text-white bg-red-500 hover:bg-white/20">
                 Read More
               </Button>

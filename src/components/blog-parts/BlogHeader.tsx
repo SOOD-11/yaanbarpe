@@ -45,9 +45,8 @@ const BlogHeader = ({
         <span>{readTime}</span>
         <span>•</span>
         <div className="flex items-center">
-          <div className="w-6 h-6 rounded-full overflow-hidden mr-2">
-            <img src={authorImage} alt={author} className="w-full h-full object-cover" />
-          </div>
+           
+    
           <span>{author}</span>
         </div>
       </div>
