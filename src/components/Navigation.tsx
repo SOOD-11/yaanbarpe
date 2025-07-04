@@ -32,7 +32,7 @@ const Navigation = () => {
       <Link to="/" className=" justify-center  relative z-10">
   <div className="relative py-3">
     <img
-      src="/lovable-uploads/Screenshot_2025-05-30_at_6.22.00_PM-removebg-preview-2.png"
+      src="/logos/Screenshot_2025-05-30_at_6.22.00_PM-removebg-preview-2.png"
       alt="YaanBarpe"
       className="h-16 sm:h-16 md:h-20 lg:h-24 xl:h-28 w-16 object-contain transition-all duration-300"
     />

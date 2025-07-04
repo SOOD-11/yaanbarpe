@@ -7,6 +7,7 @@ import { ArrowRight, Search, Calendar, BookOpen } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { blogPosts } from '@/lib/blogData';
+import { Helmet } from 'react-helmet-async';
 
 const Blog = () => {
   const [searchValue, setSearchValue] = useState('');
@@ -45,6 +46,41 @@ const Blog = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-slate-50 to-gray-100">
+      <Helmet>
+  <title>Tulunadu Culture Blogs – Kambala, Bhootha Kola, History & More | YaanBarpe</title>
+  <meta
+    name="description"
+    content="Browse culturally rich blogs on Kambala, Bhootha Kola, Yakshagana, cuisine, festivals, and history of Tulu Nadu – curated by YaanBarpe."
+  />
+  <meta
+    name="keywords"
+    content="YaanBarpe blogs, Tulunadu stories, Kambala blog, Bhootha Kola blog, Yakshagana blog, Tulu Nadu culture, Karnataka festivals, heritage"
+  />
+  <meta name="author" content="YaanBarpe Team" />
+
+  {/* Open Graph */}
+  <meta property="og:title" content="Tulunadu Culture Blogs – Explore Kambala, Yakshagana & More" />
+  <meta
+    property="og:description"
+    content="Discover the stories of Tulu Nadu through blogs about Kambala, Bhootha Kola, Yakshagana, and more."
+  />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.yaanbarpe.in/blogs" />
+  <meta property="og:image" content="https://www.yaanbarpe.in/images/blogs-hero.jpg" />
+
+  {/* Twitter */}
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Explore Tulunadu Culture – YaanBarpe Blogs" />
+  <meta
+    name="twitter:description"
+    content="Read about Kambala, Yakshagana, Bhootha Kola, and other living traditions from coastal Karnataka."
+  />
+  <meta name="twitter:image" content="https://www.yaanbarpe.in/images/twitter-card.png" />
+  <meta name="twitter:site" content="@yaanbarpe" />
+
+  {/* Canonical */}
+  <link rel="canonical" href="https://www.yaanbarpe.in/blogs" />
+</Helmet>
       <Navigation />
 
       <div className="bg-gradient-to-b from-slate-900 via-slate-800 to-slate-700 pt-20 sm:pt-28">

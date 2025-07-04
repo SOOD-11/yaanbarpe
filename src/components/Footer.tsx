@@ -11,8 +11,8 @@ const Footer = () => {
           <div className="flex flex-col items-start">
   <Link to="/" className="inline-block">
     <img
-      src="/lovable-uploads/Screenshot_2025-05-30_at_6.22.00_PM-removebg-preview-2.png"
-      alt="YaanBarpe Logo"
+      src="/logos/Screenshot_2025-05-30_at_6.22.00_PM-removebg-preview-2.png"
+      alt="YaanBarpe"
       className="h-20 sm:h-16 md:h-20 lg:h-24 xl:h-28 w-20 object-contain transition-all duration-300" 
     />
   </Link>

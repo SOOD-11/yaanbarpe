@@ -9,6 +9,7 @@ import { Link, useParams } from 'react-router-dom';
 import { addPoints } from '@/lib/gamification';
 import { toast } from '@/hooks/use-toast';
 import { getBlogPostById } from '@/lib/blogData';
+import { Helmet } from 'react-helmet-async';
 
 const BlogPostPage = () => {
   const { postId } = useParams();
@@ -72,6 +73,29 @@ const BlogPostPage = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <Helmet>
+        <title>{currentPost.title} | YaanBarpe</title>
+        <meta name="description" content={currentPost.excerpt} />
+        <meta name="author" content="YaanBarpe Team" />
+        <meta name="keywords" content={`Tulunadu, ${currentPost.title}, yaanbarpe, culture, blog`} />
+
+        {/* OG Meta */}
+        <meta property="og:type" content="article" />
+        <meta property="og:title" content={currentPost.title} />
+        <meta property="og:description" content={currentPost.excerpt} />
+        <meta property="og:url" content={`https://www.yaanbarpe.in/culturalheritage/${currentPost.slug}`} />
+        <meta property="og:image" content={Array.isArray(currentPost.image) ? currentPost.image[0] : currentPost.image} />
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={currentPost.title} />
+        <meta name="twitter:description" content={currentPost.excerpt} />
+        <meta name="twitter:image" content={Array.isArray(currentPost.image) ? currentPost.image[0] : currentPost.image} />
+        <meta name="twitter:site" content="@yaanbarpe" />
+
+        {/* Canonical */}
+        <link rel="canonical" href={`https://www.yaanbarpe.in/culturalheritage/${currentPost.slug}`} />
+      </Helmet>
       <Navigation />
       <div className="py-12 px-4 md:px-8 flex-grow bg-gray-50/30">
         <div className=" container px-9 mx-auto max-w-4xl">
