@@ -167,7 +167,7 @@ export const blogPosts: BlogPost[] = [
     ],
     video:"",
     author: 'Jeevan Shetty',
-    date: '2024-11-28',
+    date: '2025-1-28',
     readTime: '12 min read',
   
     tags: ['Yakshagana', 'Traditional Arts', 'Cultural Heritage', 'Dance Drama', 'Coastal Karnataka'],

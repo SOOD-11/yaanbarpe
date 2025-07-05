@@ -11,7 +11,7 @@ const driveVideo = "https://res.cloudinary.com/dtsd5sgcy/video/upload/v175128790
 const heroSlides = [
   {
     title: "Discover the Soul of Tulu Nadu",
-    subtitle: "with Yaanbarpe",
+    subtitle: "with Ybiee(Yaanbarpe)",
     description: "where every athiti finds a home,and every journey calls you back",
     video: driveVideo,
     image: "https://images.pexels.com/photos/2161467/pexels-photo-2161467.jpeg?auto=compress&cs=tinysrgb&w=1200",

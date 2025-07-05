@@ -10,6 +10,7 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { Helmet } from 'react-helmet-async';
  // assuming you export the given array
 
 const CulturalShowcase = () => {
@@ -203,6 +204,56 @@ const CulturalShowcase = () => {
 
   return (
     <div className="py-16 sm:py-20 lg:py-24 px-4 md:px-8 bg-gradient-to-b from-tulu-sand/20 to-background">
+      <Helmet>
+  <title>{currentHighlight.title} | Living Heritage of Tulunadu – YaanBarpe</title>
+  <meta name="description" content={currentHighlight.description} />
+  <meta name="keywords" content={`Tulunadu, ${currentHighlight.category}, Tulu Culture, ${currentHighlight.title}, yaanbarpe, heritage`} />
+  <meta name="author" content="YaanBarpe Team" />
+
+  {/* Open Graph */}
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content={`${currentHighlight.title} | YaanBarpe`} />
+  <meta property="og:description" content={currentHighlight.description} />
+  <meta property="og:image" content={`https://www.yaanbarpe.in${currentHighlight.image}`} />
+  <meta property="og:url" content={`https://www.yaanbarpe.in/culturalheritage/${currentHighlight.id}`} />
+
+  {/* Twitter */}
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={`${currentHighlight.title} | YaanBarpe`} />
+  <meta name="twitter:description" content={currentHighlight.description} />
+  <meta name="twitter:image" content={`https://www.yaanbarpe.in${currentHighlight.image}`} />
+  <meta name="twitter:site" content="@yaanbarpe" />
+
+  {/* Canonical */}
+  <link rel="canonical" href={`https://www.yaanbarpe.in/culturalheritage/${currentHighlight.id}`} />
+
+  {/* JSON-LD Structured Data */}
+  <script type="application/ld+json">
+    {JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": currentHighlight.title,
+      "description": currentHighlight.description,
+      "image": `https://www.yaanbarpe.in${currentHighlight.image}`,
+      "author": {
+        "@type": "Organization",
+        "name": "YaanBarpe"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "YaanBarpe",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://www.yaanbarpe.in/favicon.ico"
+        }
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": `https://www.yaanbarpe.in/culturalheritage/${currentHighlight.id}`
+      }
+    })}
+  </script>
+</Helmet>
       <div className="max-w-6xl mx-auto text-center scroll-reveal">
         <Badge className="mb-4 sm:mb-6 bg-gradient-to-r from-tulu-green to-tulu-blue text-white px-4 sm:px-6 py-2">
           <BookOpen className="w-4 h-4 mr-2" />

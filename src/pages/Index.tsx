@@ -43,35 +43,58 @@ const Index = () => {
   
   return (
     <div className="min-h-screen bg-background">
-      <Helmet>
-        <title>YaanBarpe – Tulunadu Culture, Heritage </title>
-        <meta
-          name="description"
-          content="Explore Kambala, Yakshagana, Bhootha Kola, and Tulunadu’s rich traditions through YaanBarpe’s digital storytelling, blogs, and culture-first experiences."
-        />
-        <meta
-          name="keywords"
-          content="YaanBarpe, Tulunadu, Kambala, Bhootha Kola, Yakshagana, Tulu Nadu traditions, coastal Karnataka culture,udupi,Tiger Dance"
-        />
-        <meta name="author" content="YaanBarpe Team" />
+ <Helmet>
+  {/* Title & SEO Meta */}
+  <title>YaanBarpe(Ybiee) – Tulunadu Culture & Heritage</title>
+  <meta
+    name="description"
+    content="Explore Kambala, Yakshagana, Bhootha Kola, and Tulunadu’s rich traditions through YaanBarpe’s digital storytelling, blogs, and culture-first experiences."
+  />
+  <meta
+    name="keywords"
+    content="YaanBarpe(Ybiee), Tulunadu,Ybiee, Kambala, Bhootha Kola, Yakshagana, Tulu Nadu traditions, coastal Karnataka culture, Udupi, Tiger Dance"
+  />
+  <meta name="author" content="YaanBarpe Team" />
 
-        {/* Open Graph */}
-        <meta property="og:title" content="YaanBarpe – Explore Tulunadu Culture and Stories" />
-        <meta
-          property="og:description"
-          content="Discover the roots of Tulunadu – Kambala, Yakshagana, Bhootha Kola, and more – through immersive blogs and digital archives."
-        />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://www.yaanbarpe.in/" />
-        <meta property="og:image" content="https://www.yaanbarpe.in/blog-images/KambalaBlog/74AEE4DD-DB08-4C91-A15A-7951EF144B6F.jpeg" />
+  {/* Open Graph (for Facebook, LinkedIn, etc.) */}
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.yaanbarpe.in/" />
+  <meta property="og:title" content="YaanBarpe – Explore Tulunadu Culture and Stories" />
+  <meta
+    property="og:description"
+    content="Discover the roots of Tulunadu – Kambala, Yakshagana, Bhootha Kola, and more – through immersive blogs and digital archives."
+  />
+  <meta property="og:image" content="https://www.yaanbarpe.in/blog-images/KambalaBlog/74AEE4DD-DB08-4C91-A15A-7951EF144B6F.jpeg" />
 
+  {/* Twitter Meta Tags */}
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="YaanBarpe – Explore Tulunadu Culture and Stories" />
+  <meta
+    name="twitter:description"
+    content="Discover the roots of Tulunadu – Kambala, Yakshagana, Bhootha Kola, and more – through immersive blogs and digital archives."
+  />
+  <meta name="twitter:image" content="https://www.yaanbarpe.in/blog-images/KambalaBlog/74AEE4DD-DB08-4C91-A15A-7951EF144B6F.jpeg" />
 
-      
-        
+  {/* Canonical URL */}
+  <link rel="canonical" href="https://www.yaanbarpe.in/" />
 
-
-        <link rel="canonical" href="https://www.yaanbarpe.in/" />
-      </Helmet>
+  {/* Structured Data: Organization Schema */}
+  <script type="application/ld+json">
+    {`
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "YaanBarpe",
+        "url": "https://www.yaanbarpe.in",
+        "logo": "https://www.yaanbarpe.in/favicon.png",
+        "sameAs": [
+          "https://www.instagram.com/yaanbarpe",
+          "https://www.linkedin.com/company/yaanbarpe"
+        ]
+      }
+    `}
+  </script>
+</Helmet>
       <Navigation />
       <main className="w-full">
         <EnhancedHero />

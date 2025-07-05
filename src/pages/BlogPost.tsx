@@ -61,7 +61,7 @@ const BlogPostPage = () => {
     title: 'Welcome to Tulu Nadu Heritage',
     contentParts: ['<p>Explore the rich cultural heritage of Tulu Nadu...</p>'],
     image: 'https://images.pexels.com/photos/2773927/pexels-photo-2773927.jpeg',
-    date: 'May 25, 2025',
+
     readTime: '5 min read',
     author: 'YaanBarpe Team',
     authorImage: 'https://i.pravatar.cc/150?img=1',
@@ -73,29 +73,54 @@ const BlogPostPage = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Helmet>
-        <title>{currentPost.title} | YaanBarpe</title>
-        <meta name="description" content={currentPost.excerpt} />
-        <meta name="author" content="YaanBarpe Team" />
-        <meta name="keywords" content={`Tulunadu, ${currentPost.title}, yaanbarpe, culture, blog`} />
+   <Helmet>
+  <title>{currentPost.title} | YaanBarpe</title>
+  <meta name="description" content={currentPost.excerpt} />
+  <meta name="author" content="YaanBarpe Team" />
+  <meta name="keywords" content={`Tulunadu, ${currentPost.title}, yaanbarpe, ybiee, culture, blog`} />
 
-        {/* OG Meta */}
-        <meta property="og:type" content="article" />
-        <meta property="og:title" content={currentPost.title} />
-        <meta property="og:description" content={currentPost.excerpt} />
-        <meta property="og:url" content={`https://www.yaanbarpe.in/culturalheritage/${currentPost.slug}`} />
-        <meta property="og:image" content={Array.isArray(currentPost.image) ? currentPost.image[0] : currentPost.image} />
+  {/* Open Graph */}
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content={currentPost.title} />
+  <meta property="og:description" content={currentPost.excerpt} />
+  <meta property="og:url" content={`https://www.yaanbarpe.in/culturalheritage/${currentPost.id}`} />
+  <meta property="og:image" content={Array.isArray(currentPost.image) ? currentPost.image[0] : currentPost.image} />
 
-        {/* Twitter */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={currentPost.title} />
-        <meta name="twitter:description" content={currentPost.excerpt} />
-        <meta name="twitter:image" content={Array.isArray(currentPost.image) ? currentPost.image[0] : currentPost.image} />
-        <meta name="twitter:site" content="@yaanbarpe" />
+  {/* Twitter */}
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={currentPost.title} />
+  <meta name="twitter:description" content={currentPost.excerpt} />
+  <meta name="twitter:image" content={Array.isArray(currentPost.image) ? currentPost.image[0] : currentPost.image} />
+  <meta name="twitter:site" content="@yaanbarpe" />
 
-        {/* Canonical */}
-        <link rel="canonical" href={`https://www.yaanbarpe.in/culturalheritage/${currentPost.slug}`} />
-      </Helmet>
+  {/* Canonical URL */}
+  <link rel="canonical" href={`https://www.yaanbarpe.in/culturalheritage/${currentPost.id}`} />
+
+  {/* Structured Data: JSON-LD */}
+  <script type="application/ld+json">
+    {JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": currentPost.title,
+      "description": currentPost.excerpt,
+      "image": Array.isArray(currentPost.image) ? currentPost.image[0] : currentPost.image,
+      "author": {
+        "@type": "Person",
+        "name": currentPost.author || "YaanBarpe Team"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "YaanBarpe",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://www.yaanbarpe.in/favicon.png" // better use PNG or SVG if available
+        }
+      },
+     
+      "url": `https://www.yaanbarpe.in/culturalheritage/${currentPost.id}`
+    })}
+  </script>
+</Helmet>
       <Navigation />
       <div className="py-12 px-4 md:px-8 flex-grow bg-gray-50/30">
         <div className=" container px-9 mx-auto max-w-4xl">
