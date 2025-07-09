@@ -6,6 +6,8 @@ import './index.css';
 import ReactGA from 'react-ga4';
 import { BrowserRouter } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
+import { inject } from '@vercel/analytics';
+inject();// for vercel analytics
 
 
 
