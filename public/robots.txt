@@ -13,4 +13,4 @@ Allow: /
 User-agent: *
 Allow: /
 
-Sitemap: https://www.yaanbarpe.in/sitemap.xml
+Sitemap: https://yaanbarpe.in/sitemap.xml
