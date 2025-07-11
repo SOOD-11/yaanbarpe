@@ -55,7 +55,7 @@ const About = () => {
     {
       name: "Mehak Khandelwal",
       role: "Marketing head",
-      image: "/Team/C013026B-9CF1-48D9-8419-0193D4D1703E_4_5005_c.jpeg",
+      image: "/Team/Screenshot 2025-07-11 at 10.51.40 PM.png",
       
     },
     {
@@ -72,15 +72,15 @@ const About = () => {
 
     },
     {
-      name: "Ananya Tayal",
-      role: "Head of Data Management",
-      image: "/Team/2E99C400-7651-44CB-ABB9-FEFC57B4324A_4_5005_c.jpeg",
+      name: "Annanya Tayal",
+      role: "Head of Business Strategy",
+      image: "/Team/IMG_5802.JPG",
       
     },
     {
       name: "Adarsh Aggarwal",
-      role: "Head of Data Management",
-      image: "/Team/3805712B-EBD3-4154-921F-29BE36007C8D.jpeg",
+      role: "Head of Business Strategy",
+      image: "/Team/Screenshot 2025-07-11 at 11.01.13 PM.png",
       
     },
     {
