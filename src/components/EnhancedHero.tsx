@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, VolumeX, Volume2, Sparkles } from 'lucide-react';
 import ReactGA from 'react-ga4';
 
-const driveVideo = "https://res.cloudinary.com/dtsd5sgcy/video/upload/v1751287909/Tulu_reel_g2orrj.mp4";
+const driveVideo = "https://res.cloudinary.com/dwk1ds63k/video/upload/v1753210441/Tulu_reel_kemkun.mp4";
 
 const heroSlides = [
   {
@@ -14,14 +14,14 @@ const heroSlides = [
     subtitle: "with Ybiee(Yaanbarpe)",
     description: "where every athiti finds a home,and every journey calls you back",
     video: driveVideo,
-    image: "https://images.pexels.com/photos/2161467/pexels-photo-2161467.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    image: "",
   },
   {
     title: "Live Yakshagana Performance",
     subtitle: "Traditional Theatre Comes Alive",
     description:" where every athiti finds a home, and every journey calls you back",
     video: driveVideo,
-    image: "https://images.pexels.com/photos/2417726/pexels-photo-2417726.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    image: "",
    
   },
   {
@@ -29,7 +29,7 @@ const heroSlides = [
     subtitle: "Spiritual Heritage & Architecture",
     description: " where every athiti finds a home, and every journey calls you back",
     video: driveVideo,
-    image: "https://images.pexels.com/photos/3944154/pexels-photo-3944154.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    image: "",
    
   },
 ];

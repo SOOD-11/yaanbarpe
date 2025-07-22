@@ -31,7 +31,7 @@ const Blog = () => {
     setActiveCategory(prev => (prev === category ? null : category));
   };
 
-  const categories = ["All", "Temple", "Food & Cuisine", "Festivals", "Art Forms", "History"];
+  const categories = ["All", "Temple", "Food & Cuisine", "Festivals", "Art Forms", "Beaches"];
 
   const filteredPosts = blogPosts.filter(post => {
     const matchSearch = debouncedSearch
