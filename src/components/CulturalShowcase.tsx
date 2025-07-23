@@ -20,7 +20,7 @@ const CulturalShowcase = () => {
       id: 'top-5-sacred-temples',
       title: "Top 5 Sacred Temples",
       description: "Discover the most revered temples showcasing centuries of spiritual heritage",
-      image: "/blog-images/polaliBlog/3B09D212-26E0-4FCF-A70C-6CFABDED2FED_4_5005_c.jpeg",
+      image: "/blog-images/polaliBlog/Screenshot 2025-07-23 at 2.26.56 PM.png",
       category: "Tulu Temples",
       readTime: "8 min read",
       details: [

@@ -1344,7 +1344,7 @@ video:"",
     author: 'jeevan shetty',
     date: '2025-07-10',
     readTime: '6 min read',
-    image: ['/blog-images/SomeshwarBeachBlog/Screenshot 2025-07-22 at 10.43.27 PM.png'],
+    image: ['/blog-images/SomeshwarBeach/Screenshot 2025-07-22 at 10.43.27 PM.png'],
     tags: ['Spice Gardens', 'Agriculture', 'Trade Heritage', 'Mangalore'],
     category: 'Beaches',
     audioAvailable: true
