@@ -1,97 +1,76 @@
 
 import { Button } from '@/components/ui/button';
 import { useEffect, useState, useRef } from 'react';
-import { Pause, Play, SkipBack, SkipForward, Volume2 } from 'lucide-react';
+import { Pause, Play, SkipBack, SkipForward } from 'lucide-react';
+import { toast } from '@/hooks/use-toast';
 
 interface MusicStyleAudioPlayerProps {
-  text: string;
+  id: string;
   title: string;
-  isPlaying: boolean;
-  onTogglePlay: () => void;
 }
 
 const MusicStyleAudioPlayer = ({
-  text,
-  title,
-  isPlaying,
-  onTogglePlay
+  id,
+  title
 }: MusicStyleAudioPlayerProps) => {
+const [isPlaying, setIsPlaying] = useState(false);
+  const [duration, setDuration] = useState(0);
   const [progress, setProgress] = useState(0);
-  const [currentTime, setCurrentTime] = useState(0);
-  const [totalTime, setTotalTime] = useState(0);
-  const [volume, setVolume] = useState(80);
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
-
-  // Calculate estimated reading time in seconds
-  const wordsPerMinute = 150;
-  const wordCount = text.split(' ').length;
-  const estimatedDurationSeconds = Math.max((wordCount / wordsPerMinute) * 60, 30);
+  const [currentPosition, setCurrentPosition] = useState(0);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
-    setTotalTime(estimatedDurationSeconds);
-  }, [estimatedDurationSeconds]);
+    if (!audioRef.current) {
+      audioRef.current = new Audio(`/assets/audio/${id}.mp3`);
+      
+      audioRef.current.onloadedmetadata = () => {
+        setDuration(audioRef.current?.duration || 0);
+      };
+      
+      audioRef.current.ontimeupdate = () => {
+        setCurrentPosition(audioRef.current?.currentTime || 0);
+        setProgress(((audioRef.current?.currentTime || 0) / (audioRef.current?.duration || 1)) * 100);
+      };
 
-  useEffect(() => {
-    if (isPlaying) {
-      intervalRef.current = setInterval(() => {
-        setCurrentTime(prev => {
-          const newTime = prev + 1;
-          setProgress((newTime / totalTime) * 100);
-          
-          if (newTime >= totalTime) {
-            onTogglePlay();
-            return 0;
-          }
-          return newTime;
+      audioRef.current.onended = () => {
+        setIsPlaying(false);
+        setCurrentPosition(0);
+        setProgress(0);
+      };
+
+      audioRef.current.onerror = () => {
+        setIsPlaying(false);
+        toast({
+          title: "❌ Audio Error",
+          description: "An error occurred while playing the audio.",
+          duration: 3000
         });
-      }, 1000);
-    } else {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-        intervalRef.current = null;
-      }
+      };
     }
+  }, [id]);
 
-    return () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
+  const togglePlay = () => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play().catch((e) => {
+          console.error('Playback error:', e);
+          toast({
+            title: "❌ Playback Error",
+            description: "Unable to play audio.",
+            duration: 3000
+          });
+        });
       }
-    };
-  }, [isPlaying, totalTime, onTogglePlay]);
-
-  const handleSeek = (event: React.MouseEvent<HTMLDivElement>) => {
-    const rect = event.currentTarget.getBoundingClientRect();
-    const clickX = event.clientX - rect.left;
-    const newProgress = (clickX / rect.width) * 100;
-    const newTime = (newProgress / 100) * totalTime;
-    
-    setProgress(newProgress);
-    setCurrentTime(newTime);
-    
-    if (isPlaying) {
-      window.speechSynthesis.cancel();
-      onTogglePlay();
-      setTimeout(() => onTogglePlay(), 100);
+      setIsPlaying(!isPlaying);
     }
   };
 
-  const handleSkipBack = () => {
-    const newTime = Math.max(currentTime - 15, 0);
-    setCurrentTime(newTime);
-    setProgress((newTime / totalTime) * 100);
-  };
-
-  const handleSkipForward = () => {
-    const newTime = Math.min(currentTime + 15, totalTime);
-    setCurrentTime(newTime);
-    setProgress((newTime / totalTime) * 100);
-  };
-
-  const handleVolumeChange = (event: React.MouseEvent<HTMLDivElement>) => {
-    const rect = event.currentTarget.getBoundingClientRect();
-    const clickX = event.clientX - rect.left;
-    const newVolume = (clickX / rect.width) * 100;
-    setVolume(Math.max(0, Math.min(100, newVolume)));
+  const skipSeconds = (seconds: number) => {
+    if (audioRef.current) {
+      audioRef.current.currentTime = Math.min(Math.max(0, (audioRef.current.currentTime || 0) + seconds), (audioRef.current.duration || 0));
+    }
   };
 
   const formatTime = (seconds: number) => {
@@ -101,67 +80,72 @@ const MusicStyleAudioPlayer = ({
   };
 
   return (
-    <div className=" top-20 z-40 mb-8 p-6 bg-white/95 backdrop-blur-sm rounded-xl border border-[#00555A]/20 shadow-lg">
+    <div className="top-20 z-40 mb-8 p-6 bg-white/95 backdrop-blur-sm rounded-xl border border-[#00555A]/20 shadow-lg">
       <div className="flex items-center gap-3 mb-4">
         <div className="w-3 h-3 bg-[#00555A] rounded-full animate-pulse"></div>
         <span className="text-sm font-medium text-[#00555A]">🎧 Audio Article</span>
       </div>
-      
+
       <h4 className="font-semibold text-lg text-[#00555A] mb-6 line-clamp-2">{title}</h4>
-      
+
       {/* Main Controls */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-4">
-          <Button 
-            variant="ghost" 
-            size="icon" 
+          <Button
+            variant="ghost"
+            size="icon"
             className="text-[#00555A] hover:text-[#CC4E5C] hover:bg-[#00555A]/10"
-            onClick={handleSkipBack}
+            onClick={() => skipSeconds(-15)}
           >
             <SkipBack className="h-5 w-5" />
           </Button>
-          
-          <Button 
-            variant="default" 
-            size="icon" 
+
+          <Button
+            variant="default"
+            size="icon"
             className="bg-[#00555A] hover:bg-[#CC4E5C] text-white w-14 h-14 rounded-full shadow-lg"
-            onClick={onTogglePlay}
+            onClick={togglePlay}
           >
             {isPlaying ? <Pause className="h-7 w-7" /> : <Play className="h-7 w-7 ml-0.5" />}
           </Button>
-          
-          <Button 
-            variant="ghost" 
-            size="icon" 
+
+          <Button
+            variant="ghost"
+            size="icon"
             className="text-[#00555A] hover:text-[#CC4E5C] hover:bg-[#00555A]/10"
-            onClick={handleSkipForward}
+            onClick={() => skipSeconds(15)}
           >
             <SkipForward className="h-5 w-5" />
           </Button>
         </div>
-        
-        
       </div>
-      
+
       {/* Progress Bar */}
-      <div 
+      <div
         className="h-2 bg-gray-200 rounded-full mb-3 cursor-pointer overflow-hidden"
-        onClick={handleSeek}
+        onClick={(e) => {
+          if (audioRef.current) {
+            const rect = e.currentTarget.getBoundingClientRect();
+            const clickX = e.clientX - rect.left;
+            const newTime = (clickX / rect.width) * (audioRef.current.duration || 0);
+            audioRef.current.currentTime = newTime;
+          }
+        }}
       >
-        <div 
+        <div
           className="h-full bg-gradient-to-r from-[#00555A] to-[#CC4E5C] rounded-full transition-all duration-300 relative"
           style={{ width: `${progress}%` }}
         >
           <div className="absolute right-0 top-1/2 transform -translate-y-1/2 w-4 h-4 bg-white rounded-full shadow-md border-2 border-[#00555A]"></div>
         </div>
       </div>
-      
+
       {/* Time Display */}
       <div className="flex justify-between text-xs text-muted-foreground">
-        <span>{formatTime(currentTime)}</span>
-        <span>{formatTime(totalTime)}</span>
+        <span>{formatTime(currentPosition)}</span>
+        <span>{formatTime(duration)}</span>
       </div>
-      
+
       {isPlaying && (
         <div className="mt-4 text-center">
           <div className="flex items-center justify-center gap-2">

@@ -252,7 +252,7 @@ export const blogPosts: BlogPost[] = [
     image: ['/blog-images/KambalaBlog/Screenshot 2025-06-30 at 11.02.23 PM.png'],
     tags: ['Tulu Language', 'Tigalari Script', 'Literature', 'Oral Traditions'],
     category: 'Art Forms',
-    audioAvailable: false
+    audioAvailable: true
 
   },
   {
@@ -373,7 +373,7 @@ video:"",
     image: ['/blog-images/NeerBlog/69B8133F-95C1-4B16-B115-77B9C2BBC6EC.jpeg'],
     tags: ['Spice Gardens', 'Agriculture', 'Trade Heritage', 'Mangalore'],
     category: 'Food & Cuisine',
-    audioAvailable: false
+    audioAvailable: true
   },
   {
     id: 'Delta-Point',
@@ -466,7 +466,7 @@ video:"",
     image: ['/blog-images/DeltaBlog/Screenshot 2025-07-18 at 1.15.11 PM.png'],
     tags: ['Spice Gardens', 'Agriculture', 'Trade Heritage', 'Mangalore'],
     category: 'Beaches',
-    audioAvailable: false
+    audioAvailable: true
   },
   {
     id: 'Kori-Rotti',

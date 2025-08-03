@@ -115,6 +115,9 @@ const AudioPlayer = ({
   const currentTime = formatTime(currentMinutes);
   const totalTime = formatTime(totalMinutes);
 
+  const [isHovering, setIsHovering] = useState(false);
+  const [volume] = useState(80);
+
   return (
     <div
       className="mb-8 p-4 bg-[#00555A]/5 rounded-lg border border-[#00555A]/20 animate-fade-in shadow-sm hover:shadow-md transition-shadow duration-300"

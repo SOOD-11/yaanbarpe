@@ -142,6 +142,7 @@ const BlogPostPage = () => {
             category={currentPost.category}
             tags={currentPost.tags}
             audioAvailable={currentPost.audioAvailable}
+            id={currentPost.id}
           />
           
           {/* Enhanced feedback section */}

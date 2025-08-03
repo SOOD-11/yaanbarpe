@@ -1,6 +1,7 @@
 
-import { Calendar } from 'lucide-react';
+import { Calendar, Play, Pause } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
 import React from 'react';
 
 interface BlogHeaderProps {
@@ -45,10 +46,22 @@ const BlogHeader = ({
         <span>{readTime}</span>
         <span>•</span>
         <div className="flex items-center">
-           
-    
           <span>{author}</span>
         </div>
+        {audioAvailable && (
+          <>
+            <span>•</span>
+            <Button
+              onClick={onToggleAudio}
+              variant={isAudioPlaying ? "default" : "outline"}
+              size="sm"
+              className="flex items-center gap-2"
+            >
+              {isAudioPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
+              {isAudioPlaying ? "Pause Audio" : "Play Audio"}
+            </Button>
+          </>
+        )}
       </div>
     </div>
   );
